@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    android:background="@drawable/bg"
+    android:weightSum="1"
+    >
+
+    <TextView
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="지금 회원가입 하세요!"
+        android:textColor="#000"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="당신을 주변의 실외운동시설이 기다리고있어요\n
+                     정말 설레지 않나요?"
+        android:textColor="#000"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+    <View
+        android:layout_weight="0.20"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        />
+    <EditText
+        android:layout_gravity="center_horizontal"
+        android:layout_width="280dp"
+        android:layout_height="45dp"
+        android:background="@drawable/custom_input"
+        android:ems="12"
+        android:inputType="textPersonName"
+        android:paddingLeft="10dp"
+        android:hint="이름"
+        />
+    <View
+        android:layout_weight="0.025"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        />
+    <EditText
+        android:layout_gravity="center_horizontal"
+        android:layout_width="280dp"
+        android:layout_height="45dp"
+        android:background="@drawable/custom_input"
+        android:ems="12"
+        android:inputType="textPersonName"
+        android:paddingLeft="10dp"
+        android:hint="아이디"
+        />
+
+    <TextView
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="6~12자 영문, 숫자로 입력해주세요"
+        />
+    <View
+        android:layout_weight="0.1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        />
+
+    <EditText
+        android:layout_gravity="center_horizontal"
+        android:layout_width="280dp"
+        android:layout_height="45dp"
+        android:background="@drawable/custom_input"
+        android:ems="12"
+        android:inputType="textPassword"
+        android:paddingLeft="10dp"
+        android:hint="비밀번호"
+        />
+    <View
+        android:layout_weight="0.025"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        />
+    <EditText
+        android:layout_gravity="center_horizontal"
+        android:layout_width="280dp"
+        android:layout_height="45dp"
+        android:background="@drawable/custom_input"
+        android:ems="12"
+        android:inputType="textPassword"
+        android:paddingLeft="10dp"
+        android:hint="비밀번호 확인"
+
+        />
+    <TextView
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="비밀번호는 영문 대소문자, 숫자, 특수문자\n(~!@#$%)를 혼합하여 8~20자로 입력해주세요"
+        />
+
+    <View
+        android:layout_weight="0.17"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        />
+
+    <Button
+        android:layout_gravity="center_horizontal"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:text="회원가입"
+        android:textAllCaps="false"
+        android:textColor="#fff"
+        android:background="@drawable/rounded_corner_blue"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        />
+
+</LinearLayout>
