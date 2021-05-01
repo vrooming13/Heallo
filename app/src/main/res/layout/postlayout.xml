@@ -8,11 +8,19 @@
     android:layout_height="match_parent"
     >
 
+    <SearchView
+        android:layout_width="match_parent"
+        android:layout_height="59dp" />
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="429dp" />
+
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="663dp"
+        android:layout_height="179dp"
         android:gravity="center" />
-
 
 
     <LinearLayout
