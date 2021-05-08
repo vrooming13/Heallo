@@ -1,11 +1,11 @@
 package com.example.heallo
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) { // 초기 앱 실행시 view 생성
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.postlayout) // xml 디자인 보여줌
+        setContentView(R.layout.activity_posting)
     }
 }

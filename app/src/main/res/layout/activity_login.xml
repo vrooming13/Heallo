@@ -150,7 +150,7 @@
     </androidx.cardview.widget.CardView>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/login_btn"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="182dp"
@@ -163,7 +163,7 @@
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/signup"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="182dp"
@@ -179,7 +179,7 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="168dp"
         android:layout_marginTop="240dp"
         android:layout_marginBottom="18dp"
         android:text="LOGIN"
@@ -188,6 +188,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/cardView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
