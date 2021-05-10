@@ -4,17 +4,22 @@
     <item android:id="@+id/first"
         app:showAsAction="ifRoom"
         android:enabled="true"
-        android:icon="@drawable/baseline_view_headline_24"
-        android:title="첫번째" />
+        android:icon="@drawable/baseline_home_24"
+        android:title="홈" />
 
     <item android:id="@+id/second"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/baseline_home_24"
-        android:title="두번째" />
+        android:icon="@drawable/ic_baseline_star_24"
+        android:title="즐겨찾기" />
     <item android:id="@+id/third"
         app:showAsAction="ifRoom"
         android:enabled="true"
+        android:icon="@drawable/ic_baseline_create_24"
+        android:title="글쓰기" />
+    <item android:id="@+id/four"
+        app:showAsAction="ifRoom"
+        android:enabled="true"
         android:icon="@drawable/baseline_account_circle_24"
-        android:title="세번째" />
+        android:title="내 정보" />
 </menu>
 

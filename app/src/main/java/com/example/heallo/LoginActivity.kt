@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.text.set
 import androidx.core.text.toSpannable
+import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
 
@@ -16,7 +17,16 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
 
+        login_btn.setOnClickListener{
+            val intent = Intent( this,MainActivity::class.java)
+            startActivity(intent);
+        }
 
+
+        sign_up_btn.setOnClickListener{
+            val intent2 = Intent( this,SignUpActivity::class.java)
+            startActivity(intent2);
+        }
 
 
     }
