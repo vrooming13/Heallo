@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.activity_recyclerview.*
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) { // 초기 앱 실행시 view 생성
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_recyclerview) // xml 디자인 보여줌
+        setContentView(R.layout.activity_mainview) // xml 디자인 보여줌
 
         val profileList = arrayListOf(
                 profiles(R.drawable.man, "김홍민", 25 , "깔끔합니다." ),
@@ -31,5 +31,6 @@ class MainActivity : AppCompatActivity() {
 
         rv_profile.adapter = ProfileAdapter(profileList)
     }
+
 
 }

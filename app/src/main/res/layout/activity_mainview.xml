@@ -34,11 +34,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="220dp" />
 
-            <ListView
-                android:id="@+id/ListViewView"
+            //리사이클러뷰
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_profile"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </LinearLayout>
     </ScrollView>
