@@ -1,5 +1,11 @@
 package com.example.heallo
 
+import android.content.Context
+import android.content.Context.LOCATION_SERVICE
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
+import android.net.sip.SipSession
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +15,7 @@ import android.widget.Button
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
@@ -20,13 +27,10 @@ import com.google.android.gms.maps.model.MarkerOptions
  */
 class MapFragment : Fragment(), OnMapReadyCallback {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     private lateinit var mMap: GoogleMap
-    override fun onCreateView(
 
+
+    override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
@@ -40,12 +44,14 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         return rootView
     }
 
+
+
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         val seoul = LatLng(37.5663, 126.9779)
 
         //마커
-        val marker = MarkerOptions()
+        var marker = MarkerOptions()
             .position(seoul)
             .title("Maker")
         mMap.addMarker(marker)
@@ -56,10 +62,30 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             .zoom(12f)
             .build()
 
-        val camera = CameraUpdateFactory.newCameraPosition(cameraOption)
+        var camera = CameraUpdateFactory.newCameraPosition(cameraOption)
         mMap.moveCamera(camera)
+
+        //Map Touch Event
+        mMap.setOnMapClickListener(object : GoogleMap.OnMapClickListener{
+            override fun onMapClick(p0: LatLng) {
+                marker = MarkerOptions()
+                        .position(p0)
+                        .title("MapClickEvent")
+                        .snippet("Save This Location")
+                mMap.addMarker(marker)
+
+                val cameraMove = CameraPosition.Builder()
+                        .target(p0)
+                        .zoom(12f)
+                        .build()
+                mMap.setOnCameraMoveListener {
+                    camera = CameraUpdateFactory.newCameraPosition(cameraMove)
+                }
+
+
+            }
+        })
     }
-
-
 }
+
 
