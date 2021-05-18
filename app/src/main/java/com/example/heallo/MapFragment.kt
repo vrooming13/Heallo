@@ -48,43 +48,48 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        setDefaultLocation()
+        
+        //Map Touch Event
+        mMap.setOnMapClickListener { p0 ->
+            val marker = MarkerOptions()
+                    .position(p0)
+                    .title("MapClickEvent")
+                    .snippet("Save This Location")
+            mMap.addMarker(marker)
+
+            val cameraMoveToClick = CameraPosition.Builder()
+                    .target(p0)
+                    .zoom(12f)
+                    .build()
+            mMap.setOnCameraMoveListener {
+                val camera = CameraUpdateFactory.newCameraPosition(cameraMoveToClick)
+            }
+        }
+
+        //#1. 마커 새로찍으면 이전꺼 지워지게
+        //#2. 찍은곳 위치 정보 나오게
+        //#3. 적절한 zoom 찾기
+        //#4. Layout 재구성
+    }
+
+    private fun setDefaultLocation(){
         val seoul = LatLng(37.5663, 126.9779)
 
         //마커
         var marker = MarkerOptions()
-            .position(seoul)
-            .title("Maker")
+                .position(seoul)
+                .title("Maker")
         mMap.addMarker(marker)
 
         //카메라
         val cameraOption = CameraPosition.Builder()
-            .target(seoul)
-            .zoom(12f)
-            .build()
+                .target(seoul)
+                .zoom(12f)
+                .build()
 
         var camera = CameraUpdateFactory.newCameraPosition(cameraOption)
         mMap.moveCamera(camera)
-
-        //Map Touch Event
-        mMap.setOnMapClickListener(object : GoogleMap.OnMapClickListener{
-            override fun onMapClick(p0: LatLng) {
-                marker = MarkerOptions()
-                        .position(p0)
-                        .title("MapClickEvent")
-                        .snippet("Save This Location")
-                mMap.addMarker(marker)
-
-                val cameraMove = CameraPosition.Builder()
-                        .target(p0)
-                        .zoom(12f)
-                        .build()
-                mMap.setOnCameraMoveListener {
-                    camera = CameraUpdateFactory.newCameraPosition(cameraMove)
-                }
-
-
-            }
-        })
     }
 }
 
