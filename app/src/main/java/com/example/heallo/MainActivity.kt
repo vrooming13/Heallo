@@ -3,15 +3,21 @@ package com.example.heallo
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_recyclerview.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(){
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) { // 초기 앱 실행시 view 생성
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mainview) // xml 디자인 보여줌
-
+        //리사이클러 뷰에 출력되는 데이터 베열
         val profileList = arrayListOf(
                 profiles(R.drawable.man, "김홍민", 25 , "깔끔합니다." ),
                 profiles(R.drawable.girl, "김소연", 24 , "별로에요." ),
@@ -30,7 +36,33 @@ class MainActivity : AppCompatActivity() {
         rv_profile.setHasFixedSize(true)
 
         rv_profile.adapter = ProfileAdapter(profileList)
+
+//        setFrag(0)
+
+
     }
+/*
+    private fun setFrag(fragNum : Int) {
+        val ft = supportFragmentManager.beginTransaction()
+        when(fragNum)
+        {
+            0 -> {
+                ft.replace(R.id.fregments_frame, HomeFragment()).commit()
+            }
+
+            1 -> {
+                ft.replace(R.id.fregments_frame, FavoriteFragment()).commit()
+            }
+            2 -> {
+                ft.replace(R.id.fregments_frame, PostFragment()).commit()
+            }
+            3 -> {
+                ft.replace(R.id.fregments_frame, UserInfoFragment()).commit()
+            }
+        }
+
+    }*/
+
 
 
 }
