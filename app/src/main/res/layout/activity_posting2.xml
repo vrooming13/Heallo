@@ -10,12 +10,15 @@
 
     <SearchView
         android:layout_width="match_parent"
-        android:layout_height="59dp" />
+        android:layout_height="59dp" >
+
+    </SearchView>
 
     <FrameLayout
         android:id="@+id/MapFrame"
         android:layout_width="match_parent"
-        android:layout_height="378dp" />
+        android:layout_height="378dp">
+    </FrameLayout>
 
     <EditText
         android:layout_width="match_parent"
