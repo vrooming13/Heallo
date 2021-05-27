@@ -32,8 +32,9 @@ class UserInfoFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
 
-        val view = inflater.inflate(R.layout.fregment_user_info, container, false)
+        /*val view = inflater.inflate(R.layout.fregment_user_info, container, false)
         //프레그먼트 내정보랑 연결
-        return view
+        return view*/
+        return inflater.inflate(R.layout.fregment_user_info, container, false)
     }
 }

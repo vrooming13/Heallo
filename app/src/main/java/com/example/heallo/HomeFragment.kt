@@ -32,8 +32,9 @@ class HomeFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
 
-        val view = inflater.inflate(R.layout.fregment_home, container, false)
+ /*       val view = inflater.inflate(R.layout.fregment_home, container, false)
         //프레그먼트 홈이랑 연결
-        return view
+        return view*/
+        return inflater.inflate(R.layout.fregment_home, container, false)
     }
 }

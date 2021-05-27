@@ -32,8 +32,9 @@ class FavoriteFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
 
-        val view = inflater.inflate(R.layout.fregment_favorite, container, false)
+   /*     val view = inflater.inflate(R.layout.fregment_favorite, container, false)
         //프레그먼트 즐겨찾기랑 연결
-        return view
+        return view*/
+        return inflater.inflate(R.layout.fregment_favorite, container, false)
     }
 }

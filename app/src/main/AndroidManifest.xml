@@ -9,11 +9,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Heallo">
-        <activity android:name=".PostInfoActivity"></activity>
-        <activity android:name=".UserInfoActivity" />
-        <activity android:name=".PostActivity" />
-        <activity android:name=".FavoriteActivity" />
-        <activity android:name=".RoutineActivity" />
         <activity android:name=".HomeActivity" /> <!-- Splash Activity -->
         <activity
             android:name=".SplashActivity"

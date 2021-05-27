@@ -32,8 +32,9 @@ class PostFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
 
-        val view = inflater.inflate(R.layout.fregment_post, container, false)
+        /*val view = inflater.inflate(R.layout.fregment_post, container, false)
         //프레그먼트 글쓰기랑 연결
-        return view
+        return view*/
+        return inflater.inflate(R.layout.fregment_post, container, false)
     }
 }

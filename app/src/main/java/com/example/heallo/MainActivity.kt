@@ -5,20 +5,40 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Button
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_recyclerview.*
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity()/*, BottomNavigationMenuView.OnNavigationItemSelectedListener*/{
 
 
+    private var homeFragment = HomeFragment()
+    private var favoriteFragment = FavoriteFragment()
+    private var postFragment = PostFragment()
+    private var userInfoFragment = UserInfoFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) { // 초기 앱 실행시 view 생성
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_mainview) // xml 디자인 보여줌
+        setContentView(R.layout.activity_main) // xml 디자인 보여줌
+        // activity_mainview = 리사이클러뷰
+        replaceFragment(homeFragment)
+
+        bottomNavigationView.setOnNavigationItemSelectedListener {
+            when(it.itemId){
+                R.id.ic_home -> replaceFragment(homeFragment)
+                R.id.ic_favorite -> replaceFragment(favoriteFragment)
+                R.id.ic_post -> replaceFragment(postFragment)
+                R.id.ic_userInfo -> replaceFragment(userInfoFragment)
+
+            }
+            true
+        }
+
+
         //리사이클러 뷰에 출력되는 데이터 베열
-        val profileList = arrayListOf(
+        /*val profileList = arrayListOf(
                 profiles(R.drawable.man, "김홍민", 25 , "깔끔합니다." ),
                 profiles(R.drawable.girl, "김소연", 24 , "별로에요." ),
                 profiles(R.drawable.man, "남정혁", 24 , "운동 하기 딱 좋아요." ),
@@ -35,34 +55,18 @@ class MainActivity : AppCompatActivity(){
         rv_profile.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         rv_profile.setHasFixedSize(true)
 
-        rv_profile.adapter = ProfileAdapter(profileList)
+        rv_profile.adapter = ProfileAdapter(profileList)*/
 
 //        setFrag(0)
 
-
     }
-/*
-    private fun setFrag(fragNum : Int) {
-        val ft = supportFragmentManager.beginTransaction()
-        when(fragNum)
-        {
-            0 -> {
-                ft.replace(R.id.fregments_frame, HomeFragment()).commit()
-            }
 
-            1 -> {
-                ft.replace(R.id.fregments_frame, FavoriteFragment()).commit()
-            }
-            2 -> {
-                ft.replace(R.id.fregments_frame, PostFragment()).commit()
-            }
-            3 -> {
-                ft.replace(R.id.fregments_frame, UserInfoFragment()).commit()
-            }
+    private fun replaceFragment(fragment: Fragment){
+        if(fragment != null){
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.fregments_frame,fragment)
+            transaction.commit()
         }
-
-    }*/
-
-
+    }
 
 }
