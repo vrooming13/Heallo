@@ -1,6 +1,9 @@
 package com.example.heallo
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Context.LOCATION_SERVICE
 import android.content.pm.PackageManager
@@ -12,9 +15,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.PermissionRequest
 import android.widget.ImageButton
+import android.widget.Toast
+import androidx.appcompat.widget.ActivityChooserView
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.google.android.gms.common.api.Status
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -22,20 +30,26 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import kotlinx.android.synthetic.main.fragment_first.*
+import java.util.*
 
+@Suppress("UNREACHABLE_CODE")
 class MapFragment : Fragment(), OnMapReadyCallback {
 
     lateinit var mContext: Context
+    lateinit var aContext: Context
     private lateinit var mMap: GoogleMap
     private var mLocationManager: LocationManager? = null
     private var mLocationListener: LocationListener? = null
+    private val PERMISSION_REQUEST_CODE : Int = 1
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        mContext = context
 
-        if(context is postingActivity)
-            mContext = context
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -82,11 +96,37 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
                 mLocationManager!!.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER,
+                    LocationManager.NETWORK_PROVIDER,
                     3000L,
                     30f,
                     mLocationListener as LocationListener
                 )
+            }
+
+            else{
+                ActivityCompat.requestPermissions(mContext as Activity, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION), PERMISSION_REQUEST_CODE)
+            }
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when(requestCode){
+            PERMISSION_REQUEST_CODE ->{
+                var allPermissionsGranted = true
+                for(result in grantResults){
+                    allPermissionsGranted = (result == PackageManager.PERMISSION_GRANTED)
+                    if(!allPermissionsGranted) break
+                }
+                if(allPermissionsGranted){
+                    mLocationManager!!.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0f,
+                            mLocationListener as LocationListener)
+                }
+                else {
+                    Toast.makeText(mContext, "위치 정보 제공 동의가 필요합니다", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -99,6 +139,26 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         val mapFragment = childFragmentManager.findFragmentById(R.id.mapview) as SupportMapFragment
 
         mapFragment.getMapAsync(this)
+
+        //search
+        val searchBar = childFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment
+        searchBar.setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME))
+        searchBar.setOnPlaceSelectedListener(object : PlaceSelectionListener{
+            override fun onPlaceSelected(p0: Place) {
+                TODO("Get info about the selected place")
+                Log.i(TAG, "Place : ${p0.name}, ${p0.id}")
+
+                val searchLocation : Place = p0
+                setLocation(searchLocation)
+            }
+
+            override fun onError(p0: Status) {
+                TODO("Handle the error")
+                Log.i(TAG, "An error occurred : $p0")
+            }
+
+        })
+
         return rootView
     }
 
@@ -112,18 +172,18 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                     .position(p0)
                     .title("MapClickEvent")
                     .snippet("Save This Location")
+            mMap.clear()
             mMap.addMarker(marker)
 
             val cameraMoveToClick = CameraPosition.Builder()
                     .target(p0)
-                    .zoom(12f)
+                    .zoom(15f)
                     .build()
             mMap.setOnCameraMoveListener {
                 val camera = CameraUpdateFactory.newCameraPosition(cameraMoveToClick)
             }
         }
 
-        //#1. 마커 새로찍으면 이전꺼 지워지게
         //#2. 찍은곳 위치 정보 나오게
         //#3. 적절한 zoom 찾기
         //#4. Layout 재구성
@@ -147,7 +207,30 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         var camera = CameraUpdateFactory.newCameraPosition(cameraOption)
         mMap.moveCamera(camera)
     }
+
+    private fun setLocation(p1 : Place){
+        val marker = MarkerOptions()
+            .position(p1.latLng)
+            .title("MapClickEvent")
+            .snippet("Save This Location")
+        mMap.clear()
+        mMap.addMarker(marker)
+
+        val cameraMoveToClick = CameraPosition.Builder()
+            .target(p1.latLng)
+            .zoom(20f)
+            .build()
+        mMap.setOnCameraMoveListener {
+            val camera = CameraUpdateFactory.newCameraPosition(cameraMoveToClick)
+        }
+    }
+
+
+
+
 }
+
+
 
 
 

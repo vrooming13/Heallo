@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,20 +7,39 @@
     android:orientation="vertical"
     tools:context=".MapFragment">
 
-    <fragment
-        android:id="@+id/mapview"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".postingActivity"
-        tools:layout="@layout/abc_search_view"/>
-
-    <ImageButton
-        android:id="@+id/current_location"
-        android:layout_width="45dp"
         android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_menu_compass" />
+        android:orientation="vertical">
+
+        <fragment
+            android:id="@+id/autocomplete_fragment"
+            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <fragment
+            android:id="@+id/mapview"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".postingActivity"
+            tools:layout="@layout/abc_search_view"
+            tools:layout_editor_absoluteY="70dp" />
+
+        <ImageButton
+            android:id="@+id/current_location"
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/ic_menu_compass" />
+    </FrameLayout>
 
 
-
-</RelativeLayout>
+</LinearLayout>

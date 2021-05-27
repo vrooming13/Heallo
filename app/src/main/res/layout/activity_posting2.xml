@@ -8,12 +8,6 @@
     android:layout_height="match_parent"
     >
 
-    <SearchView
-        android:layout_width="match_parent"
-        android:layout_height="59dp" >
-
-    </SearchView>
-
     <FrameLayout
         android:id="@+id/MapFrame"
         android:layout_width="match_parent"
