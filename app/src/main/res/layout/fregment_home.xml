@@ -7,10 +7,45 @@
     android:visibility="visible"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <TextView
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="홈 프레그먼트"
-        />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <SearchView
+                android:id="@+id/search_barView"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:iconifiedByDefault="false"
+                android:queryHint="검색어를 입력해주세요." />
+
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/mapView"
+                android:layout_width="match_parent"
+                android:layout_height="350dp" />
+
+           <!-- <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_profile"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />-->
+
+        </LinearLayout>
+    </ScrollView>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

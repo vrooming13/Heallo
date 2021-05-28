@@ -11,7 +11,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_recyclerview.*
 
-class MainActivity : AppCompatActivity()/*, BottomNavigationMenuView.OnNavigationItemSelectedListener*/{
+class MainActivity : AppCompatActivity(){
 
 
     private var homeFragment = HomeFragment()
@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity()/*, BottomNavigationMenuView.OnNavigatio
     override fun onCreate(savedInstanceState: Bundle?) { // 초기 앱 실행시 view 생성
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main) // xml 디자인 보여줌
-        // activity_mainview = 리사이클러뷰
         replaceFragment(homeFragment)
 
         bottomNavigationView.setOnNavigationItemSelectedListener {
@@ -56,8 +55,6 @@ class MainActivity : AppCompatActivity()/*, BottomNavigationMenuView.OnNavigatio
         rv_profile.setHasFixedSize(true)
 
         rv_profile.adapter = ProfileAdapter(profileList)*/
-
-//        setFrag(0)
 
     }
 
