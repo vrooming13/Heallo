@@ -46,31 +46,33 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         />
+
     <EditText
-        android:layout_gravity="center_horizontal"
+        android:id="@+id/su_name"
         android:layout_width="280dp"
         android:layout_height="45dp"
+        android:layout_gravity="center_horizontal"
         android:background="@drawable/custom_input"
         android:ems="12"
-        android:inputType="textPersonName"
-        android:paddingLeft="10dp"
         android:hint="이름"
-        />
+        android:inputType="textPersonName"
+        android:paddingLeft="10dp" />
     <View
         android:layout_weight="0.025"
         android:layout_width="0dp"
         android:layout_height="0dp"
         />
+
     <EditText
-        android:layout_gravity="center_horizontal"
+        android:id="@+id/su_id"
         android:layout_width="280dp"
         android:layout_height="45dp"
+        android:layout_gravity="center_horizontal"
         android:background="@drawable/custom_input"
         android:ems="12"
-        android:inputType="textPersonName"
-        android:paddingLeft="10dp"
         android:hint="아이디"
-        />
+        android:inputType="textPersonName"
+        android:paddingLeft="10dp" />
 
     <TextView
         android:layout_gravity="center_horizontal"
@@ -85,31 +87,32 @@
         />
 
     <EditText
-        android:layout_gravity="center_horizontal"
+        android:id="@+id/su_pwd"
         android:layout_width="280dp"
         android:layout_height="45dp"
+        android:layout_gravity="center_horizontal"
         android:background="@drawable/custom_input"
         android:ems="12"
-        android:inputType="textPassword"
-        android:paddingLeft="10dp"
         android:hint="비밀번호"
-        />
+        android:inputType="textPassword"
+        android:paddingLeft="10dp" />
     <View
         android:layout_weight="0.025"
         android:layout_width="0dp"
         android:layout_height="0dp"
         />
+
     <EditText
-        android:layout_gravity="center_horizontal"
+        android:id="@+id/su_pwd2"
         android:layout_width="280dp"
         android:layout_height="45dp"
+        android:layout_gravity="center_horizontal"
         android:background="@drawable/custom_input"
         android:ems="12"
-        android:inputType="textPassword"
-        android:paddingLeft="10dp"
         android:hint="비밀번호 확인"
+        android:inputType="textPassword"
 
-        />
+        android:paddingLeft="10dp" />
     <TextView
         android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
