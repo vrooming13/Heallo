@@ -1,12 +1,14 @@
 package com.example.heallo
 
 import android.content.Context
+import android.location.Geocoder
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Transformations.map
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -16,6 +18,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import java.util.*
 
 class HomeFragment : Fragment(), OnMapReadyCallback {
 
@@ -90,6 +93,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
     private fun setDefaultLocation(){
         val seoul = LatLng(37.5663, 126.9779)
+        val geo = Geocoder(mContext, Locale.KOREA)
 
         //마커
         var marker = MarkerOptions()
@@ -105,6 +109,15 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
         var camera = CameraUpdateFactory.newCameraPosition(cameraOption)
         mMap.moveCamera(camera)
+
+        //도로명주소
+        mMap.setOnInfoWindowClickListener {
+            val address = geo.getFromLocation(seoul.longitude, seoul.longitude, 2)
+            Toast.makeText(mContext, "도로명주소 : ${address[0].subLocality}",Toast.LENGTH_LONG)
+                .show()
+        }
+
+
     }
 
 }
