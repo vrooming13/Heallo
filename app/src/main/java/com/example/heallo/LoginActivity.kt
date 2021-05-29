@@ -31,18 +31,15 @@ class LoginActivity : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
         input_email = login_id
         input_pwd = login_pwd
-        sign_up_btn = sign_up_btn1
 
-        sign_up_btn!!.setOnClickListener {
-            fun onClick(v: View?) {
+
+        sign_up_btn1!!.setOnClickListener {
                 // SignUpActivity 연결
                 val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
                 startActivity(intent)
-            }
         }
-        login_btn = login_btn1
-        login_btn!!.setOnClickListener {
-            fun onClick(v: View?) {
+
+        login_btn1!!.setOnClickListener {
                 if (input_email?.text.toString() != "" && input_pwd?.text
                         .toString() != ""
                 ) {
@@ -53,7 +50,6 @@ class LoginActivity : AppCompatActivity() {
                 } else {
                     Toast.makeText(this@LoginActivity, "계정과 비밀번호를 입력하세요.", Toast.LENGTH_LONG).show()
                 }
-            }
         }
 
         FirebaseAuth.AuthStateListener { firebaseAuth ->

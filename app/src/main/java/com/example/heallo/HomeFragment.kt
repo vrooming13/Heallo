@@ -36,8 +36,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         savedInstanceState: Bundle?
     ): View? {
         val rootView: View = inflater.inflate(R.layout.fregment_home, container, false)
-        val mapFragment = childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
-
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
 
         mapFragment.getMapAsync(this)
 

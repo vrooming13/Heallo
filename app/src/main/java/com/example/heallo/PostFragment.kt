@@ -16,4 +16,6 @@ class PostFragment : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.fregment_post, container, false)
     }
+
+
 }
