@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_sign_up.*
 class SignUpActivity : AppCompatActivity() {
     //뷰가 생성되었을 때
     private var firebaseAuth: FirebaseAuth? = null
-    private var input_id: EditText? = null
+    private var input_id: EditText ?= null
     private var input_pwd: EditText? = null
     private var check_pwd: EditText? = null
     private var input_name: EditText? = null
@@ -22,14 +22,13 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun onClick() {
         // SignUpActivity 연결
-        if (input_id?.text.toString() != "" && input_pwd?.text
-                .toString().isNullOrEmpty()
+        if (su_id?.text.toString().isEmpty() && su_pwd?.text.toString().isNotEmpty()
         ) {
             // 이메일과 비밀번호가 공백이 아닌 경우
             createUser(
-                input_id?.text.toString(),
-                input_pwd?.text.toString(),
-                input_name?.text.toString()
+                su_id?.text.toString(),
+                su_pwd?.text.toString(),
+                su_name?.text.toString()
             )
         } else {
             // 이메일과 비밀번호가 공백인 경우

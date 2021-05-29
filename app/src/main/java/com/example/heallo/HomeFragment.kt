@@ -89,9 +89,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         }
 
         mMap.setOnInfoWindowClickListener {
+            // 도로명주소
             val mPosition : LatLng = it.position
-            val address = geo.getFromLocation(mPosition.latitude, mPosition.longitude, 2)
-            Toast.makeText(mContext, "도로명주소 : ${address[0].subThoroughfare}",Toast.LENGTH_LONG)
+            val address = geo.getFromLocation(mPosition.latitude, mPosition.longitude, 1)
+            Toast.makeText(mContext, "도로명주소 : ${address[0].getAddressLine(0)}",Toast.LENGTH_LONG)
                 .show()
         }
 
@@ -122,7 +123,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         //도로명주소
         mMap.setOnInfoWindowClickListener {
             val address = geo.getFromLocation(seoul.latitude, seoul.longitude, 2)
-            Toast.makeText(mContext, "도로명주소 : ${address[0].subThoroughfare}",Toast.LENGTH_LONG)
+            Toast.makeText(mContext, "도로명주소 : ${address[0].getAddressLine(0)}",Toast.LENGTH_LONG)
                 .show()
         }
 

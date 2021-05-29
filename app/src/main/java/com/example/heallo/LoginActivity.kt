@@ -21,8 +21,6 @@ class LoginActivity : AppCompatActivity() {
     private var firebaseAuthListener: FirebaseAuth.AuthStateListener? = null
     private var input_email: EditText? = null
     private var input_pwd: EditText? = null
-    private var login_btn: Button? = null
-    private var sign_up_btn: Button? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
