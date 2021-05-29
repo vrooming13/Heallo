@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "713535530054",
+    "firebase_url": "https://heallo-aca88-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "heallo-aca88",
+    "storage_bucket": "heallo-aca88.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:713535530054:android:4f9d1095ef4db3e050d647",
+        "android_client_info": {
+          "package_name": "com.example.heallo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "713535530054-lehprhsqlpjab895o5gt8dsh35ruiiq8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.heallo",
+            "certificate_hash": "84896936637ff97b7eadb360edec819264703ed4"
+          }
+        },
+        {
+          "client_id": "713535530054-7h3ft7sc5qs6tids5koin1tcj1e378tf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAERQmHm1i2kBqJE3ktuoTeZ71UUa8_ou0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "713535530054-7h3ft7sc5qs6tids5koin1tcj1e378tf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
