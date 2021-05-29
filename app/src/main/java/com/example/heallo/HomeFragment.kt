@@ -66,6 +66,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     }
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        val geo = Geocoder(mContext, Locale.KOREA)
+
         setDefaultLocation()
 
         //Map Touch Event
@@ -86,6 +88,13 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             }
         }
 
+        mMap.setOnInfoWindowClickListener {
+            val mPosition : LatLng = it.position
+            val address = geo.getFromLocation(mPosition.latitude, mPosition.longitude, 2)
+            Toast.makeText(mContext, "도로명주소 : ${address[0].subThoroughfare}",Toast.LENGTH_LONG)
+                .show()
+        }
+
         //#2. 찍은곳 위치 정보 나오게
         //#3. 적절한 zoom 찾기
         //#4. Layout 재구성
@@ -98,7 +107,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         //마커
         var marker = MarkerOptions()
             .position(seoul)
-            .title("Maker")
+            .title("Marker")
         mMap.addMarker(marker)
 
         //카메라
@@ -112,8 +121,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
         //도로명주소
         mMap.setOnInfoWindowClickListener {
-            val address = geo.getFromLocation(seoul.longitude, seoul.longitude, 2)
-            Toast.makeText(mContext, "도로명주소 : ${address[0].subLocality}",Toast.LENGTH_LONG)
+            val address = geo.getFromLocation(seoul.latitude, seoul.longitude, 2)
+            Toast.makeText(mContext, "도로명주소 : ${address[0].subThoroughfare}",Toast.LENGTH_LONG)
                 .show()
         }
 
