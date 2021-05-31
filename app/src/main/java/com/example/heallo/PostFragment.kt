@@ -5,13 +5,10 @@ import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
-import android.content.Intent.ACTION_PICK
 import android.location.Geocoder
-import android.net.Uri
-import android.os.Binder
+
 import android.os.Bundle
 import android.provider.MediaStore
-import android.renderscript.ScriptGroup
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -21,8 +18,6 @@ import androidx.core.app.ActivityCompat.startActivityForResult
 
 
 import androidx.fragment.app.Fragment
-import com.example.heallo.R.layout.fregment_post
-import com.example.heallo.databinding.FregmentPostBinding
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -33,6 +28,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.fregment_post.*
 import kotlinx.android.synthetic.main.fregment_post.view.*
 import java.util.*
+import android.content.Intent.ACTION_PICK as IntentACTION_PICK
 
 
 class PostFragment : Fragment(), OnMapReadyCallback {
@@ -47,6 +43,7 @@ class PostFragment : Fragment(), OnMapReadyCallback {
     }
 
     override fun onCreateView(
+
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -60,27 +57,32 @@ class PostFragment : Fragment(), OnMapReadyCallback {
 
         rootView.gallery.setOnClickListener {
             requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),PERM_STORAGE)
-            val intent = Intent (ACTION_PICK)
+            val intent = Intent (Intent.ACTION_PICK)
             intent.type = MediaStore.Images.Media.CONTENT_TYPE
             startActivityForResult(intent,PERM_STORAGE)
+            onActivityResult(PERM_STORAGE, RESULT_OK,intent)
+        }
+        return rootView
+    }
 
-            fun onActivityResult(requestCode :Int, resultCode : Int, data:Intent?) {
-               // val uploadType = childFragmentManager.findFragmentById(R.id.imageView);
-                //uploadType?.onActivityResult(requestCode, resultCode, data)
-                super.onActivityResult(requestCode, resultCode, data);
-                if(resultCode == RESULT_OK){
-                    when (requestCode) {
-                        PERM_STORAGE -> {
-                            data?.data?.let { uri ->
-                                rootView.imageView.setImageURI(uri)
-                            }
-                        }
+    override fun onActivityResult(requestCode :Int, resultCode : Int, data:Intent?) {
+        // val uploadType = childFragmentManager.findFragmentById(R.id.imageView);
+        //uploadType?.onActivityResult(requestCode, resultCode, data)
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK){
+            when (requestCode) {
+                PERM_STORAGE -> {
+                    Log.d("test2","${data?.data}")
+                    data?.data?.let { uri ->
+                       imageView.setImageURI(uri)
+                        Log.d("test","${uri}")
                     }
                 }
             }
         }
-        return rootView
     }
+
+
 
 
  /*

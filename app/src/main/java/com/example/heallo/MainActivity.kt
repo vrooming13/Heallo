@@ -3,6 +3,7 @@ package com.example.heallo
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.Button
 import androidx.fragment.app.Fragment
@@ -19,7 +20,9 @@ class MainActivity : AppCompatActivity(){
     private var postFragment = PostFragment()
     private var userInfoFragment = UserInfoFragment()
 
-
+     override fun onActivityResult(requestCode :Int, resultCode : Int, data:Intent?) {
+         super.onActivityResult(requestCode, resultCode, data)
+     }
 
     override fun onCreate(savedInstanceState: Bundle?) { // 초기 앱 실행시 view 생성
         super.onCreate(savedInstanceState)
@@ -59,6 +62,7 @@ class MainActivity : AppCompatActivity(){
         rv_profile.adapter = ProfileAdapter(profileList)*/
 
     }
+
 
 
 
