@@ -19,6 +19,8 @@ class MainActivity : AppCompatActivity(){
     private var postFragment = PostFragment()
     private var userInfoFragment = UserInfoFragment()
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) { // 초기 앱 실행시 view 생성
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main) // xml 디자인 보여줌
@@ -57,6 +59,8 @@ class MainActivity : AppCompatActivity(){
         rv_profile.adapter = ProfileAdapter(profileList)*/
 
     }
+
+
 
     private fun replaceFragment(fragment: Fragment){
         if(fragment != null){

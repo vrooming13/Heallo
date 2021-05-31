@@ -5,6 +5,7 @@ import android.location.Geocoder
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,10 +33,11 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mContext = context
-
     }
+
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val rootView: View = inflater.inflate(R.layout.fregment_home, container, false)
@@ -61,13 +63,12 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             }
 
         })*/
-
         return rootView
     }
+
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         val geo = Geocoder(mContext, Locale.KOREA)
-
         setDefaultLocation()
 
         //Map Touch Event
@@ -95,7 +96,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             Toast.makeText(mContext, "도로명주소 : ${address[0].getAddressLine(0)}",Toast.LENGTH_LONG)
                 .show()
         }
-
         //#2. 찍은곳 위치 정보 나오게
         //#3. 적절한 zoom 찾기
         //#4. Layout 재구성
