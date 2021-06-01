@@ -22,17 +22,25 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun onClick() {
         // SignUpActivity 연결
-        if (su_id?.text.toString().isEmpty() && su_pwd?.text.toString().isNotEmpty()
-        ) {
-            // 이메일과 비밀번호가 공백이 아닌 경우
+        if (su_id?.text.toString().isNullOrBlank() || su_pwd?.text.toString().isNullOrBlank()
+            || su_name?.text.toString().isNullOrBlank() || su_pwd2?.text.toString().isNullOrBlank()) {
+            // 각 입력값에 공백문자가 포함인 경우 (blank)/
+            Toast.makeText(this@SignUpActivity, "공백문자를 입력할 수 없습니다.", Toast.LENGTH_LONG)
+                .show()
+        } else if(su_pwd?.text.toString() != su_pwd2?.text.toString()) {
+            //비번과 비번확인란의 값이 다른 경우.
+            Toast.makeText(this@SignUpActivity, "비밀번호가 다릅니다.", Toast.LENGTH_LONG)
+                .show()
+        }else if(su_pwd.text.toString().length in 8..20){
+
+            // 비밀번호 8~20인 경우 정상적인 회원가입
             createUser(
                 su_id?.text.toString(),
                 su_pwd?.text.toString(),
                 su_name?.text.toString()
             )
         } else {
-            // 이메일과 비밀번호가 공백인 경우
-            Toast.makeText(this@SignUpActivity, "계정과 비밀번호를 입력하세요.", Toast.LENGTH_LONG)
+            Toast.makeText(this@SignUpActivity, "비밀번호 입력 양식을 확인하세요.", Toast.LENGTH_LONG)
                 .show()
         }
     }
