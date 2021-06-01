@@ -23,6 +23,7 @@ import java.util.*
 
 class HomeFragment : Fragment(), OnMapReadyCallback {
 
+
     lateinit var mContext: Context
     lateinit var aContext: Context
     private lateinit var mMap: GoogleMap
