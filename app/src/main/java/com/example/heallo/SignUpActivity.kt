@@ -40,7 +40,8 @@ class SignUpActivity : AppCompatActivity() {
                 su_name?.text.toString()
             )
         } else {
-            Toast.makeText(this@SignUpActivity, "비밀번호 입력 양식을 확인하세요.", Toast.LENGTH_LONG)
+            // 이메일과 비밀번호가 공백인 경우
+            Toast.makeText(this@SignUpActivity, "계정과 비밀번호를 입력하세요.", Toast.LENGTH_LONG)
                 .show()
         }
     }
