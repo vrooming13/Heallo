@@ -22,7 +22,7 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun onClick() {
         // SignUpActivity 연결
-        if (su_id?.text.toString().isEmpty() && su_pwd?.text.toString().isNotEmpty()
+        if (su_id?.text.toString().isNotEmpty() && su_pwd?.text.toString().isNotEmpty()
         ) {
             // 이메일과 비밀번호가 공백이 아닌 경우
             createUser(
