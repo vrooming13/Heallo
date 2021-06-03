@@ -12,7 +12,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_recyclerview.*
 
-class MainActivity : AppCompatActivity(){
+class MainActivity2 : AppCompatActivity(){
 
 
     private var homeFragment = HomeFragment2()

@@ -4,11 +4,17 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Context.LOCATION_SERVICE
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
+import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.media.audiofx.EnvironmentalReverb
 import android.os.Bundle
+import android.provider.Settings
+import android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,8 +22,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Transformations.map
+import com.google.android.gms.common.api.GoogleApi
+import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -26,6 +35,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.android.synthetic.main.fregment_home.*
 import org.jetbrains.anko.noButton
 import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.support.v4.toast
@@ -33,15 +43,15 @@ import org.jetbrains.anko.yesButton
 
 import java.util.*
 
-class HomeFragment : Fragment(), OnMapReadyCallback {
+class HomeFragment2 : Fragment(), OnMapReadyCallback {
 
     lateinit var mContext: Context
     private lateinit var mMap: GoogleMap
 
-
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var locationRequest: LocationRequest
     private lateinit var locationCallback: LocationCallback
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -57,8 +67,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         locationRequest.interval = 10000 // 10초
         locationRequest.fastestInterval = 5000 // 최소 업데이트 시간
-
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -103,7 +113,11 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             Toast.makeText(mContext, "도로명주소 : ${address[0].getAddressLine(0)}",Toast.LENGTH_LONG)
                 .show()
         }
+        //#2. 찍은곳 위치 정보 나오게
+        //#3. 적절한 zoom 찾기
+        //#4. Layout 재구성
     }
+
 
     private fun setDefaultLocation(){
         val seoul = LatLng(37.5663, 126.9779)
@@ -141,9 +155,14 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         override fun onLocationResult(p0: LocationResult?) {
             super.onLocationResult(p0)
 
-            val location = p0?.lastLocation
+            val location = p0!!.locations
+            var mlocation : Location ?=null
+            if(location.size > 0){
+                mlocation = location[location.size - 1]
+            }
 
-            location?.run{
+            mlocation?.run{
+
                 val latLng = LatLng(latitude, longitude) // 위도, 경도
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f))
 
