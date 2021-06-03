@@ -1,6 +1,10 @@
 package com.example.heallo
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
+import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.LocationListener
 import android.location.LocationManager
@@ -10,8 +14,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Transformations.map
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -19,6 +29,11 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import org.jetbrains.anko.noButton
+import org.jetbrains.anko.support.v4.alert
+import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.yesButton
+
 import java.util.*
 
 class HomeFragment : Fragment(), OnMapReadyCallback {
@@ -28,11 +43,28 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private var mLocationManager: LocationManager? = null
     private var mLocationListener: LocationListener? = null
+
+
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private lateinit var locationRequest: LocationRequest
+    private lateinit var locationCallback: LocationCallback
     private val PERMISSION_REQUEST_CODE : Int = 1
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mContext = context
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        fusedLocationProviderClient = FusedLocationProviderClient(mContext)
+        //locationCallback = MyLocationCallBack()
+
+        locationRequest = LocationRequest()
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        locationRequest.interval = 10000 // 10초
+        locationRequest.fastestInterval = 5000 // 최소 업데이트 시간
+
     }
 
     override fun onCreateView(
@@ -45,24 +77,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
         mapFragment.getMapAsync(this)
 
-        //search
-        /*val searchBar = childFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment
-        searchBar.setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME))
-        searchBar.setOnPlaceSelectedListener(object : PlaceSelectionListener{
-            override fun onPlaceSelected(p0: Place) {
-                TODO("Get info about the selected place")
-                Log.i(TAG, "Place : ${p0.name}, ${p0.id}")
-
-                val searchLocation : Place = p0
-                setLocation(searchLocation)
-            }
-
-            override fun onError(p0: Status) {
-                TODO("Handle the error")
-                Log.i(TAG, "An error occurred : $p0")
-            }
-
-        })*/
         return rootView
     }
 
@@ -126,8 +140,94 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             Toast.makeText(mContext, "도로명주소 : ${address[0].getAddressLine(0)}",Toast.LENGTH_LONG)
                 .show()
         }
-
-
     }
+
+    @SuppressLint("MissingPermission")
+    private fun addLocationListener(){
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null)
+    }
+
+    inner class MyLocationCallBack : LocationCallback(){
+        override fun onLocationResult(p0: LocationResult?) {
+            super.onLocationResult(p0)
+
+            val location = p0?.lastLocation
+
+            location?.run{
+                val latLng = LatLng(latitude, longitude) // 위도, 경도
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f))
+
+                Log.d("MapsActivity", "위도: $latitude, 경도: $longitude")
+                var marker = MarkerOptions()
+                    .position(latLng)
+                    .title("Marker")
+                mMap.addMarker(marker)
+            }
+        }
+    }
+
+    private val REQUEST_ACCESS_FINE_LOCATION = 1000
+
+    private fun permissionCheck(cancel: () -> Unit, ok: () -> Unit) =
+        if(ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED) {
+            if(ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)){
+                cancel()
+            } else{
+                ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
+                    ,REQUEST_ACCESS_FINE_LOCATION)
+            }
+        } else {
+            ok()
+        }
+
+    private fun showPermissionInfoDialog() {
+        alert("위치 정보를 얻으려면 위치 권한이 필요합니다", "권한이 필요한 이유") {
+            yesButton {
+                ActivityCompat.requestPermissions(requireActivity(),
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    REQUEST_ACCESS_FINE_LOCATION)
+            }
+            noButton {  }
+        }.show()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            REQUEST_ACCESS_FINE_LOCATION -> {
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    addLocationListener()
+                } else {
+                    toast("권한이 거부 됨")
+                }
+                return
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // 권한 요청
+        permissionCheck(
+            cancel = { showPermissionInfoDialog() },   // 권한 필요 안내창
+            ok = { addLocationListener()}      // ③   주기적으로 현재 위치를 요청
+        )
+    }
+
+    override fun onPause() {
+        super.onPause()
+        removeLocationListener()    // 앱이 동작하지 않을 때에는 위치 정보 요청 제거
+    }
+
+    private fun removeLocationListener() {
+        fusedLocationProviderClient.removeLocationUpdates(locationCallback)
+    }
+
+
+
 
 }
