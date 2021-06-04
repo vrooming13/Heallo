@@ -160,7 +160,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     private val REQUEST_ACCESS_FINE_LOCATION = 1000
 
     private fun permissionCheck(cancel: () -> Unit, ok: () -> Unit) =
-        if(ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION)
+        if(ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION)
             != PackageManager.PERMISSION_GRANTED) {
             if(ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)){
                 cancel()
@@ -202,6 +202,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
     override fun onResume() {
         super.onResume()
+        Log.d("ONRESUME", "RESUME")
         // 권한 요청
         permissionCheck(
             cancel = { showPermissionInfoDialog() },   // 권한 필요 안내창

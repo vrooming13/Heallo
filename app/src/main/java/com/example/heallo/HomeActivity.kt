@@ -19,7 +19,7 @@ class HomeActivity : AppCompatActivity() {
         }
 
         btn_runningRoutine.setOnClickListener {
-            val intent2 = Intent(this, MainActivity2::class.java)//RoutineActivity로 이동, (테스트를 위해)일시적으로 MainActivity지정
+            val intent2 = Intent(this, MainActivity::class.java)//RoutineActivity로 이동, (테스트를 위해)일시적으로 MainActivity지정
             Log.d("Debug Lod", "Intent Error")
             startActivity(intent2)
             Log.d("Debug Lod", "Intent Error2")
