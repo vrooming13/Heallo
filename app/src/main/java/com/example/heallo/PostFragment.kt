@@ -6,7 +6,8 @@ import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
 import android.location.Geocoder
-
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -14,9 +15,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.app.ActivityCompat.startActivityForResult
-
-
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -25,10 +24,14 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue.*
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.fregment_post.*
 import kotlinx.android.synthetic.main.fregment_post.view.*
+import java.time.LocalDateTime
 import java.util.*
-import android.content.Intent.ACTION_PICK as IntentACTION_PICK
 
 
 class PostFragment : Fragment(), OnMapReadyCallback {
@@ -36,12 +39,14 @@ class PostFragment : Fragment(), OnMapReadyCallback {
     lateinit var mContext: Context
     private lateinit var mMap: GoogleMap
     val PERM_STORAGE = 102
-
+    private var firebaseAuth: FirebaseAuth? = null
+    private var uris: Uri? = null
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mContext = context
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
 
         inflater: LayoutInflater,
@@ -62,6 +67,12 @@ class PostFragment : Fragment(), OnMapReadyCallback {
             startActivityForResult(intent,PERM_STORAGE)
             onActivityResult(PERM_STORAGE, RESULT_OK,intent)
         }
+
+        rootView.write_btn.setOnClickListener {
+            this.whitened() // 성공시 fragment 전환 필요.
+
+        }
+
         return rootView
     }
 
@@ -72,10 +83,11 @@ class PostFragment : Fragment(), OnMapReadyCallback {
         if(resultCode == RESULT_OK){
             when (requestCode) {
                 PERM_STORAGE -> {
-                    Log.d("test2","${data?.data}")
+                    
                     data?.data?.let { uri ->
+
                        imageView.setImageURI(uri)
-                        Log.d("test","${uri}")
+                        uris = uri
                     }
                 }
             }
@@ -160,7 +172,47 @@ class PostFragment : Fragment(), OnMapReadyCallback {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun whitened(){
+        val user = FirebaseAuth.getInstance()
+        var uid = user.currentUser!!.uid
+        var email =  user.currentUser!!.email
+
+
+        val data = hashMapOf<String,Any>(
+            "uid" to uid, //올린사람
+            "content" to textarea.text.toString(), //내용등록
+            "udate" to serverTimestamp(), // 서버시간 등록
+            )
+        val dateAndtime: LocalDateTime = LocalDateTime.now()
+        val db = FirebaseFirestore.getInstance()
+         db.collection("main_content").document("$email"+"$dateAndtime") // 경로 등록  리뷰도 컬렉션 경로 재지정 및 생성 필요.
+             .set(data)
+             .addOnCompleteListener {
+                 Log.d("create","success")
+                 Log.d("check","$uris")
+                 if(uris != null){
+                    image_upload(uris!!,email!!,dateAndtime!!)
+                 }
+             }
+             .addOnFailureListener { Log.d("create_fail","fail") }
+
+
+
+
+
+    }
+
+
+private fun image_upload(uri: Uri, email:String, dateAndtime: LocalDateTime){
+    val mStorageRef = FirebaseStorage.getInstance().reference
+    mStorageRef.child("$email"+"$dateAndtime").putFile(uri) // images 파일 명
 }
+
+}
+
+
+
 
 
 

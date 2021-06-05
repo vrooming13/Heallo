@@ -32,7 +32,7 @@
             android:name="org.apache.http.legacy"
             android:required="false"/>
 
-        <activity android:name=".HomeActivity" /> <!-- Splash Activity -->
+       <!-- Splash Activity -->
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme">

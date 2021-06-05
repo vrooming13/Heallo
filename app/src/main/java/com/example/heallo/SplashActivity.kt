@@ -13,7 +13,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         // 분기 추가 필요 (로그인 상태 점검 후 )
         Handler().postDelayed({ //delay를 위한 handler
-            startActivity(Intent(this, HomeActivity::class.java))
+            startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }, SPLASH_VIEW_TIME)
     }
