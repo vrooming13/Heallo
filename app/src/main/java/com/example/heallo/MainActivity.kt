@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.libraries.places.api.Places
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_recyclerview.*
@@ -19,10 +20,6 @@ class MainActivity : AppCompatActivity(){
     private var favoriteFragment = FavoriteFragment()
     private var postFragment = PostFragment()
     private var userInfoFragment = UserInfoFragment()
-
-     override fun onActivityResult(requestCode :Int, resultCode : Int, data:Intent?) {
-         super.onActivityResult(requestCode, resultCode, data)
-     }
 
     override fun onCreate(savedInstanceState: Bundle?) { // 초기 앱 실행시 view 생성
         super.onCreate(savedInstanceState)

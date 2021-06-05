@@ -22,12 +22,19 @@
             android:orientation="vertical">
 
 
-            <SearchView
+            <fragment
+                android:id="@+id/search"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                />
+
+           <!-- <SearchView
                 android:id="@+id/search_barView"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:iconifiedByDefault="false"
-                android:queryHint="검색어를 입력해주세요." />
+                android:queryHint="검색어를 입력해주세요." />-->
 
             <fragment
                 android:id="@+id/map"
@@ -35,11 +42,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="350dp"/>
 
-            <Button
-                android:id="@+id/getLocationButton"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Button" />
+                android:layout_height="match_parent"
+                android:weightSum="10"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/getLocationButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="5"
+                    android:text="현재 위치 추적" />
+
+                <Button
+                    android:id="@+id/removeLocationButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="5"
+                    android:text="추적 중지" />
+
+            </LinearLayout>
 
             <!-- <androidx.recyclerview.widget.RecyclerView
                  android:id="@+id/rv_profile"

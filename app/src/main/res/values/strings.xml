@@ -3,4 +3,5 @@
     <string name="text1">~~~님 환영합니다.</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="API_KEY">"AIzaSyBcSrApv_iIr46LOUrj9y3NyoKgwl31yqw"</string>
 </resources>

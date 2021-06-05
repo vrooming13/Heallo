@@ -13,9 +13,12 @@
     <!--파일 읽기,쓰기 권한-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
     <!--카메라 권한-->
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
 
 
@@ -48,7 +51,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBcSrApv_iIr46LOUrj9y3NyoKgwl31yqw"/>
+            android:value="AIzaSyA9huPrOwes_Q9rm_8Xcs0_8aM-juUOn9Y"/>
 
 
 
