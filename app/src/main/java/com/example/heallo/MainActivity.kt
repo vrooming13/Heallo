@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity(){
 
 
     private var homeFragment = HomeFragment()
-    private var favoriteFragment = FavoriteFragment()
+    private var gridFragment = GridFragment()
     private var postFragment = PostFragment()
     private var userInfoFragment = UserInfoFragment()
 
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity(){
         bottomNavigationView.setOnNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.ic_home -> replaceFragment(homeFragment)
-                R.id.ic_favorite -> replaceFragment(favoriteFragment)
+                R.id.ic_favorite -> replaceFragment(gridFragment)
                 R.id.ic_post -> replaceFragment(postFragment)
                 R.id.ic_userInfo -> replaceFragment(userInfoFragment)
 
