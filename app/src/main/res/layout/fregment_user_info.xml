@@ -174,7 +174,10 @@
                     <RelativeLayout
                         android:id="@+id/pwd_rl"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp">
+                        android:layout_height="50dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        >
 
                         <ImageView
                             android:id="@+id/pwd_iv"
@@ -182,7 +185,10 @@
                             android:layout_height="20dp"
                             android:layout_centerVertical="true"
                             android:layout_margin="10dp"
-                            android:src="@drawable/ic_lock" />
+                            android:src="@drawable/ic_lock"
+                            android:clickable="false"
+                            android:focusable="false"
+                            />
 
                         <TextView
                             android:id="@+id/pwd_tv"
@@ -193,7 +199,10 @@
                             android:gravity="center_vertical"
                             android:text="비밀번호 수정"
                             android:textColor="@color/black"
-                            android:textSize="20dp" />
+                            android:textSize="20dp"
+                            android:clickable="false"
+                            android:focusable="false"
+                            />
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -208,7 +217,10 @@
                     <RelativeLayout
                         android:id="@+id/responsed_rl"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp">
+                        android:layout_height="50dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        >
 
                         <ImageView
                             android:id="@+id/responsed_iv"
@@ -216,7 +228,10 @@
                             android:layout_height="20dp"
                             android:layout_centerVertical="true"
                             android:layout_margin="10dp"
-                            android:src="@drawable/ic_paper" />
+                            android:src="@drawable/ic_paper"
+                            android:clickable="false"
+                            android:focusable="false"
+                            />
 
                         <TextView
                             android:id="@+id/responsed_tv"
@@ -227,7 +242,10 @@
                             android:gravity="center_vertical"
                             android:text="작성한 게시물"
                             android:textColor="@color/black"
-                            android:textSize="20dp" />
+                            android:textSize="20dp"
+                            android:clickable="false"
+                            android:focusable="false"
+                            />
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -242,7 +260,10 @@
                     <RelativeLayout
                         android:id="@+id/fav_rl"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp">
+                        android:layout_height="50dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        >
 
                         <ImageView
                             android:id="@+id/fav_iv"
@@ -250,7 +271,10 @@
                             android:layout_height="20dp"
                             android:layout_centerVertical="true"
                             android:layout_margin="10dp"
-                            android:src="@drawable/ic_favorite" />
+                            android:src="@drawable/ic_favorite"
+                            android:clickable="false"
+                            android:focusable="false"
+                            />
 
                         <TextView
                             android:id="@+id/fav_tv"
@@ -261,7 +285,10 @@
                             android:gravity="center_vertical"
                             android:text="관심 게시물"
                             android:textColor="@color/black"
-                            android:textSize="20dp" />
+                            android:textSize="20dp"
+                            android:clickable="false"
+                            android:focusable="false"
+                            />
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -285,7 +312,11 @@
                     <RelativeLayout
                         android:id="@+id/Logout_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+
+                        >
 
                         <ImageView
                             android:id="@+id/logout_iv"
@@ -294,9 +325,13 @@
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:layout_margin="10dp"
-                            android:src="@drawable/ic_logout" />
+                            android:src="@drawable/ic_logout"
+                            android:clickable="false"
+                            android:focusable="false"
+                            />
 
                         <TextView
+                            android:id="@+id/logout_dsa"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_centerVertical="true"
@@ -305,7 +340,11 @@
                             android:gravity="center_vertical"
                             android:text="로그아웃"
                             android:textColor="@color/black"
-                            android:textSize="20dp" />
+                            android:textSize="20dp"
+                            android:clickable="false"
+                            android:focusable="false"
+                            />
+
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -330,7 +369,10 @@
                     <RelativeLayout
                         android:id="@+id/secession"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        >
 
                         <ImageView
                             android:id="@+id/g_iv"
@@ -338,7 +380,10 @@
                             android:layout_height="20dp"
                             android:layout_centerVertical="true"
                             android:layout_margin="10dp"
-                            android:src="@drawable/ic_getout" />
+                            android:src="@drawable/ic_getout"
+                            android:clickable="false"
+                            android:focusable="false"
+                            />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -349,7 +394,10 @@
                             android:gravity="center_vertical"
                             android:text="탈퇴하기"
                             android:textColor="@color/black"
-                            android:textSize="20dp" />
+                            android:textSize="20dp"
+                            android:clickable="false"
+                            android:focusable="false"
+                            />
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 

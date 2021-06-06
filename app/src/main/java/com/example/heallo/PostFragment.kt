@@ -189,10 +189,24 @@ class PostFragment : Fragment(), OnMapReadyCallback {
          db.collection("main_content").document("$email"+"$dateAndtime") // 경로 등록  리뷰도 컬렉션 경로 재지정 및 생성 필요.
              .set(data)
              .addOnCompleteListener {
-                 Log.d("create","success")
-                 Log.d("check","$uris")
+
                  if(uris != null){
                     image_upload(uris!!,email!!,dateAndtime!!)
+                     activity?.let {
+                         val intent = Intent(context, MainActivity::class.java) // 메인화면 홈프레그먼트 화면으로 이동
+                         startActivity(intent)
+                         Toast.makeText(mContext, "글쓰기를 완료했습니다.", Toast.LENGTH_LONG)
+                             .show()
+                         activity?.finish()
+                     }
+                 }else {
+                     activity?.let {
+                         val intent = Intent(context, MainActivity::class.java) // 메인화면 홈프레그먼트 화면으로 이동
+                         startActivity(intent)
+                         Toast.makeText(mContext, "글쓰기를 완료했습니다.", Toast.LENGTH_LONG)
+                             .show()
+                         activity?.finish()
+                     }
                  }
              }
              .addOnFailureListener { Log.d("create_fail","fail") }
