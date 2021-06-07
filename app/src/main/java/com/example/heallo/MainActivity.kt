@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_recyclerview.*
 class MainActivity : AppCompatActivity(){
 
 
-    private var homeFragment = HomeFragment()
+    private var homeFragment = DetailViewFragment()
     private var gridFragment = GridFragment()
     private var postFragment = PostFragment()
     private var userInfoFragment = UserInfoFragment()
@@ -32,7 +32,6 @@ class MainActivity : AppCompatActivity(){
                 R.id.ic_favorite -> replaceFragment(gridFragment)
                 R.id.ic_post -> replaceFragment(postFragment)
                 R.id.ic_userInfo -> replaceFragment(userInfoFragment)
-
             }
             true
         }

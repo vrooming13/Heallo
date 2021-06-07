@@ -54,15 +54,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="5"
-                    android:text="현재 위치 추적" />
-
-                <Button
-                    android:id="@+id/removeLocationButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_weight="5"
-                    android:text="추적 중지" />
+                    android:text="현재 위치" />
 
             </LinearLayout>
 

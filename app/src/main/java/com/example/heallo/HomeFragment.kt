@@ -213,7 +213,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setLocation(p0:Place){
-
         var mLatLng= p0.latLng
         val geo = Geocoder(mContext, Locale.KOREA)
 
@@ -266,13 +265,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                     }
                 }
             }
-
-            if (removeLocationButton != null) {
-                removeLocationButton.setOnClickListener {
-                    removeLocationListener()
-                }
-            }
-        }
+       }
     }
 
     private val REQUEST_ACCESS_FINE_LOCATION = 1000

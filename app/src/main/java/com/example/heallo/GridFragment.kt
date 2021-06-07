@@ -1,6 +1,7 @@
 package com.example.heallo
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.heallo.ContentDTO
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import kotlinx.android.synthetic.main.fragment_grid.view.*
@@ -21,8 +23,22 @@ class GridFragment : Fragment() {
 
     var mainView: View? = null
     var imagesSnapshot  : ListenerRegistration? = null
+
+    //Firebase
+    var auth: FirebaseAuth? = null
+    var firestore : FirebaseFirestore?= null
+
+    var uid : String?= null
+    var currentUserUid: String?= null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mainView = inflater.inflate(R.layout.fragment_grid, container, false)
+
+        //firebase
+        auth = FirebaseAuth.getInstance()
+        firestore = FirebaseFirestore.getInstance()
+
+        currentUserUid = auth?.currentUser?.uid
 
         return mainView
     }
@@ -42,18 +58,34 @@ class GridFragment : Fragment() {
     inner class GridFragmentRecyclerViewAdatper : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         var contentDTOs: ArrayList<ContentDTO>
+        var contentUidList: MutableMap<String, Boolean>
+        var currentid = auth?.currentUser?.uid
 
         init {
             contentDTOs = ArrayList()
-            imagesSnapshot = FirebaseFirestore
-                    .getInstance().collection("images").orderBy("uid")?.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
-                        contentDTOs.clear()
-                        if (querySnapshot == null) return@addSnapshotListener
-                        for (snapshot in querySnapshot!!.documents) {
-                            contentDTOs.add(snapshot.toObject(ContentDTO::class.java)!!)
-                        }
-                        notifyDataSetChanged()
+            contentUidList = HashMap()
+
+            // 내가 즐겨찾기한 사진
+            val favorRef = firestore?.collection("post")
+            favorRef?.whereEqualTo("favorites", true)?.get()
+                ?.addOnSuccessListener { documents ->
+                    for (document in documents) {
+                        Log.d("Fav", "${document.id} => ${document.data.get("favorites")}")
                     }
+                }
+                ?.addOnFailureListener { exception ->
+                    Log.w("Fav2", "Error getting documents: ", exception)
+                }
+
+            imagesSnapshot = firestore?.collection("post")?.whereEqualTo("uid", uid)?.
+            addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                contentDTOs.clear()
+                if (querySnapshot == null) return@addSnapshotListener
+                for (snapshot in querySnapshot?.documents!!) {
+                    contentDTOs.add(snapshot.toObject(ContentDTO::class.java)!!)
+                }
+                notifyDataSetChanged()
+            }
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
