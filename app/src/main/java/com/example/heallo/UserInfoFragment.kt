@@ -81,14 +81,25 @@ class UserInfoFragment : Fragment() {
     @SuppressLint("UseRequireInsteadOfGet")
     fun pwd_message() {
         var editTextNewPassword = EditText(activity)
-        editTextNewPassword.transformationMethod = PasswordTransformationMethod.getInstance()
-        var alertDialog = AlertDialog.Builder(this.activity!!)
-        alertDialog.setTitle("패스워드 변경")
-        alertDialog.setMessage("변경하고 싶은 패스워드를 입력하세요")
-        alertDialog.setView(editTextNewPassword)
-        alertDialog.setPositiveButton("변경", {dialogInterface, i -> changePassword(editTextNewPassword.text.toString()) })
-        alertDialog.setNegativeButton("취소", {dialogInterface, i -> dialogInterface.dismiss() })
-        alertDialog.show()
+
+            editTextNewPassword.transformationMethod = PasswordTransformationMethod.getInstance()
+            var alertDialog = AlertDialog.Builder(this.activity!!)
+            alertDialog.setTitle("패스워드 변경")
+            alertDialog.setMessage("변경하고 싶은 패스워드를 입력하세요(8~20자)")
+            alertDialog.setView(editTextNewPassword)
+            alertDialog.setPositiveButton(
+                "변경"
+            ) { dialogInterface, i ->
+                if (editTextNewPassword.text.toString().length in 8..20){
+                changePassword(editTextNewPassword.text.toString())} else {
+                    Toast.makeText(activity, "글자수를 8~20자로 제한해 주세요.", Toast.LENGTH_LONG).show()
+                }
+            }
+        alertDialog.setNegativeButton("취소", { dialogInterface, i -> dialogInterface.dismiss() })
+            alertDialog.show()
+
+
+
     }
 
     fun changePassword(password:String){
