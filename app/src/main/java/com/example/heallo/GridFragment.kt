@@ -65,19 +65,21 @@ class GridFragment : Fragment() {
             contentDTOs = ArrayList()
             contentUidList = HashMap()
 
-            // 내가 즐겨찾기한 사진
+            //내가 즐겨찾기한 사진
             val favorRef = firestore?.collection("post")
-            favorRef?.whereEqualTo("favorites", true)?.get()
-                ?.addOnSuccessListener { documents ->
-                    for (document in documents) {
-                        Log.d("Fav", "${document.id} => ${document.data.get("favorites")}")
-                    }
+            favorRef?.whereEqualTo("favorites.${currentid}", true)?.addSnapshotListener {
+                    value, error ->
+                contentDTOs.clear()
+                if (value == null) return@addSnapshotListener
+                for (snapshot in value?.documents!!) {
+                    contentDTOs.add(snapshot.toObject(ContentDTO::class.java)!!)
+                    Log.d("Fav", "${snapshot.id} => ${snapshot.data?.get("favorites")}")
                 }
-                ?.addOnFailureListener { exception ->
-                    Log.w("Fav2", "Error getting documents: ", exception)
-                }
+                notifyDataSetChanged()
+            }
 
-            imagesSnapshot = firestore?.collection("post")?.whereEqualTo("uid", uid)?.
+            //내가 업로드한 이미지
+            /*imagesSnapshot = firestore?.collection("post")?.whereEqualTo("uid", currentid)?.
             addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 contentDTOs.clear()
                 if (querySnapshot == null) return@addSnapshotListener
@@ -85,7 +87,7 @@ class GridFragment : Fragment() {
                     contentDTOs.add(snapshot.toObject(ContentDTO::class.java)!!)
                 }
                 notifyDataSetChanged()
-            }
+            }*/
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
