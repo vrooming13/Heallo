@@ -528,7 +528,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         override fun onLocationResult(p0: LocationResult?) {
             super.onLocationResult(p0)
 
-            if (getLocationButton != null) {
+/*            if (getLocationButton != null) {
                 getLocationButton.setOnClickListener {
                     val location = p0?.lastLocation
                     if (getLocationButton != null) {
@@ -542,7 +542,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                         }
                     }
                 }
-            }
+            }*/
        }
     }
 
