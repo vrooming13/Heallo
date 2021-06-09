@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_recyclerview.*
 class MainActivity : AppCompatActivity(){
 
 
-    private var homeFragment = DetailViewFragment()
+    private var homeFragment = HomeFragment()
     private var gridFragment = GridFragment()
     private var postFragment = PostFragment()
     private var userInfoFragment = UserInfoFragment()

@@ -86,6 +86,7 @@ class PostFragment : Fragment(), OnMapReadyCallback {
     //data
     private var photouri: Uri? = null
 
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mContext = context
@@ -161,6 +162,8 @@ class PostFragment : Fragment(), OnMapReadyCallback {
                 setLocation(p0)
                 mLatLng = p0.latLng
                 mAddress = p0.address
+
+
             }
 
             override fun onError(p0: Status) {
@@ -177,7 +180,7 @@ class PostFragment : Fragment(), OnMapReadyCallback {
         }
 
         rootView.write_btn.setOnClickListener {
-            contentUpload()// 성공시 fragment 전환 필요.
+            contentUpload(mLatLng!!)// 성공시 fragment 전환 필요.
         }
 
         return rootView
@@ -359,7 +362,7 @@ class PostFragment : Fragment(), OnMapReadyCallback {
         fusedLocationProviderClient.removeLocationUpdates(locationCallback)
     }
 
-    fun contentUpload() {
+    fun contentUpload(latLng: LatLng) {
         val imageFileName = "JPEG_" + auth?.currentUser?.uid + "_.png"
         val storageRef = storage?.reference?.child("post")?.child(imageFileName)
         storageRef?.putFile(photouri!!)?.addOnSuccessListener {
@@ -374,8 +377,9 @@ class PostFragment : Fragment(), OnMapReadyCallback {
                 //게시물의 설명
                 contentDTO.explain = textarea.text.toString()
                 //게시물 장소 좌표
-                contentDTO.longtiude = mLatLng?.longitude
-                contentDTO.latitude = mLatLng?.latitude
+                contentDTO.longtiude = latLng?.longitude
+
+                contentDTO.latitude = latLng?.latitude
                 //게시물 장소 상세정보
                 contentDTO.address = mAddress
                 //유저의 아이디
@@ -425,6 +429,8 @@ class PostFragment : Fragment(), OnMapReadyCallback {
 
         //Map Touch Event
         mMap.setOnMapClickListener { p0 ->
+            mLatLng = p0
+            Log.i("mLatLng", "${mLatLng}")
             val marker = MarkerOptions()
                 .position(p0)
                 .title("MapClickEvent")

@@ -18,7 +18,11 @@ import com.google.firebase.firestore.ListenerRegistration
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import kotlinx.android.synthetic.main.item_detail.view.*
 
+
+/// 맵 클러스터링 + 장소 보기
 class DetailViewFragment : Fragment() {
+
+
 
     var user: FirebaseUser? = null
     var firestore: FirebaseFirestore? = null
@@ -114,7 +118,8 @@ class DetailViewFragment : Fragment() {
                 favoriteEvent(position)
             }
 
-            if(contentDTOs[position].favorites.containsKey(FirebaseAuth.getInstance().currentUser!!.uid)){
+            if(contentDTOs[position].favorites.containsKey(FirebaseAuth.getInstance().currentUser!!.uid) &&
+                    contentDTOs[position].favorites.containsValue(true)){
                 viewHolder.detailviewitem_favorite_imageview.setImageResource(R.drawable.ic_favorite)
             }
             else {
