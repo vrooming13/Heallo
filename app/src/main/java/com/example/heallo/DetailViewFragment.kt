@@ -15,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import kotlinx.android.synthetic.main.item_detail.view.*
 
@@ -67,7 +68,7 @@ class DetailViewFragment : Fragment() {
             contentDTOs = ArrayList()
             contentUidList = ArrayList()
             var uid = FirebaseAuth.getInstance().currentUser?.uid
-            firestore?.collection("post")?.orderBy("timestamp")
+            firestore?.collection("post")?.orderBy("timestamp",Query.Direction.DESCENDING)
                 ?.addSnapshotListener { querySnapshot, firebaseFireStoreException ->
                     contentDTOs.clear()
                     contentUidList.clear()

@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,6 +19,9 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fregment_user_info.*
 import kotlinx.android.synthetic.main.fregment_user_info.view.*
+
+private lateinit var sharePreferences : SharedPreferences
+private lateinit var editor : SharedPreferences.Editor // 데이터 기록을 위한 editor
 
 class UserInfoFragment : Fragment() {
 
@@ -66,6 +71,11 @@ class UserInfoFragment : Fragment() {
             null
         )
         builder.setPositiveButton("확인") { dialogInterface: DialogInterface, i: Int ->
+            sharePreferences = PreferenceManager.getDefaultSharedPreferences(context)
+            editor = sharePreferences.edit()
+
+            editor.clear()
+            editor.commit()
             FirebaseAuth.getInstance().signOut() // 로그아웃
             activity?.let{
                 val intent = Intent(context, LoginActivity::class.java) // 로그인 화면으로 이동

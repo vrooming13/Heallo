@@ -18,6 +18,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
@@ -183,6 +184,7 @@ class PostFragment : Fragment(), OnMapReadyCallback {
             contentUpload(mLatLng!!)// 성공시 fragment 전환 필요.
         }
 
+
         return rootView
     }
 
@@ -263,20 +265,18 @@ class PostFragment : Fragment(), OnMapReadyCallback {
         override fun onLocationResult(p0: LocationResult?) {
             super.onLocationResult(p0)
 
-            if (getLocationButton != null) {
-                getLocationButton.setOnClickListener {
-                    val location = p0?.lastLocation
-                    if (getLocationButton != null) {
-                        location?.run {
-                            val latLng = LatLng(latitude, longitude) // 위도, 경도
-                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f))
 
-                            Log.d("MapsActivity", "위도: $latitude, 경도: $longitude")
-                            var marker = MarkerOptions()
-                                .position(latLng)
-                                .title("현재위치")
-                            mMap.addMarker(marker)
-                        }
+            getLocationButton?.setOnClickListener {
+                val location = p0?.lastLocation
+                if (getLocationButton != null) {
+                    location?.run {
+                        val latLng = LatLng(latitude, longitude) // 위도, 경도
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f))
+                        Log.d("MapsActivity", "위도: $latitude, 경도: $longitude")
+                        var marker = MarkerOptions()
+                            .position(latLng)
+                            .title("현재위치")
+                        mMap.addMarker(marker)
                     }
                 }
             }
@@ -386,6 +386,11 @@ class PostFragment : Fragment(), OnMapReadyCallback {
                 contentDTO.userId = auth?.currentUser?.email
                 //게시물 업로드 시간
                 contentDTO.timestamp = System.currentTimeMillis()
+//                var date = Date(System.currentTimeMillis())
+//                Log.d("timetest","$date") // Tue Jun 08 22:13:16 GMT+09:00 2021 형식 출력
+//                var mformat = SimpleDateFormat("yyyy-mm-dd - HH:mm:ss") //date 형식 파싱
+//                var pdatetime = mformat.format(date) // 파싱결과 변수 담기
+
 
                 //게시물을 데이터를 생성
                 firestore?.collection("post")?.document()?.set(contentDTO)

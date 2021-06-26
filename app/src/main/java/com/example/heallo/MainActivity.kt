@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.libraries.places.api.Places
@@ -25,7 +26,11 @@ class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main) // xml 디자인 보여줌
         replaceFragment(homeFragment)
-
+        Toast.makeText(
+            this@MainActivity,
+            "로그인 성공.",
+            Toast.LENGTH_SHORT
+        ).show()
         bottomNavigationView.setOnNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.ic_home -> replaceFragment(homeFragment)
