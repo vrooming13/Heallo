@@ -235,6 +235,12 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             else {
                 viewHolder.detailviewitem_favorite_imageview.setImageResource(R.drawable.ic_favorite_border)
             }
+
+            viewHolder.detailviewitem_comment_imageview.setOnClickListener{ v ->
+                var intent = Intent(v.context, CommentActivity::class.java)
+                intent.putExtra("contentUid",contentUidList[position])
+                startActivity(intent)
+            }
         }
 
         private fun favoriteEvent(position: Int) {
@@ -311,6 +317,12 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             }
             else {
                 viewHolder.detailviewitem_favorite_imageview.setImageResource(R.drawable.ic_favorite_border)
+            }
+
+            viewHolder.detailviewitem_comment_imageview.setOnClickListener{ v ->
+                var intent = Intent(v.context, CommentActivity::class.java)
+                intent.putExtra("contentUid",UidList[position])
+                startActivity(intent)
             }
         }
 

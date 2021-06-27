@@ -1,5 +1,6 @@
 package com.example.heallo
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -20,20 +21,12 @@ import kotlinx.android.synthetic.main.fragment_detail.view.*
 import kotlinx.android.synthetic.main.item_detail.view.*
 
 
-/// 맵 클러스터링 + 장소 보기
 class DetailViewFragment : Fragment() {
-
-
 
     var user: FirebaseUser? = null
     var firestore: FirebaseFirestore? = null
     var imagesSnapshot: ListenerRegistration? = null
     var mainView: View? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,10 +37,13 @@ class DetailViewFragment : Fragment() {
         user = FirebaseAuth.getInstance().currentUser
         firestore = FirebaseFirestore.getInstance()
 
+        mainView?.detailviewfragment_recyclerview?.adapter = DetailRecyclerViewAdapter()
+        mainView?.detailviewfragment_recyclerview?.layoutManager = LinearLayoutManager(activity)
+
         return mainView
     }
 
-    override fun onResume() {
+   /* override fun onResume() {
         super.onResume()
 
         mainView?.detailviewfragment_recyclerview?.adapter = DetailRecyclerViewAdapter()
@@ -57,7 +53,7 @@ class DetailViewFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         imagesSnapshot?.remove()
-    }
+    }*/
 
     inner class DetailRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -125,6 +121,14 @@ class DetailViewFragment : Fragment() {
             }
             else {
                 viewHolder.detailviewitem_favorite_imageview.setImageResource(R.drawable.ic_favorite_border)
+            }
+
+            /// 댓글 이벤트 - 말풍선 클릭시 댓글 액티비티 열림
+
+            viewHolder.detailviewitem_comment_imageview.setOnClickListener{ v ->
+                var intent = Intent(v.context, CommentActivity::class.java)
+                intent.putExtra("contentUid",contentUidList[position])
+                startActivity(intent)
             }
         }
 
