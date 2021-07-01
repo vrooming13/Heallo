@@ -39,6 +39,7 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:layout_marginTop="2dp"
             android:id="@+id/detailviewitem_favorite_imageview"
             android:layout_width="35dp"
             android:layout_height="35dp"
@@ -46,10 +47,17 @@
 
         <ImageView
             android:id="@+id/detailviewitem_comment_imageview"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="4dp"
             android:layout_width="35dp"
             android:layout_height="35dp"
             app:srcCompat="@drawable/ic_baseline_add_comment_24" />
+        <ImageView
+            android:id="@+id/detailviewitem_info_imageview"
+            android:layout_marginTop="2dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            app:srcCompat="@drawable/ic_baseline_add_location_alt_24" />
+
     </LinearLayout>
 
     <TextView
