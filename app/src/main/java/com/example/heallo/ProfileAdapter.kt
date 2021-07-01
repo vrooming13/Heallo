@@ -30,14 +30,14 @@ class ProfileAdapter (val profileList: ArrayList<profiles>) : RecyclerView.Adapt
     override fun onBindViewHolder(holder: ProfileAdapter.CustomViewHolder, position: Int) {
         holder.gender.setImageResource(profileList.get(position).gender)
         holder.name.text = profileList.get(position).name
-        holder.level.text = profileList.get(position).level.toString()
+        /*holder.level.text = profileList.get(position).level.toString()*/
         holder.review.text = profileList.get(position).review
     }
 
     class CustomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val gender = itemView.findViewById<ImageView>(R.id.iv_profile)  //성별
         val name = itemView.findViewById<TextView>(R.id.tv_name)        //이름
-        val level = itemView.findViewById<TextView>(R.id.tv_level)      //레벨
+        /*val level = itemView.findViewById<TextView>(R.id.tv_level)      //레벨*/
         val review = itemView.findViewById<TextView>(R.id.tv_review)    //리뷰
 
     }

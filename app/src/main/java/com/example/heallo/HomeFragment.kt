@@ -230,10 +230,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             }
 
             if(contentDTOs[position].favorites.containsKey(FirebaseAuth.getInstance().currentUser!!.uid)){
-                viewHolder.detailviewitem_favorite_imageview.setImageResource(R.drawable.ic_favorite)
+                viewHolder.detailviewitem_favorite_imageview.setImageResource(R.drawable.ic_baseline_star_filld)
             }
             else {
-                viewHolder.detailviewitem_favorite_imageview.setImageResource(R.drawable.ic_favorite_border)
+                viewHolder.detailviewitem_favorite_imageview.setImageResource(R.drawable.ic_baseline_star_border_24)
             }
 
             viewHolder.detailviewitem_comment_imageview.setOnClickListener{ v ->
