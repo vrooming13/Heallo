@@ -36,6 +36,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
@@ -58,11 +59,13 @@ import kotlinx.android.synthetic.main.fregment_home.*
 import kotlinx.android.synthetic.main.item_detail.view.*
 import org.jetbrains.anko.noButton
 import org.jetbrains.anko.support.v4.alert
+import org.jetbrains.anko.support.v4.makeCall
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.yesButton
 
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class HomeFragment : Fragment(), OnMapReadyCallback {
 
@@ -319,6 +322,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 viewHolder.detailviewitem_favorite_imageview.setImageResource(R.drawable.ic_favorite_border)
             }
 
+            //댓글 기능
             viewHolder.detailviewitem_comment_imageview.setOnClickListener{ v ->
                 var intent = Intent(v.context, CommentActivity::class.java)
                 intent.putExtra("contentUid",UidList[position])
@@ -439,6 +443,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         // lon 126.4210867 //
 
         var mLatLng= p0.latLng // 검색한 장소 좌표
+        val geo = Geocoder(mContext, Locale.KOREA) // Geocoding을 위한 대한민국 Optimize
 
     // Location 으로 변환
         val mSelectLocation = Location(LocationManager.NETWORK_PROVIDER)
@@ -477,9 +482,13 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 var camera = CameraUpdateFactory.newCameraPosition(cameraOption)
                 mMap.moveCamera(camera)
 
+
+
                 removeLocationListener()
+
                 for(position in 0 until locations.size) {
-                    Log.i("mSelect Error33!!", "${ locations[position].latitude}, ${locations[position].longtiude}")
+                    var markerList : MutableMap<Int, ContentDTO> = HashMap()
+                   // Log.i("mSelect Error33!!", "${ locations[position].latitude}, ${locations[position].longtiude}")
 
                     if(mSelectLocation !=  null){
                         val targetLocation = Location(LocationManager.NETWORK_PROVIDER)
@@ -490,11 +499,22 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                         mdistance = mSelectLocation?.distanceTo(targetLocation) / 1000 /* km로 변환 */
 
                         if(mdistance < 10){
-                            var marker = MarkerOptions()
-                                .position(LatLng(targetLocation?.latitude!!, targetLocation?.longitude!!))
-                                .title("추천위치")
-                            mMap.addMarker(marker)
-                            Log.i("DrawMaker","Maker")
+                            var marker  : Marker? = null
+                            var markerOptions = MarkerOptions()
+                                     .position(LatLng(targetLocation?.latitude!!, targetLocation?.longitude!!))
+                                     .title("${locations[position].address}")
+                                     .snippet("${locations[position].explain}")
+
+                            marker = mMap.addMarker(markerOptions)
+                            marker.tag = position
+
+                            markerList[position] = locations[position]
+
+                            mMap.setInfoWindowAdapter(CustomInfoWindow(mContext,
+                                markerList[marker.tag]?.imageUrl!!))
+
+
+                            ////////MarkerList를 만들어 제작해야됨
 
                             // 위의 데이터를 저장해서 recycler 뷰에 그려줌
                             val snapshot : MutableList<DocumentSnapshot>
@@ -503,9 +523,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                                 mcontentUidList.add(snapshot.id)
                             }
                             takeDTOs.add(locations[position])
-
-
-                           //  정보를 인텐트로 넘겨서
                         }
                     }
 
@@ -519,8 +536,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                         mMap.moveCamera(camera)
                     }
                 }
-
             }
+
             if(takeDTOs.size <= 0){
                 mainView?.detailviewfragment_recyclerview?.adapter = PlayGround(takeDTOs, mcontentUidList)
                 mainView?.detailviewfragment_recyclerview?.layoutManager = LinearLayoutManager(activity)
@@ -616,3 +633,5 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
 
 }
+
+
