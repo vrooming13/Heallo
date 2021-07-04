@@ -75,6 +75,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
     ///Maps
     private lateinit var mMap: GoogleMap
+    var markerList : ArrayList<String> = ArrayList()
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var locationRequest: LocationRequest
     private lateinit var locationCallback: LocationCallback
@@ -383,31 +384,29 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         val geo = Geocoder(mContext, Locale.KOREA)
         setDefaultLocation()
 
-        //Map Touch Event
-        mMap.setOnMapClickListener { p0 ->
-            val marker = MarkerOptions()
-                .position(p0)
-                .title("MapClickEvent")
-                .snippet("Save This Location")
-            mMap.clear()
-            mMap.addMarker(marker)
-
-            val cameraMoveToClick = CameraPosition.Builder()
-                .target(p0)
-                .zoom(15f)
-                .build()
-            mMap.setOnCameraMoveListener {
-                val camera = CameraUpdateFactory.newCameraPosition(cameraMoveToClick)
-            }
-        }
-
         mMap.setOnInfoWindowClickListener {
             // 도로명주소
             val mPosition : LatLng = it.position
             val address = geo.getFromLocation(mPosition.latitude, mPosition.longitude, 1)
-            Toast.makeText(mContext, "도로명주소 : ${address[0].getAddressLine(0)}",Toast.LENGTH_LONG)
+            Toast.makeText(mContext, "도로명주소2 : ${address[0].getAddressLine(0)}",Toast.LENGTH_LONG)
                 .show()
         }
+
+        mMap.setOnMarkerClickListener(
+            object : GoogleMap.OnMarkerClickListener{
+                override fun onMarkerClick(p0: Marker): Boolean {
+                    if(p0.tag != null) {
+                        mMap.setInfoWindowAdapter(
+                            CustomInfoWindow(mContext, p0.tag as String)
+                        )
+                        mMap.setOnMapClickListener {
+                            p0.hideInfoWindow()
+                        }
+                    }
+                    return false
+                }
+            })
+
     }
 
     private fun setDefaultLocation(){
@@ -430,17 +429,14 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         mMap.moveCamera(camera)
 
         //도로명주소
-        mMap.setOnInfoWindowClickListener {
+      /*  mMap.setOnInfoWindowClickListener {
             val address = geo.getFromLocation(seoul.latitude, seoul.longitude, 2)
             Toast.makeText(mContext, "도로명주소 : ${address[0].getAddressLine(0)}",Toast.LENGTH_LONG)
                 .show()
-        }
+        }*/
     }
 
     private fun setLocation(p0:Place){
-        //Mokpo University LatLng //
-        // lat 34.7936555 //
-        // lon 126.4210867 //
 
         var mLatLng= p0.latLng // 검색한 장소 좌표
         val geo = Geocoder(mContext, Locale.KOREA) // Geocoding을 위한 대한민국 Optimize
@@ -450,13 +446,13 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         mSelectLocation.latitude = mLatLng?.latitude!!
         mSelectLocation.longitude = mLatLng?.longitude!!
         var mdistance : Float
-        Log.i("mSelect Error11!!", "${mSelectLocation?.latitude}, ${mSelectLocation?.longitude}")
 
 
         var locations : ArrayList<ContentDTO>
         var contentDTOs: ArrayList<ContentDTO> = ArrayList()
         val mcontentUidList: ArrayList<String> = ArrayList()
         var takeDTOs : ArrayList<ContentDTO> = ArrayList()
+
 
         firestore?.collection("post")?.get()?.addOnSuccessListener {
             contentDTOs.clear()
@@ -482,39 +478,33 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 var camera = CameraUpdateFactory.newCameraPosition(cameraOption)
                 mMap.moveCamera(camera)
 
-
-
                 removeLocationListener()
 
                 for(position in 0 until locations.size) {
-                    var markerList : MutableMap<Int, ContentDTO> = HashMap()
-                   // Log.i("mSelect Error33!!", "${ locations[position].latitude}, ${locations[position].longtiude}")
-
                     if(mSelectLocation !=  null){
                         val targetLocation = Location(LocationManager.NETWORK_PROVIDER)
 
                         targetLocation?.latitude = locations[position].latitude!!
                         targetLocation?.longitude = locations[position].longtiude!!
 
-                        mdistance = mSelectLocation?.distanceTo(targetLocation) / 1000 /* km로 변환 */
+                        mdistance = mSelectLocation?.distanceTo(targetLocation) / 1000
+                        /* km로 변환 */
 
                         if(mdistance < 10){
-                            var marker  : Marker? = null
                             var markerOptions = MarkerOptions()
                                      .position(LatLng(targetLocation?.latitude!!, targetLocation?.longitude!!))
                                      .title("${locations[position].address}")
                                      .snippet("${locations[position].explain}")
 
-                            marker = mMap.addMarker(markerOptions)
-                            marker.tag = position
-
-                            markerList[position] = locations[position]
-
-                            mMap.setInfoWindowAdapter(CustomInfoWindow(mContext,
-                                markerList[marker.tag]?.imageUrl!!))
+                            val marker : Marker? = mMap.addMarker(markerOptions)
+                            marker!!.tag =
+                                locations[position].imageUrl as String
 
 
-                            ////////MarkerList를 만들어 제작해야됨
+                            markerList.add(marker.tag as String)
+
+
+                            Log.i("List","${markerList}")
 
                             // 위의 데이터를 저장해서 recycler 뷰에 그려줌
                             val snapshot : MutableList<DocumentSnapshot>
@@ -628,10 +618,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     private fun removeLocationListener() {
         fusedLocationProviderClient.removeLocationUpdates(locationCallback)
     }
-
-
-
-
 }
+
 
 

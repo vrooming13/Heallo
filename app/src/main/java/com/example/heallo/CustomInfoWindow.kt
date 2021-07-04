@@ -54,7 +54,6 @@ class CustomInfoWindow(val context : Context, val imageUri: String) : GoogleMap.
 
         private fun onSuccess() {
             if (marker != null && marker!!.isInfoWindowShown) {
-
                 Handler(Looper.getMainLooper()).post {
                     marker!!.showInfoWindow()
                 }
