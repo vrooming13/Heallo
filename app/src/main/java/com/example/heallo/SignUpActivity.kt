@@ -5,11 +5,12 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.heallo.databinding.ActivitySignUpBinding
 
 
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_sign_up.*
+
+
 class SignUpActivity : AppCompatActivity() {
     //뷰가 생성되었을 때
     private var firebaseAuth: FirebaseAuth? = null
@@ -19,46 +20,48 @@ class SignUpActivity : AppCompatActivity() {
     private var input_name: EditText? = null
     private var buttonJoin: Button? = null
     private var loginBtn: Button? = null
+    val view = ActivitySignUpBinding.inflate(layoutInflater)
+
+    protected override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setContentView(view.root)
+
+        firebaseAuth = FirebaseAuth.getInstance()
+        input_id = view.suId
+        input_pwd = view.suPwd
+        check_pwd = view.suPwd2
+        input_name = view.suName
+        buttonJoin = view.signUpBtn2
+
+        buttonJoin!!.setOnClickListener {
+            onClick()
+        }
+    }
 
     private fun onClick() {
         // SignUpActivity 연결
-        if (su_id?.text.toString().isNullOrBlank() || su_pwd?.text.toString().isNullOrBlank()
-            || su_name?.text.toString().isNullOrBlank() || su_pwd2?.text.toString().isNullOrBlank()) {
+        if (view.suId?.text.toString().isNullOrBlank() || view.suPwd?.text.toString().isNullOrBlank()
+            ||view.suName?.text.toString().isNullOrBlank() ||view.suPwd2?.text.toString().isNullOrBlank()) {
             // 각 입력값에 공백문자가 포함인 경우 (blank)/
             Toast.makeText(this@SignUpActivity, "공백문자를 입력할 수 없습니다.", Toast.LENGTH_LONG)
                 .show()
-        } else if(su_pwd?.text.toString() != su_pwd2?.text.toString()) {
+        } else if(view.suPwd?.text.toString() != view.suPwd2?.text.toString()) {
             //비번과 비번확인란의 값이 다른 경우.
             Toast.makeText(this@SignUpActivity, "비밀번호가 다릅니다.", Toast.LENGTH_LONG)
                 .show()
-        }else if(su_pwd.text.toString().length in 8..20){
+        }else if(view.suPwd.text.toString().length in 8..20){
 
             // 비밀번호 8~20인 경우 정상적인 회원가입
             createUser(
-                su_id?.text.toString(),
-                su_pwd?.text.toString(),
-                su_name?.text.toString()
+                view.suId?.text.toString(),
+                view.suPwd?.text.toString(),
+                view.suName?.text.toString()
             )
         } else {
             // 이메일과 비밀번호가 공백인 경우
             Toast.makeText(this@SignUpActivity, "계정과 비밀번호를 입력하세요.", Toast.LENGTH_LONG)
                 .show()
-        }
-    }
-    protected override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sign_up)
-
-        firebaseAuth = FirebaseAuth.getInstance()
-        input_id = su_id
-        input_pwd = su_pwd
-        check_pwd = su_pwd2
-        input_name = su_name
-        loginBtn = login_btn1
-        buttonJoin = sign_up_btn2
-
-        buttonJoin!!.setOnClickListener {
-            onClick()
         }
     }
 

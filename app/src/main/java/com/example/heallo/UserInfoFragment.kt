@@ -16,9 +16,9 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import com.example.heallo.databinding.FragmentUserInfoBinding
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.fregment_user_info.*
-import kotlinx.android.synthetic.main.fregment_user_info.view.*
+
 
 private lateinit var sharePreferences : SharedPreferences
 private lateinit var editor : SharedPreferences.Editor // 데이터 기록을 위한 editor
@@ -33,30 +33,29 @@ class UserInfoFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        val rootview : View = inflater.inflate(R.layout.fregment_user_info, container, false)
-
+        val view = FragmentUserInfoBinding.inflate(layoutInflater, container, false)
        // rootview.info_tv.  텍스트
-        rootview.pwd_rl.setOnClickListener { //비밀번호 수정
+        view.pwdRl.setOnClickListener { //비밀번호 수정
             pwd_message()
             Log.d("touch1","비번")
         }
-        rootview.responsed_rl.setOnClickListener {  //작성게시물
+        view.responsedRl.setOnClickListener {  //작성게시물
             Log.d("touch2","작성")
         }
-        rootview.fav_rl.setOnClickListener {  // 관심 게시물
+        view.favRl.setOnClickListener {  // 관심 게시물
             Log.d("touch3","관심")
         }
-        rootview.Logout_layout.setOnClickListener {  // 로그아웃 box
+        view.LogoutLayout.setOnClickListener {  // 로그아웃 box
            alert_message() // 로그아웃 창
 
             Log.d("touch4","로그아웃")
         }
-        rootview.secession.setOnClickListener {  //탈퇴하기
+        view.secession.setOnClickListener {  //탈퇴하기
             Log.d("touch4","탈퇴")
             delete_message()
         }
 
-        return rootview
+        return view.root
     }
 
 

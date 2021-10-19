@@ -9,21 +9,17 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
-import android.widget.CompoundButton
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.heallo.databinding.ActivityLoginBinding
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import kotlinx.android.synthetic.main.activity_login.*
-import org.jetbrains.anko.editText
-import org.jetbrains.anko.email
-import java.util.prefs.Preferences
+
+
+
 
 class LoginActivity : AppCompatActivity() {
 
-    private val username: String? = null
-    private val userpwd: String? = null
     private var firebaseAuth: FirebaseAuth? = null
     private var firebaseAuthListener: FirebaseAuth.AuthStateListener? = null
     private var input_email: EditText? = null
@@ -34,30 +30,31 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        val view = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(view.root)
 
         firebaseAuth = FirebaseAuth.getInstance() // 초기 시작시 null 값임
-        input_email = login_id
-        input_pwd = login_pwd
+        input_email = view.loginId
+        input_pwd = view.loginPwd
 
         sharePreferences = PreferenceManager.getDefaultSharedPreferences(this)
         editor = sharePreferences.edit()
 
-        container.setOnClickListener {
+        view.container.setOnClickListener {
             hideKeyboard()
         }
 
-        switch1.setOnCheckedChangeListener { _, isChecked->
+        view.switch1.setOnCheckedChangeListener { _, isChecked->
             autobutton = isChecked //true , false
         }
 
-        sign_up_btn1!!.setOnClickListener {
+        view.signUpBtn1!!.setOnClickListener {
                 // SignUpActivity 연결
                 val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
                 startActivity(intent)
         }
 
-        login_btn1!!.setOnClickListener {
+        view.loginBtn1!!.setOnClickListener {
                 if (input_email?.text.toString() != "" && input_pwd?.text
                         .toString() != ""
                 ) {
@@ -69,8 +66,6 @@ class LoginActivity : AppCompatActivity() {
                         editor.putString("userpwd", input_pwd?.text.toString())
                         editor.commit()
 
-                        var test = sharePreferences.getString("username","")
-                        Log.d("d","$test")
 
                         loginUser(
                             input_email?.text.toString(),

@@ -8,17 +8,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.heallo.databinding.ActivityCommentBinding
+import com.example.heallo.databinding.CommentItemBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_comment.*
 import kotlinx.android.synthetic.main.comment_item.view.*
+
 
 class CommentActivity : AppCompatActivity() {
 
     var contentUid : String?= null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_comment)
+        val view = ActivityCommentBinding.inflate(layoutInflater)
+        setContentView(view.root)
 
         contentUid = intent.getStringExtra("contentUid")
 
@@ -69,8 +73,8 @@ class CommentActivity : AppCompatActivity() {
                 }
         }
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-            var view = LayoutInflater.from(parent.context).inflate(R.layout.comment_item, parent,false)
-            return CustomViewHolder(view)
+            var comment_itemview = CommentItemBinding.inflate(layoutInflater, parent,false)
+            return CustomViewHolder(comment_itemview.root)
         }
 
         private inner class CustomViewHolder(view : View) : RecyclerView.ViewHolder(view)
