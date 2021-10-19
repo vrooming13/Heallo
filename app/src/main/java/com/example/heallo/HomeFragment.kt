@@ -24,7 +24,6 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
-import kotlinx.android.synthetic.main.item_detail.view.*
 
 
 import org.jetbrains.anko.noButton
@@ -38,7 +37,7 @@ import kotlin.collections.ArrayList
 class HomeFragment : Fragment(){
 
     private var mainView : FragmentHomeBinding?= null
-    private var itemdetailView : ItemDetailBinding?=null
+
     lateinit var mContext: Context
     private val AUTOCOMPLETE_REQUEST_CODE = 1
 
@@ -60,6 +59,8 @@ class HomeFragment : Fragment(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
 
     }
 
@@ -116,50 +117,51 @@ class HomeFragment : Fragment(){
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            itemdetailView = ItemDetailBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            return CustomViewHolder(itemdetailView!!)
+            val view = ItemDetailBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            return CustomViewHolder(view)
         }
 
-        inner class CustomViewHolder(itemDetailBinding: ItemDetailBinding) : ViewHolder(itemdetailView!!.root)
+        inner class CustomViewHolder(val binding: ItemDetailBinding ) : RecyclerView.ViewHolder(binding.root)
 
         override fun getItemCount(): Int {
             return contentDTOs.size
         }
 
 
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            var viewHolder = (holder as CustomViewHolder).itemView
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+            // binding 으로 변경
+            var viewHolder = (holder as CustomViewHolder).binding
 
             //UserId
-            viewHolder.detailviewitem_profile_textview.text=contentDTOs!![position].userId
+            viewHolder.detailviewitemProfileTextview.text=contentDTOs!![position].userId
 
             //Image
             Glide
                 .with(holder.itemView.context)
                 .load(contentDTOs[position].imageUrl)
-                .into(viewHolder.detailviewitem_imageview_content)
+                .into(viewHolder.detailviewitemImageviewContent)
 
             //글 내용
-            viewHolder.detailviewitem_explain_textview.text =
+            viewHolder.detailviewitemExplainTextview.text =
                 contentDTOs[position].explain
 
             //좋아요(즐겨찾기)
-            viewHolder.detailviewitem_favoritecounter_textview.text =
+            viewHolder.detailviewitemFavoritecounterTextview.text =
                 "Likes  " + contentDTOs!![position].favoriteCount
 
             //좋아요(즐겨찾기) 이벤트
-            viewHolder.detailviewitem_favorite_imageview.setOnClickListener {
+            viewHolder.detailviewitemFavoriteImageview.setOnClickListener {
                 favoriteEvent(position)
             }
 
             if(contentDTOs[position].favorites.containsKey(FirebaseAuth.getInstance().currentUser!!.uid)){
-                viewHolder.detailviewitem_favorite_imageview.setImageResource(R.drawable.ic_baseline_star_filld)
+                viewHolder.detailviewitemFavoriteImageview.setImageResource(R.drawable.ic_baseline_star_filld)
             }
             else {
-                viewHolder.detailviewitem_favorite_imageview.setImageResource(R.drawable.ic_baseline_star_border_24)
+                viewHolder.detailviewitemFavoriteImageview.setImageResource(R.drawable.ic_baseline_star_border_24)
             }
 
-            viewHolder.detailviewitem_comment_imageview.setOnClickListener{ v ->
+            viewHolder.detailviewitemCommentImageview.setOnClickListener{ v ->
                 var intent = Intent(v.context, CommentActivity::class.java)
                 intent.putExtra("contentUid",contentUidList[position])
                 startActivity(intent)

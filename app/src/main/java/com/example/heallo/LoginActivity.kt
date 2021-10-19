@@ -14,8 +14,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.heallo.databinding.ActivityLoginBinding
 import com.google.firebase.auth.FirebaseAuth
-
-
+import kotlinx.android.synthetic.main.activity_login.*
 
 
 class LoginActivity : AppCompatActivity() {
@@ -30,7 +29,7 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val view = ActivityLoginBinding.inflate(layoutInflater)
+        val view = ActivityLoginBinding.inflate(layoutInflater,container,false)
         setContentView(view.root)
 
         firebaseAuth = FirebaseAuth.getInstance() // 초기 시작시 null 값임
@@ -48,11 +47,6 @@ class LoginActivity : AppCompatActivity() {
             autobutton = isChecked //true , false
         }
 
-        view.signUpBtn1!!.setOnClickListener {
-                // SignUpActivity 연결
-                val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
-                startActivity(intent)
-        }
 
         view.loginBtn1!!.setOnClickListener {
                 if (input_email?.text.toString() != "" && input_pwd?.text
@@ -85,6 +79,12 @@ class LoginActivity : AppCompatActivity() {
                 }
         }
 
+        view.signUpBtn1.setOnClickListener {
+            // SignUpActivity 연결
+            Log.d("touch1","가입")
+            val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
+            startActivity(intent)
+        }
 
     }
     private fun loginUser(email: String?, password: String?) {
@@ -124,4 +124,5 @@ class LoginActivity : AppCompatActivity() {
             firebaseAuth?.removeAuthStateListener(firebaseAuthListener!!)
         }
     }
+
 }

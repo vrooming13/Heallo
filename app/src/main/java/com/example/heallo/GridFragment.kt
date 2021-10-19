@@ -13,15 +13,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.heallo.ContentDTO
+import com.example.heallo.databinding.FragmentGridBinding
+import com.example.heallo.databinding.FragmentGridBinding.*
+import com.example.heallo.databinding.FragmentHomeBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
-import kotlinx.android.synthetic.main.fragment_grid.view.*
+
+import org.jetbrains.anko.padding
 import java.util.ArrayList
 
 class GridFragment : Fragment() {
 
-    var mainView: View? = null
+    private var mainView : FragmentGridBinding?= null
     var imagesSnapshot  : ListenerRegistration? = null
 
     //Firebase
@@ -32,21 +36,19 @@ class GridFragment : Fragment() {
     var currentUserUid: String?= null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mainView = inflater.inflate(R.layout.fragment_grid, container, false)
-
+        mainView = FragmentGridBinding.inflate(layoutInflater,container,false)
         //firebase
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
-
         currentUserUid = auth?.currentUser?.uid
 
-        return mainView
+        return mainView!!.root
     }
 
     override fun onResume() {
         super.onResume()
-        mainView?.gridfragment_recyclerview?.adapter = GridFragmentRecyclerViewAdatper()
-        mainView?.gridfragment_recyclerview?.layoutManager = GridLayoutManager(activity, 3)
+        mainView?.gridfragmentRecyclerview?.adapter = GridFragmentRecyclerViewAdatper()
+        mainView?.gridfragmentRecyclerview?.layoutManager = GridLayoutManager(activity, 3)
     }
 
     override fun onStop() {
@@ -97,7 +99,7 @@ class GridFragment : Fragment() {
 
             val imageView = ImageView(parent.context)
             imageView.layoutParams = LinearLayoutCompat.LayoutParams(width, width)
-
+            imageView.padding = 3
             return CustomViewHolder(imageView)
         }
 

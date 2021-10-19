@@ -33,7 +33,7 @@ class UserInfoFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        val view = FragmentUserInfoBinding.inflate(layoutInflater, container, false)
+        val view = FragmentUserInfoBinding.inflate(LayoutInflater.from(container?.context), container, false)
        // rootview.info_tv.  텍스트
         view.pwdRl.setOnClickListener { //비밀번호 수정
             pwd_message()
@@ -152,6 +152,8 @@ class UserInfoFragment : Fragment() {
         builder.setCancelable(false)
         builder.show()
     }
+
+
 
 
 

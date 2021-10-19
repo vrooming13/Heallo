@@ -12,8 +12,7 @@ import com.example.heallo.databinding.ActivityCommentBinding
 import com.example.heallo.databinding.CommentItemBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.activity_comment.*
-import kotlinx.android.synthetic.main.comment_item.view.*
+
 
 
 class CommentActivity : AppCompatActivity() {
@@ -26,15 +25,15 @@ class CommentActivity : AppCompatActivity() {
 
         contentUid = intent.getStringExtra("contentUid")
 
-        comment_recyclerview.adapter = CommentRecyclerviewAdapter()
-        comment_recyclerview.layoutManager = LinearLayoutManager(this)
+        view.commentRecyclerview.adapter = CommentRecyclerviewAdapter()
+        view.commentRecyclerview.layoutManager = LinearLayoutManager(this)
 
         /// 작성버튼 클릭시 파이어베이스로 데이터 전송
-        comment_btn_send?.setOnClickListener {
+        view.commentBtnSend?.setOnClickListener {
             var comment = ContentDTO.Comment()
             comment.userId = FirebaseAuth.getInstance().currentUser?.email
             comment.uid = FirebaseAuth.getInstance().currentUser?.uid
-            comment.comment = comment_edit_message.text.toString()
+            comment.comment = view.commentEditMessage.text.toString()
             comment.timestamp = System.currentTimeMillis()
 
             //post collection 안에 document 안에 comment 컬렉션 새로 생성
@@ -43,7 +42,7 @@ class CommentActivity : AppCompatActivity() {
                 .collection("comments")
                 .document().set(comment)
 
-            comment_edit_message.setText("")
+            view.commentEditMessage.setText("")
         }
 
        /* comment_btn_cancel?.setOnClickListener {
@@ -84,9 +83,9 @@ class CommentActivity : AppCompatActivity() {
         }
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-            var view = holder.itemView
-            view.comment_contain_textview.text = comments[position].comment
-            view.comment_id_textview.text = comments[position].userId
+            val view = CommentItemBinding.inflate(layoutInflater)
+            view.commentContainTextview.text = comments[position].comment
+            view.commentIdTextview.text = comments[position].userId
 
         }
 

@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.heallo.databinding.FragmentPostedPostBinding
 
-import kotlinx.android.synthetic.main.fragment_posted_post.*
 
 
 class PostedPostFragment : Fragment() {
@@ -21,7 +20,7 @@ class PostedPostFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        contentview = FragmentPostedPostBinding.inflate(layoutInflater,container,false)
+        contentview = FragmentPostedPostBinding.inflate(LayoutInflater.from(container?.context),container,false)
         explain = arguments?.getString("explain")
         imageUrl = arguments?.getString("imageUrl")
         //클릭한 이미지의 설명과 이미지 주소를 저장한 변수
@@ -36,6 +35,11 @@ class PostedPostFragment : Fragment() {
         contentview!!.postDetailText.setText("$explain")
         return contentview!!.root
     }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        contentview = null
+    }
+
 
 
 }

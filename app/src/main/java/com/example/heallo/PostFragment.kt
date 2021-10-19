@@ -21,7 +21,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import com.android.volley.VolleyLog.TAG
+
 import com.example.heallo.databinding.FragmentPostBinding
 
 
@@ -29,8 +29,7 @@ import com.google.firebase.auth.FirebaseAuth
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.android.synthetic.main.fragment_post.*
-import kotlinx.android.synthetic.main.fragment_post.view.*
+
 import org.jetbrains.anko.noButton
 import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.support.v4.toast
@@ -77,7 +76,7 @@ class PostFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        rootView = FragmentPostBinding.inflate(layoutInflater,container,false)
+        rootView = FragmentPostBinding.inflate(LayoutInflater.from(container?.context),container,false)
 
 
         rootView!!.gallery.setOnClickListener {
@@ -98,11 +97,12 @@ class PostFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
         if (resultCode == RESULT_OK) {
             when (requestCode) {
                 PERM_STORAGE -> {
                     data?.data?.let { uri ->
-                        imageView.setImageURI(uri)
+                        rootView?.imageView?.setImageURI(uri)
                         Log.i("URI", "${uri}")
                         photouri = uri
                         Log.i("URI2", "${photouri}")
@@ -219,7 +219,7 @@ class PostFragment : Fragment() {
                 //유저의 UID
                 contentDTO.uid = auth?.currentUser?.uid
                 //게시물의 설명
-                contentDTO.explain = textarea.text.toString()
+                contentDTO.explain = rootView?.textarea?.text.toString()
 
                 //유저의 아이디
                 contentDTO.userId = auth?.currentUser?.email
@@ -248,6 +248,11 @@ class PostFragment : Fragment() {
         }
 
     }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        rootView = null
+    }
+
 }
 
 /*Toast.makeText(mContext, "글이 등록되었습니다", Toast.LENGTH_SHORT).show()*/

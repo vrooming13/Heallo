@@ -9,6 +9,7 @@ import com.example.heallo.databinding.ActivitySignUpBinding
 
 
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_login.*
 
 
 class SignUpActivity : AppCompatActivity() {
@@ -20,11 +21,11 @@ class SignUpActivity : AppCompatActivity() {
     private var input_name: EditText? = null
     private var buttonJoin: Button? = null
     private var loginBtn: Button? = null
-    val view = ActivitySignUpBinding.inflate(layoutInflater)
 
-    protected override fun onCreate(savedInstanceState: Bundle?) {
+
+     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        val view = ActivitySignUpBinding.inflate(layoutInflater,container,false)
         setContentView(view.root)
 
         firebaseAuth = FirebaseAuth.getInstance()
@@ -40,6 +41,7 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun onClick() {
+        val view = ActivitySignUpBinding.inflate(layoutInflater,container,false)
         // SignUpActivity 연결
         if (view.suId?.text.toString().isNullOrBlank() || view.suPwd?.text.toString().isNullOrBlank()
             ||view.suName?.text.toString().isNullOrBlank() ||view.suPwd2?.text.toString().isNullOrBlank()) {
