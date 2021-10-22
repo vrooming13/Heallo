@@ -12,20 +12,22 @@
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
+
             <TextView
 
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
                 android:text="시설 상세 정보"
                 android:textColor="#000"
                 android:textSize="20dp"
@@ -33,10 +35,9 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
 
-  <!--          <fragment
+            <!--          <fragment
                 android:layout_margin="10dp"
                 android:id="@+id/map"
                 android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -68,50 +69,38 @@
                     android:layout_height="match_parent" />
 
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/rounded_corner_2"
-                    android:text="즐겨찾기 +"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="-10dp"
+                    android:background="@drawable/ic_baseline_star_24"
                     android:textAllCaps="false"
                     android:textColor="#fff"
-                    android:textSize="15dp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <ImageView
                 android:id="@+id/post_detail_image"
-                android:layout_margin="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
+                android:layout_margin="10dp"
                 android:background="@drawable/custom_input"
-
+                android:padding="5dp"
                 />
+
             <TextView
                 android:id="@+id/post_detail_text"
-                android:gravity="top"
-                android:layout_margin="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:background="@drawable/custom_input"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:textColor="@color/black"
-                />
-<!--
-            <Button
                 android:layout_margin="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/rounded_corner_2"
-                android:text="글쓰기"
-                android:textAllCaps="false"
-                android:textColor="#fff"
-                android:textSize="20dp"
-                android:textStyle="bold" />
--->
+                android:background="@drawable/custom_input"
+                android:gravity="top"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="10dp"
+                android:textColor="@color/black" />
+
 
         </LinearLayout>
     </ScrollView>

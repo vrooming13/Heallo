@@ -1,6 +1,7 @@
 package com.example.heallo
 
 import android.os.Bundle
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -27,7 +28,7 @@ class SignUpActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val view = ActivitySignUpBinding.inflate(layoutInflater,container,false)
         setContentView(view.root)
-
+         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)  // 화면켜짐 유지
         firebaseAuth = FirebaseAuth.getInstance()
         input_id = view.suId
         input_pwd = view.suPwd

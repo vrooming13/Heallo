@@ -23,7 +23,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Heallo"
         android:usesCleartextTraffic="true">
-        <activity android:name=".CommentActivity"></activity>
+        <activity
+            android:name=".FindActivity"
+            android:exported="false"
+            android:label="@string/title_activity_find"
+            android:theme="@style/Theme.Heallo.NoActionBar" />
+        <activity android:name=".CommentActivity" />
 
         <uses-library
             android:name="org.apache.http.legacy"

@@ -3,14 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <!-- Title-->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginStart="7dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -29,6 +30,7 @@
         android:id="@+id/detailviewitem_imageview_content"
         android:layout_width="match_parent"
         android:layout_height="250dp"
+        android:padding="7dp"
         android:scaleType="fitXY"/>
 
     <!--Favorite & Comment -->

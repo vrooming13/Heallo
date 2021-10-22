@@ -7,17 +7,19 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.util.Log
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+
 import com.example.heallo.databinding.ActivityLoginBinding
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_login.*
 
 
 class LoginActivity : AppCompatActivity() {
+
+
 
     private var firebaseAuth: FirebaseAuth? = null
     private var firebaseAuthListener: FirebaseAuth.AuthStateListener? = null
@@ -29,9 +31,9 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val view = ActivityLoginBinding.inflate(layoutInflater,container,false)
+        val view = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(view.root)
-
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)  // 화면켜짐 유지
         firebaseAuth = FirebaseAuth.getInstance() // 초기 시작시 null 값임
         input_email = view.loginId
         input_pwd = view.loginPwd
@@ -81,8 +83,12 @@ class LoginActivity : AppCompatActivity() {
 
         view.signUpBtn1.setOnClickListener {
             // SignUpActivity 연결
-            Log.d("touch1","가입")
+
             val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
+            startActivity(intent)
+        }
+        view.textTouchView.setOnClickListener {
+            val intent = Intent(this@LoginActivity, FindActivity::class.java)
             startActivity(intent)
         }
 
@@ -112,6 +118,8 @@ class LoginActivity : AppCompatActivity() {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(input_email?.windowToken,0)
     }
+
+
 
 
     override fun onStart() {

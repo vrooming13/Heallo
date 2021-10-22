@@ -59,9 +59,6 @@ class HomeFragment : Fragment(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
-
     }
 
     override fun onCreateView(
@@ -70,7 +67,7 @@ class HomeFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
 //         mainView = inflater.inflate(R.layout.fragment_detail, container, false)
-        mainView = FragmentHomeBinding.inflate(layoutInflater,container,false)
+        mainView = FragmentHomeBinding.inflate(LayoutInflater.from(container?.context),container,false)
         user = FirebaseAuth.getInstance().currentUser
         firestore = FirebaseFirestore.getInstance()
         return mainView!!.root

@@ -2,6 +2,7 @@ package com.example.heallo
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.heallo.databinding.ActivityMainBinding
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         val view = ActivityMainBinding.inflate(layoutInflater)
         setContentView(view.root) // xml 디자인 보여줌
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)  // 화면켜짐 유지
         replaceFragment(homeFragment)
         Toast.makeText(
             this@MainActivity,

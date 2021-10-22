@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.heallo.databinding.ActivityCommentBinding
@@ -22,7 +23,7 @@ class CommentActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val view = ActivityCommentBinding.inflate(layoutInflater)
         setContentView(view.root)
-
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)  // 화면켜짐 유지
         contentUid = intent.getStringExtra("contentUid")
 
         view.commentRecyclerview.adapter = CommentRecyclerviewAdapter()

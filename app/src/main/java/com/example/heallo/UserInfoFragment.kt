@@ -42,9 +42,6 @@ class UserInfoFragment : Fragment() {
         view.responsedRl.setOnClickListener {  //작성게시물
             Log.d("touch2","작성")
         }
-        view.favRl.setOnClickListener {  // 관심 게시물
-            Log.d("touch3","관심")
-        }
         view.LogoutLayout.setOnClickListener {  // 로그아웃 box
            alert_message() // 로그아웃 창
 
