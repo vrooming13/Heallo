@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/heallo_bg2"
+    android:paddingLeft="@dimen/fragment_horizontal_margin"
+    android:paddingTop="@dimen/fragment_vertical_margin"
+    android:paddingRight="@dimen/fragment_horizontal_margin"
+    android:paddingBottom="@dimen/fragment_vertical_margin">
+
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/input_nickname2"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="32dp"
+        android:background="#f1f3f5"
+        android:paddingLeft="10dp"
+        android:hint="닉네임을 입력하세요."
+        android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toTopOf="@+id/input_email"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/input_email"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="32dp"
+        android:paddingLeft="10dp"
+        android:background="#f1f3f5"
+        android:hint="ID를 입력하세요."
+        android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toTopOf="@+id/password_find"
+        tools:layout_editor_absoluteX="16dp" />
+    <Button
+        android:id="@+id/password_find"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:backgroundTint="#03A9F4"
+        android:textColor="#fff"
+        android:layout_marginBottom="108dp"
+        android:text="PASSWORD 찾기"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="120dp"
+        android:layout_height="56dp"
+        android:layout_marginBottom="40dp"
+        android:text="ID 찾기"
+        android:textSize="14pt"
+        app:layout_constraintBottom_toTopOf="@+id/input_nickname"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="-3dp" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/input_nickname"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="28dp"
+        android:paddingLeft="10dp"
+        android:background="#f1f3f5"
+        android:hint="ID or 닉네임을 입력하세요."
+        android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toTopOf="@+id/id_find"
+        tools:layout_editor_absoluteX="-2dp" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="wrap_content"
+        android:layout_height="4px"
+        android:layout_marginTop="68dp"
+        android:background="#B8DFF8"
+        app:layout_constraintTop_toBottomOf="@+id/loading"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="2dp" />
+
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="64dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.3"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="206dp" />
+
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="252dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="20dp"
+        android:text="PASSWORD 찾기"
+        android:textSize="14pt"
+        app:layout_constraintBottom_toTopOf="@+id/input_nickname2"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="-4dp" />
+
+    <Button
+        android:id="@+id/id_find"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:backgroundTint="#03A9F4"
+        android:text="ID 찾기"
+        android:textColor="#fff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/loading"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
