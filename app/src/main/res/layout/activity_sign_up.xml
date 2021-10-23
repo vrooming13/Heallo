@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
@@ -71,18 +72,12 @@
         android:layout_gravity="center_horizontal"
         android:background="@drawable/custom_input"
         android:ems="12"
-        android:hint="아이디"
+        android:hint="이메일"
         android:inputType="textPersonName"
         android:paddingLeft="10dp"
         tools:ignore="TouchTargetSizeCheck" />
 
 
-    <TextView
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="6~12자 영문, 숫자로 입력해주세요"
-        />
     <Button
         android:id="@+id/id_check_btn"
         android:layout_width="90dp"
