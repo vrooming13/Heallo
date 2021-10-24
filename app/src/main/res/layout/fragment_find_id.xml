@@ -9,10 +9,13 @@
     android:paddingLeft="@dimen/fragment_horizontal_margin"
     android:paddingTop="@dimen/fragment_vertical_margin"
     android:paddingRight="@dimen/fragment_horizontal_margin"
-    android:paddingBottom="@dimen/fragment_vertical_margin">
+    android:paddingBottom="@dimen/fragment_vertical_margin"
+
+    >
 
 
     <TextView
+        android:clickable="false"
         android:id="@+id/textView"
         android:layout_width="138dp"
         android:layout_height="70dp"
@@ -35,7 +38,7 @@
         android:gravity="center"
         android:text="아이디는 ~입니다."
         android:textAlignment="center"
-        android:textSize="20pt"
+        android:textSize="16pt"
         app:layout_constraintBottom_toTopOf="@+id/button"
         tools:layout_editor_absoluteX="12dp" />
 

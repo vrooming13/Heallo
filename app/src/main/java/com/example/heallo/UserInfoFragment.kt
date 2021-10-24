@@ -18,10 +18,12 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.example.heallo.databinding.FragmentUserInfoBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 
 private lateinit var sharePreferences : SharedPreferences
 private lateinit var editor : SharedPreferences.Editor // 데이터 기록을 위한 editor
+private var firestore: FirebaseFirestore? = null
 
 class UserInfoFragment : Fragment() {
 
@@ -33,6 +35,7 @@ class UserInfoFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
+        firestore= FirebaseFirestore.getInstance()
         val view = FragmentUserInfoBinding.inflate(LayoutInflater.from(container?.context), container, false)
        // rootview.info_tv.  텍스트
         view.pwdRl.setOnClickListener { //비밀번호 수정
@@ -131,18 +134,24 @@ class UserInfoFragment : Fragment() {
         builder.setPositiveButton("확인") { dialogInterface: DialogInterface, i: Int ->
 
              var user = FirebaseAuth.getInstance().currentUser!!
+             var email = user?.email
                     user.delete()
                     .addOnCompleteListener { task ->
-                        if (task.isSuccessful) { // 탈퇴 성공시
-                            Toast.makeText(activity, "정상적으로 계정이 탈퇴되었습니다.", Toast.LENGTH_LONG).show()
-                            activity?.let {
-                                val intent = Intent(context, LoginActivity::class.java) // 로그인 화면으로 이동
-                                startActivity(intent)
-                                activity?.finish()
+                        if (task.isSuccessful) { // 탈퇴 성공시 user db 삭제.
+                            firestore?.collection("user")?.document("$email")?.delete()
+                                ?.addOnCompleteListener { task ->
+                                    if(task.isSuccessful){
+                                        Toast.makeText(activity, "정상적으로 계정이 탈퇴되었습니다.", Toast.LENGTH_LONG).show()
+                                        activity?.let {
+                                            val intent = Intent(context, LoginActivity::class.java) // 로그인 화면으로 이동
+                                            startActivity(intent)
+                                            activity?.finish()
+                                        }
+                                    }
+                                }
                             }
-                    }
-                }
-            }
+                      }
+                 }
 
 
 

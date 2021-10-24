@@ -144,9 +144,8 @@ class SignUpActivity : AppCompatActivity() {
            ?.get()
            ?.addOnCompleteListener(this) { task ->
                // 결과가 비어있으면 true 리턴 , 결과가 있으면 false -> ! 이용해서 반전.
-                if(!task.result.isEmpty) {
+                if(!task.result?.isEmpty!!) {
                       for (document in task.result!!) {
-                          Log.d("test", "4567")
                           if (document.data["email"] == "$email") {
 //                              Log.d("test", "${document.data["email"]}")
 //                              Log.d("test", "$email")
@@ -161,7 +160,7 @@ class SignUpActivity : AppCompatActivity() {
                         ?.whereEqualTo("name", "${name}") // 이름 검색
                         ?.get()
                         ?.addOnCompleteListener() { task ->
-                           if(!task.result.isEmpty){
+                           if(!task.result?.isEmpty!!){
                                 for (document in task.result!!) {
                                     if (document.data["name"] == name) {
 //                                        Log.d("test", "${document.data["name"]}")
@@ -179,7 +178,7 @@ class SignUpActivity : AppCompatActivity() {
                                    this,
                                    "사용가능한 이름,이메일 입니다.",
                                    Toast.LENGTH_SHORT
-                               )
+                               ).show()
                                id_check_btn = true
 
                            }

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.example.heallo.databinding.ActivityMainBinding
 
@@ -15,6 +16,7 @@ class MainActivity : AppCompatActivity(){
     private var gridFragment = GridFragment()
     private var postFragment = PostFragment()
     private var userInfoFragment = UserInfoFragment()
+    private var lastTimeBackPressed : Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) { // 초기 앱 실행시 view 생성
         super.onCreate(savedInstanceState)
@@ -38,8 +40,17 @@ class MainActivity : AppCompatActivity(){
         }
 
     }
-
-
+    // 1.5초내 뒤로가기 두번 = 종료
+    override fun onBackPressed() {
+        if(System.currentTimeMillis() - lastTimeBackPressed >= 1500){
+            lastTimeBackPressed = System.currentTimeMillis()
+            Toast.makeText(this,"'뒤로' 버튼을 한번 더 누르시면 종료됩니다.",Toast.LENGTH_LONG).show() }
+        else {
+            ActivityCompat.finishAffinity(this)
+            System.runFinalization()
+            System.exit(0)
+        }
+    }
 
 
     private fun replaceFragment(fragment: Fragment){

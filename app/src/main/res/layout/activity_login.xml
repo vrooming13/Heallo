@@ -130,6 +130,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
+        android:clickable="true"
         android:id="@+id/textTouchView"
         android:layout_width="wrap_content"
         android:layout_height="25dp"

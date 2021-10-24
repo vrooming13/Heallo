@@ -1,15 +1,18 @@
 package com.example.heallo
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.setFragmentResultListener
+import com.example.heallo.databinding.FragmentFindIdBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+
 
 /**
  * A simple [Fragment] subclass.
@@ -23,37 +26,34 @@ class FindIdFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_find_id, container, false)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FindIdFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FindIdFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+        ): View? {
+                val view =
+                    FragmentFindIdBinding.inflate(LayoutInflater.from(container?.context), container, false)
+                setFragmentResultListener("findid") { findid, bundle ->
+        //            Log.d("test","${bundle.getString("key1")}")
+                    param1 = "아이디는" + bundle.getString("key1") + "입니다."
+                    view.textView4.text = param1
                 }
-            }
-    }
+
+                view.button.setOnClickListener {
+
+                    // Inflate the layout for this fragment
+                    gologin_activity()
+                }
+                return view.root
+
+             }
+
+        private fun gologin_activity() {
+            val intent = Intent(context, LoginActivity::class.java) // 로그인 화면으로 이동
+            startActivity(intent)
+            activity?.finish()
+        }
 }

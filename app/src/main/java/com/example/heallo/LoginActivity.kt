@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 
 import com.example.heallo.databinding.ActivityLoginBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -28,6 +29,7 @@ class LoginActivity : AppCompatActivity() {
     lateinit var sharePreferences : SharedPreferences
     lateinit var editor : SharedPreferences.Editor // 데이터 기록을 위한 editor
     private var autobutton : Boolean = false
+    private var lastTimeBackPressed : Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -120,11 +122,18 @@ class LoginActivity : AppCompatActivity() {
     }
 
 
-
-
-    override fun onStart() {
-        super.onStart()
+    // 1.5초내 뒤로가기 두번 = 종료
+    override fun onBackPressed() {
+        if(System.currentTimeMillis() - lastTimeBackPressed >= 1500){
+            lastTimeBackPressed = System.currentTimeMillis()
+            Toast.makeText(this,"'뒤로' 버튼을 한번 더 누르시면 종료됩니다.",Toast.LENGTH_LONG).show() }
+        else {
+            ActivityCompat.finishAffinity(this)
+            System.runFinalization()
+            System.exit(0)
+        }
     }
+
 
     override fun onStop() {
         super.onStop()
