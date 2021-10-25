@@ -15,7 +15,7 @@ import com.example.heallo.databinding.ActivitySignUpBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.activity_login.*
+
 
 
 class SignUpActivity : AppCompatActivity() {
@@ -31,7 +31,7 @@ class SignUpActivity : AppCompatActivity() {
 
      override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val view = ActivitySignUpBinding.inflate(layoutInflater,container,false)
+        val view = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(view.root)
          window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)  // 화면켜짐 유지
         firebaseAuth = FirebaseAuth.getInstance()

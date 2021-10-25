@@ -1,9 +1,10 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'kotlin-android-extensions'
     id 'com.google.gms.google-services'
     id 'kotlin-kapt'
+
+
 }
 
 android {
@@ -23,6 +24,10 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+3
+
+
+
 
     buildTypes {
         release {
@@ -75,6 +80,14 @@ dependencies {
 
     // For control over item selection of both touch and mouse driven selection
     implementation "androidx.recyclerview:recyclerview-selection:1.1.0"
+
+
+    //kakao map
+    compile files('libs/libDaumMapAndroid.jar')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation files('libs/libDaumMapAndroid.jar')
+
+
 
 
     //Google Maps - 광식//

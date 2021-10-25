@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:visibility="visible"
@@ -25,11 +25,19 @@
             <SearchView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical" android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
+                <RelativeLayout
+                    android:id="@+id/map_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp" />
+            </RelativeLayout>
             <EditText
-                android:id="@+id/textarea"
+                android:id="@+id/text_explain"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="100dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/custom_input"
                 android:gravity="top"
@@ -76,7 +84,7 @@
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="178dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/custom_input" />
 

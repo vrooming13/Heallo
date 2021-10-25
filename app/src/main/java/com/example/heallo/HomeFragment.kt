@@ -225,7 +225,7 @@ class HomeFragment : Fragment(){
         when (requestCode) {
             REQUEST_ACCESS_FINE_LOCATION -> {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                  //  addLocationListener()
+                    //  addLocationListener()
                 } else {
                     toast("권한이 거부 됨")
                 }
@@ -243,11 +243,10 @@ class HomeFragment : Fragment(){
     override fun onDestroyView() { // onDestroyView 에서 binding class 인스턴스 참조를 정리해주어야 한다.
         super.onDestroyView()
         mainView = null
-        }
+    }
 
 
 
 }
-
 
 

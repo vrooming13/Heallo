@@ -102,6 +102,14 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // 로그인 성공
                     firebaseAuthListener?.let { firebaseAuth?.addAuthStateListener(it) }
+
+                    Toast.makeText(
+                        this,
+                        "로그인 성공.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    // 액티비티 이동
                     val intent = Intent(this@LoginActivity, MainActivity::class.java)
                     startActivity(intent)
                     finish()

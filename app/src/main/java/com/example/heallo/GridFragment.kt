@@ -108,9 +108,9 @@ class GridFragment : Fragment() {
             var imageView = (holder as CustomViewHolder).imageView
 
             Glide.with(holder.itemView.context)
-                    .load(contentDTOs[position].imageUrl)
-                    .apply(RequestOptions().centerCrop())
-                    .into(imageView)
+                .load(contentDTOs[position].imageUrl)
+                .apply(RequestOptions().centerCrop())
+                .into(imageView)
 
             imageView.setOnClickListener {
                 val fragment = PostedPostFragment()
@@ -121,11 +121,11 @@ class GridFragment : Fragment() {
                 bundle.putString("imageUrl", contentDTOs[position].imageUrl)
                 // 이미지의 설명과 이미지URL을 PostedPostFragment로 넘김김
 
-               fragment.arguments = bundle
+                fragment.arguments = bundle
                 activity!!.supportFragmentManager.beginTransaction()
-                        .replace(R.id.fregments_frame, fragment)
-                        //프레임 레아웃 id
-                        .commit()
+                    .replace(R.id.fregments_frame, fragment)
+                    //프레임 레아웃 id
+                    .commit()
 
 
 
