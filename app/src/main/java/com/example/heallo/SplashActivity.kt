@@ -44,9 +44,6 @@ class SplashActivity : AppCompatActivity() {
 
         if (state){ // true 일 경우에만 저장된 정보로 login 함수 실행.
             //loginUsers(email = user, password = userpwd)
-            Log.d("test","$state")
-            Log.d("test","$user")
-            Log.d("test","$userpwd")
 
             startActivity(Intent(this, MainActivity::class.java))
             this.finish()

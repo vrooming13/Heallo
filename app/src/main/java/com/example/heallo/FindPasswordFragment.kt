@@ -40,7 +40,7 @@ class FindPasswordFragment : Fragment() {
 
         // view 이메일 정보 출력
         setFragmentResultListener("findpassword"){ findpassword, bundle ->
-            Log.d("test","${bundle.getString("key2")}")
+           // Log.d("test","${bundle.getString("key2")}")
             //email
             param1 = bundle.getString("key2")
 //            id

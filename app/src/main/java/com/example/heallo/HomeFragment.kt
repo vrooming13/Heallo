@@ -193,29 +193,6 @@ class HomeFragment : Fragment(){
 
     private val REQUEST_ACCESS_FINE_LOCATION = 1000
 
-    private fun permissionCheck(cancel: () -> Unit, ok: () -> Unit) =
-        if(ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION)
-            != PackageManager.PERMISSION_GRANTED) {
-            if(ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)){
-                cancel()
-            } else{
-                ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
-                    ,REQUEST_ACCESS_FINE_LOCATION)
-            }
-        } else {
-            ok()
-        }
-
-    private fun showPermissionInfoDialog() {
-        alert("위치 정보를 얻으려면 위치 권한이 필요합니다", "권한이 필요한 이유") {
-            yesButton {
-                ActivityCompat.requestPermissions(requireActivity(),
-                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                    REQUEST_ACCESS_FINE_LOCATION)
-            }
-            noButton {  }
-        }.show()
-    }
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -234,12 +211,6 @@ class HomeFragment : Fragment(){
         }
     }
 
-
-
-    override fun onPause() {
-        super.onPause()
-
-    }
     override fun onDestroyView() { // onDestroyView 에서 binding class 인스턴스 참조를 정리해주어야 한다.
         super.onDestroyView()
         mainView = null

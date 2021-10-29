@@ -1,6 +1,7 @@
 package com.example.heallo
 
-import net.daum.mf.map.api.MapView
+import ListAdapter
+import ResultSearchKeyword
 import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.content.Context
@@ -17,19 +18,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.heallo.databinding.FragmentPostBinding
 import com.google.firebase.auth.FirebaseAuth
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import net.daum.mf.map.api.MapPoint
 
+import net.daum.mf.map.api.MapPOIItem
+import net.daum.mf.map.api.MapPoint
+import net.daum.mf.map.api.MapView.*
+
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 import org.jetbrains.anko.noButton
 import org.jetbrains.anko.support.v4.alert
@@ -41,20 +55,31 @@ import org.jetbrains.anko.yesButton
 class PostFragment : Fragment() {
 
     lateinit var mContext: Context
-    private var homeFragment = HomeFragment()
 
-   private var rootView : FragmentPostBinding?= null
+    private var rootView : FragmentPostBinding? = null
+    private var mapView : net.daum.mf.map.api.MapView? =null
     //kakao map api permission
     val PERMISSIONS_REQUEST_CODE = 100
     var REQUIRED_PERMISSIONS = arrayOf<String>( Manifest.permission.ACCESS_FINE_LOCATION)
     val PERM_STORAGE = 102
 
+    companion object {
+        const val BASE_URL = "https://dapi.kakao.com/"
+        const val API_KEY = "KakaoAK 02817d76f79710d1febf48672cf97f49"  // REST API 키
+    }
+
+    private val listItems = arrayListOf<ListLayout>()   // 리사이클러 뷰 아이템
+    private val listAdapter = ListAdapter(listItems)    // 리사이클러 뷰 어댑터
+
+
+
     /////firebase
     var firestore: FirebaseFirestore? = null
     var storage: FirebaseStorage? = null
     var auth: FirebaseAuth? = null
-    private var uLatitude : Double?= null
-    private var uLongitude : Double?=null
+    private var uLatitude : Double? = null
+    private var uLongitude : Double? = null
+    private var addresses : String? = null
     //data
     private var photouri: Uri? = null
 
@@ -82,18 +107,63 @@ class PostFragment : Fragment() {
         // fragment root view 생성
          rootView = FragmentPostBinding.inflate(LayoutInflater.from(container?.context),container,false)
         // mapview 생성
-        val mapView = net.daum.mf.map.api.MapView(activity)
+         mapView = net.daum.mf.map.api.MapView(activity)
+
+        val recyclerView: RecyclerView = rootView!!.rvList
+
+
+        recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+        recyclerView.adapter = listAdapter
+
+
+        //선택시 이벤트 처리
+        listAdapter.setItemClickListener(object: ListAdapter.OnItemClickListener {
+            override fun onClick(v: View, position: Int) {
+                //좌표 지정.
+                val mapPoint = MapPoint.mapPointWithGeoCoord(listItems[position].y, listItems[position].x)
+                mapView!!.setMapCenterPointAndZoomLevel(mapPoint, 1, true)
+                //rootView!!.searchView.setQuery("",false)
+                // 검색 리싸이클러뷰 닫기.
+                recyclerView.visibility= GONE
+                // 위도경도 저장.
+                uLatitude = listItems[position].y
+                uLongitude = listItems[position].x
+                addresses = listItems[position].address
+            }
+        })
+
+
 
         val permissionCheck = ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
         if(permissionCheck == PackageManager.PERMISSION_GRANTED) {
             val lm: LocationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
             try {
+
                 val userNowLocation: Location =
                     lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)!! // 유저 현재위치 저장.
                  uLatitude = userNowLocation.latitude  // 사용자 위도
                  uLongitude = userNowLocation.longitude // 사용자 경도
                 val uNowPosition = MapPoint.mapPointWithGeoCoord(uLatitude!!, uLongitude!!) // 유저 현재 위치 저장.
-                mapView.setMapCenterPoint(uNowPosition, true) //  kakao map 위도,경도를 통한 현재 위치 지정.
+                // 중심점 변경.
+                mapView!!.setMapCenterPointAndZoomLevel(uNowPosition,2,true) //  kakao map 위도,경도를 통한 현재 위치 지정.
+                //줌 컨트롤러
+
+                //내 위치마커
+                var defaultmaker = MapPOIItem()
+                defaultmaker.apply {
+                    itemName="현재 위치"
+                    mapPoint = MapPoint.mapPointWithGeoCoord(uLatitude!!,uLongitude!!)
+                    markerType = MapPOIItem.MarkerType.BluePin
+//                    selectedMarkerType = MapPOIItem.MarkerType.CustomImage  // 클릭 시 마커 모양 (커스텀)
+//                    customSelectedImageResourceId = R.drawable.이미지       // 클릭 시 커스텀 마커 이미지
+//                    isCustomImageAutoscale = false      // 커스텀 마커 이미지 크기 자동 조정
+//                    setCustomImageAnchor(0.5f, 1.0f)    // 마커 이미지 기준점
+                }
+
+                mapView!!.addPOIItem(defaultmaker)
+
+
+
             }catch(e: NullPointerException){
                 Log.e("LOCATION_ERROR", e.toString())
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -114,8 +184,32 @@ class PostFragment : Fragment() {
             Toast.makeText(activity, "위치 권한이 없습니다.", Toast.LENGTH_SHORT).show()
             ActivityCompat.requestPermissions(requireActivity(), REQUIRED_PERMISSIONS, PERMISSIONS_REQUEST_CODE )
         }
+//        서치뷰 검색처리.
+        rootView!!.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
+            // 검색 버튼 누를 때 호출
+            override fun onQueryTextSubmit(query: String?): Boolean {
+//                searchKeyword("$query")
+                return true
+            }
 
+            // 검색창에서 글자가 변경이 일어날 때마다 호출
+            override fun onQueryTextChange(newText: String?): Boolean {
+
+                //입력 글자 상태에 따라서 recyclerView hide & show
+                if(!newText!!.isNullOrEmpty()){
+                    rootView!!.rvList.setVisibility(View.VISIBLE);
+                }else{
+                    rootView!!.rvList.setVisibility(View.GONE);
+                }
+
+                // 검색 함수 실행.
+                searchKeyword("$newText")
+
+                return true
+            }
+
+        })
 
 
         rootView!!.mapView.addView(mapView)
@@ -134,6 +228,11 @@ class PostFragment : Fragment() {
             Log.d("test","Click wbt")
            contentUpload()// 성공시 fragment 전환 필요.
         }
+
+
+
+
+
 
 
         return rootView!!.root
@@ -159,57 +258,13 @@ class PostFragment : Fragment() {
 
 
 
-    private val REQUEST_ACCESS_FINE_LOCATION = 1000
-
-//    private fun permissionCheck(cancel: () -> Unit, ok: () -> Unit) =
-//        if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION)
-//            != PackageManager.PERMISSION_GRANTED
-//        ) {
-//            if (ActivityCompat.shouldShowRequestPermissionRationale(
-//                    requireActivity(),
-//                    Manifest.permission.ACCESS_FINE_LOCATION
-//                )
-//            ) {
-//                cancel()
-//            } else {
-//                ActivityCompat.requestPermissions(
-//                    requireActivity(),
-//                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-//                    REQUEST_ACCESS_FINE_LOCATION
-//                )
-//            }
-//        } else {
-//            ok()
-//        }
-//
-//    private fun showPermissionInfoDialog() {
-//        alert("위치 정보를 얻으려면 위치 권한이 필요합니다", "권한이 필요한 이유") {
-//            yesButton {
-//                ActivityCompat.requestPermissions(
-//                    requireActivity(),
-//                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-//                    REQUEST_ACCESS_FINE_LOCATION
-//                )
-//            }
-//            noButton { }
-//        }.show()
-//    }
-
-
-//    override fun onResume() {
-//        super.onResume()
-//        Log.d("ONRESUME", "RESUME")
-//        // 권한 요청
-//        permissionCheck(
-//            cancel = { showPermissionInfoDialog() },   // 권한 필요 안내창
-//            ok = { addLocationListener() }      //    주기적으로 현재 위치를 요청
-//        )
-//    }
-
-
-
     private fun contentUpload() {
         var content = ContentDTO()
+        Log.d("test","$photouri")
+        Log.d("test","$addresses")
+        Log.d("test","$uLatitude")
+        Log.d("test","$uLongitude")
+
         if(photouri != null ){
             val imageFileName = "JPEG_" + auth?.currentUser?.uid + "_.png"
             val storageRef = storage?.reference?.child("post")?.child(imageFileName)
@@ -224,10 +279,11 @@ class PostFragment : Fragment() {
                     content.uid = auth?.currentUser?.uid
                     //게시물의 설명
                     content.explain = rootView?.textExplain?.text.toString()
-
+                    //컨텐츠 주소
+                    content.address = addresses
                     //컨텐츠 위도,경도 정보
-                    content.latitude =uLatitude!!
-                    content.longtiude=uLongitude!!
+                    content.latitude =uLatitude
+                    content.longtiude=uLongitude
                     //유저의 아이디
                     content.userId = auth?.currentUser?.email
                     //게시물 업로드 시간
@@ -259,10 +315,11 @@ class PostFragment : Fragment() {
             content.uid = auth?.currentUser?.uid
             //게시물의 설명
             content.explain = rootView?.textExplain?.text.toString()
-
+            //컨텐츠 주소
+            content.address = addresses
             //컨텐츠 위도,경도 정보
-            content.latitude =uLatitude!!
-            content.longtiude=uLongitude!!
+            content.latitude =uLatitude
+            content.longtiude=uLongitude
             //유저의 아이디
             content.userId = auth?.currentUser?.email
             //게시물 업로드 시간
@@ -285,9 +342,65 @@ class PostFragment : Fragment() {
         }
 
     }
+    // 키워드 검색 함수
+    private fun searchKeyword(keyword: String) {
+        val retrofit = Retrofit.Builder()   // Retrofit 구성
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        val api = retrofit.create(KakaoAPI::class.java)   // 통신 인터페이스를 객체로 생성
+        val call = api.getSearchKeyword(API_KEY, keyword)   // 검색 조건 입력
 
+        // API 서버에 요청
+        call.enqueue(object: Callback<ResultSearchKeyword> {
+            override fun onResponse(
+                call: Call<ResultSearchKeyword>,
+                response: Response<ResultSearchKeyword>
+            ) {
+                // 통신 성공 (검색 결과는 response.body()에 담겨있음)
+               addItemsAndMarkers(response.body())
+                Log.d("Test", "Raw: ${response.raw()}")
+                Log.d("Test", "Body: ${response.body()}")
+            }
 
+            override fun onFailure(call: Call<ResultSearchKeyword>, t: Throwable) {
+                // 통신 실패
+                Log.w("MainActivity", "통신 실패: ${t.message}")
+            }
+        })
+    }
 
+    // 검색 결과 처리 함수
+    private  fun addItemsAndMarkers(searchResult: ResultSearchKeyword?) {
+        if (!searchResult?.documents.isNullOrEmpty()) {
+            // 검색 결과 있음
+            listItems.clear()                   // 리스트 초기화
+            mapView!!.removeAllPOIItems() // 지도의 마커 모두 제거
+
+            for (document in searchResult!!.documents) {
+                // 결과를 리사이클러 뷰에 추가
+                val item = ListLayout(document.place_name,
+                    document.road_address_name,
+                    document.address_name,
+                    document.x.toDouble(),
+                    document.y.toDouble())
+                listItems.add(item)
+
+                // 지도에 마커 추가
+                val point = MapPOIItem()
+                point.apply {
+                    itemName = document.place_name
+                    mapPoint = MapPoint.mapPointWithGeoCoord(document.y.toDouble(),document.x.toDouble())
+                    markerType = MapPOIItem.MarkerType.BluePin
+                    selectedMarkerType = MapPOIItem.MarkerType.RedPin
+                }
+                mapView!!.addPOIItem(point)
+            }
+            listAdapter.notifyDataSetChanged()
+
+        }
+        // else 일 경우 : 검색결과 없을 경우 알림 삭제. autoCompleteText
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -300,75 +413,5 @@ class PostFragment : Fragment() {
 
 
 
-/*Toast.makeText(mContext, "글이 등록되었습니다", Toast.LENGTH_SHORT).show()*/
 
-    //디비에 바인딩 할 위치 생성 및 컬렉션(테이블)에 데이터 집합 생성
-    //시간 생성
-
-
-    /*
-    Binding.gallery.setOnClickListener {
-        requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),PERM_STORAGE)
-        val intent = Intent (ACTION_PICK)
-        intent.type = MediaStore.Images.Media.CONTENT_TYPE
-        startActivityForResult(intent,PERM_STORAGE)
-
-        onActivityResult(requestCode = 1, resultCode = PERM_STORAGE,data =intent)
-        return Binding.root
-    }
-  */
-
-
-
-
-
-
-
-
-    /*@RequiresApi(Build.VERSION_CODES.O)
-    private fun whitened(){
-        val user = FirebaseAuth.getInstance()
-        var uid = user.currentUser!!.uid
-        var email =  user.currentUser!!.email
-
-
-        val data = hashMapOf<String,Any>(
-            "uid" to uid, //올린사람
-            "content" to textarea.text.toString(), //내용등록
-            "udate" to serverTimestamp(), // 서버시간 등록
-
-            )
-        val dateAndtime: LocalDateTime = LocalDateTime.now()
-        val db = FirebaseFirestore.getInstance()
-         db.collection("main_content").document("$email"+"$dateAndtime") // 경로 등록  리뷰도 컬렉션 경로 재지정 및 생성 필요.
-             .set(data)
-             .addOnCompleteListener {
-
-                 if(uris != null){
-                    image_upload(uris!!, email.toString(), dateAndtime)
-                     activity?.let {
-                         val intent = Intent(context, MainActivity::class.java) // 메인화면 홈프레그먼트 화면으로 이동
-                         startActivity(intent)
-                         Toast.makeText(mContext, "글쓰기를 완료했습니다.", Toast.LENGTH_LONG)
-                             .show()
-                         activity?.finish()
-                     }
-                 }else {
-                     activity?.let {
-                         val intent = Intent(context, MainActivity::class.java) // 메인화면 홈프레그먼트 화면으로 이동
-                         startActivity(intent)
-                         Toast.makeText(mContext, "글쓰기를 완료했습니다.", Toast.LENGTH_LONG)
-                             .show()
-                         activity?.finish()
-                     }
-                 }
-             }
-             .addOnFailureListener { Log.d("create_fail","fail") }
-    }
-
-
-    private fun image_upload(uri: Uri, email:String, dateAndtime: LocalDateTime){
-        val mStorageRef = FirebaseStorage.getInstance().reference
-        mStorageRef.child("$email"+"$dateAndtime").putFile(uri) // images 파일 명
-    }*/
 
