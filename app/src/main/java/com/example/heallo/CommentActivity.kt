@@ -1,12 +1,13 @@
 package com.example.heallo
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.heallo.databinding.ActivityCommentBinding
@@ -19,31 +20,33 @@ import com.google.firebase.firestore.FirebaseFirestore
 class CommentActivity : AppCompatActivity() {
 
     var contentUid : String?= null
+    private val binding by lazy {  ActivityCommentBinding.inflate(layoutInflater)}
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val view = ActivityCommentBinding.inflate(layoutInflater)
-        setContentView(view.root)
+
+        setContentView(binding.root)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)  // 화면켜짐 유지
         contentUid = intent.getStringExtra("contentUid")
 
-        view.commentRecyclerview.adapter = CommentRecyclerviewAdapter()
-        view.commentRecyclerview.layoutManager = LinearLayoutManager(this)
+        binding.commentRecyclerview.adapter = CommentRecyclerviewAdapter()
+        binding.commentRecyclerview.layoutManager = LinearLayoutManager(this)
 
         /// 작성버튼 클릭시 파이어베이스로 데이터 전송
-        view.commentBtnSend?.setOnClickListener {
+        binding.commentBtnSend?.setOnClickListener {
             var comment = ContentDTO.Comment()
             comment.userId = FirebaseAuth.getInstance().currentUser?.email
             comment.uid = FirebaseAuth.getInstance().currentUser?.uid
-            comment.comment = view.commentEditMessage.text.toString()
+            comment.comment = binding.commentEditMessage.text.toString()
             comment.timestamp = System.currentTimeMillis()
 
             //post collection 안에 document 안에 comment 컬렉션 새로 생성
             FirebaseFirestore.getInstance().collection("post")
                 .document(contentUid!!)
                 .collection("comments")
-                .document().set(comment)
+                .document(comment.userId+"+"+comment.timestamp).set(comment)
 
-            view.commentEditMessage.setText("")
+            binding.commentEditMessage.setText("")
         }
 
        /* comment_btn_cancel?.setOnClickListener {
@@ -52,7 +55,7 @@ class CommentActivity : AppCompatActivity() {
         }*/
     }
 
-    inner class CommentRecyclerviewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    inner class CommentRecyclerviewAdapter : RecyclerView.Adapter<CommentRecyclerviewAdapter.ViewHolder>() {
 
         var comments : ArrayList<ContentDTO.Comment> = arrayListOf()
 
@@ -72,21 +75,27 @@ class CommentActivity : AppCompatActivity() {
                     notifyDataSetChanged()
                 }
         }
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-            var comment_itemview = CommentItemBinding.inflate(layoutInflater, parent,false)
-            return CustomViewHolder(comment_itemview.root)
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+            val comment_itemview = CommentItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+            val view = comment_itemview.root
+            return ViewHolder(comment_itemview)
         }
 
-        private inner class CustomViewHolder(view : View) : RecyclerView.ViewHolder(view)
+        inner class ViewHolder(binding: CommentItemBinding): RecyclerView.ViewHolder(binding.root!!){
+            val id : TextView = binding.commentIdTextview
+            val comment : TextView = binding.commentContainTextview
+        }
 
         override fun getItemCount(): Int {
             return comments.size
         }
 
-        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-            val view = CommentItemBinding.inflate(layoutInflater)
-            view.commentContainTextview.text = comments[position].comment
-            view.commentIdTextview.text = comments[position].userId
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
+
+            Log.d("test","${comments[position].comment}")
+            holder.comment.text  = comments[position].comment
+            holder.id.text  = comments[position].userId
 
         }
 

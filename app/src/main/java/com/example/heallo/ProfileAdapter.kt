@@ -40,4 +40,8 @@
 ////        val review = itemView.findViewById<TextView>(R.id.tv_review)    //리뷰
 //
 //    }
+//
+//    override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
+//        TODO("Not yet implemented")
+//    }
 //}

@@ -43,6 +43,7 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".CommentActivity"/>
         <activity android:name=".FindActivity"/>
 
         <meta-data android:name="com.kakao.sdk.AppKey" android:value="1671bc8ac4d278c9a9049a8fe6c35851"/>
