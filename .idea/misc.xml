@@ -9,6 +9,7 @@
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/activity_main.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/activity_mainview.xml" value="0.1" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/activity_mainview2.xml" value="0.2824074074074074" />
+        <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/activity_recomment.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/activity_recyclerview.xml" value="0.1" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/activity_sign_up.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/comment_item.xml" value="0.1" />
@@ -31,7 +32,8 @@
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/fregment_posted_post.xml" value="0.3338541666666667" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/fregment_user_info.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/item_detail.xml" value="0.36614583333333334" />
-        <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/list_layout.xml" value="0.1" />
+        <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/item_re.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/list_layout.xml" value="0.5" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/markerinfo.xml" value="0.36614583333333334" />
       </map>
     </option>

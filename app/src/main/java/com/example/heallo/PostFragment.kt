@@ -109,35 +109,39 @@ class PostFragment : Fragment() {
         // mapview 생성
          mapView = net.daum.mf.map.api.MapView(activity)
 
-        val recyclerView: RecyclerView = rootView!!.rvList
-
-
-        recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-        recyclerView.adapter = listAdapter
-
-
-        //선택시 이벤트 처리
-        listAdapter.setItemClickListener(object: ListAdapter.OnItemClickListener {
-            override fun onClick(v: View, position: Int) {
-                //좌표 지정.
-                val mapPoint = MapPoint.mapPointWithGeoCoord(listItems[position].y, listItems[position].x)
-                mapView!!.setMapCenterPointAndZoomLevel(mapPoint, 1, true)
-                //rootView!!.searchView.setQuery("",false)
-                // 검색 리싸이클러뷰 닫기.
-                recyclerView.visibility= GONE
-                // 위도경도 저장.
-                uLatitude = listItems[position].y
-                uLongitude = listItems[position].x
-                addresses = listItems[position].address
-            }
-        })
-
-
 
         val permissionCheck = ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
         if(permissionCheck == PackageManager.PERMISSION_GRANTED) {
             val lm: LocationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
             try {
+
+                val recyclerView: RecyclerView = rootView!!.rvList
+                recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+                recyclerView.adapter = listAdapter
+
+
+                //선택시 이벤트 처리
+                listAdapter.setItemClickListener(object: ListAdapter.OnItemClickListener {
+                    override fun onClick(v: View, position: Int) {
+                        //좌표 지정.
+                        val mapPoint = MapPoint.mapPointWithGeoCoord(listItems[position].y, listItems[position].x)
+                        mapView!!.setMapCenterPointAndZoomLevel(mapPoint, 1, true)
+                        //rootView!!.searchView.setQuery("",false)
+                        // 검색 리싸이클러뷰 닫기.
+                        recyclerView.visibility= GONE
+                        // 위도경도 저장.
+                        uLatitude = listItems[position].y
+                        uLongitude = listItems[position].x
+                        addresses = listItems[position].address
+
+                        //검색바 텍스트 선택 내용으로 변경.
+                        rootView?.searchView?.setQuery( listItems[position].name,false)
+                        //터치 후 항상 닫기.
+                        rootView!!.rvList.setVisibility(View.GONE);
+                        //터치 후 포커스 해제.
+
+                    }
+                })
 
                 val userNowLocation: Location =
                     lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)!! // 유저 현재위치 저장.
