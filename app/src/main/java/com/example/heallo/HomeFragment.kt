@@ -123,20 +123,36 @@ class HomeFragment : Fragment(){
         override fun getItemCount(): Int {
             return contentDTOs.size
         }
-
+        private val postedPostFragment = PostedPostFragment()
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             // binding 으로 변경
             var viewHolder = (holder as CustomViewHolder).binding
+            //bundle 생성
+            val bundle =Bundle()
+            // 이미지의 설명과 이미지URL을 PostedPostFragment로 넘김김
+            bundle.putString("explain", contentDTOs[position].explain)
+            bundle.putString("imageUrl", contentDTOs[position].imageUrl)
+
+
 
             //UserId
             viewHolder.detailviewitemProfileTextview.text=contentDTOs!![position].userId
 
-            //Image
-            Glide
-                .with(holder.itemView.context)
-                .load(contentDTOs[position].imageUrl)
-                .into(viewHolder.detailviewitemImageviewContent)
+            // 이미지가 있는 게시물일 경우.
+            if(!contentDTOs[position].imageUrl.isNullOrEmpty() ){
+                //Image
+                Glide
+                    .with(holder.itemView.context)
+                    .load(contentDTOs[position].imageUrl)
+                    .into(viewHolder.detailviewitemImageviewContent)
+
+            } else {
+                // 이미지가 없는 게시물일 경우.  GONE vs INVISIBLE ?
+                viewHolder.detailviewitemImageviewContent.visibility = View.GONE
+                viewHolder.detailviewitemFavoriteImageview.visibility = View.INVISIBLE
+            }
+
 
             //글 내용
             viewHolder.detailviewitemExplainTextview.text =
@@ -144,7 +160,7 @@ class HomeFragment : Fragment(){
 
             //좋아요(즐겨찾기)
             viewHolder.detailviewitemFavoritecounterTextview.text =
-                "Likes  " + contentDTOs!![position].favoriteCount
+                "좋아요  " + contentDTOs!![position].favoriteCount
 
             //좋아요(즐겨찾기) 이벤트
             viewHolder.detailviewitemFavoriteImageview.setOnClickListener {
@@ -156,6 +172,27 @@ class HomeFragment : Fragment(){
             }
             else {
                 viewHolder.detailviewitemFavoriteImageview.setImageResource(R.drawable.ic_baseline_star_border_24)
+            }
+
+            viewHolder.detailviewitemImageviewContent.setOnClickListener {
+
+                postedPostFragment.arguments = bundle
+                //프레그먼트 교체
+                requireActivity().supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fregments_frame,postedPostFragment)
+                    .commit()
+            }
+
+            viewHolder.detailviewitemExplainTextview.setOnClickListener {
+
+                postedPostFragment.arguments = bundle
+                //프레그먼트 교체
+                requireActivity().supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fregments_frame,postedPostFragment)
+                    .commit()
+
             }
 
             viewHolder.detailviewitemCommentImageview.setOnClickListener{ v ->

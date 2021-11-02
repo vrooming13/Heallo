@@ -17,6 +17,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.SearchView
 import android.widget.Toast
@@ -138,7 +139,8 @@ class PostFragment : Fragment() {
                         rootView?.searchView?.setQuery( listItems[position].name,false)
                         //터치 후 항상 닫기.
                         rootView!!.rvList.setVisibility(View.GONE);
-                        //터치 후 포커스 해제.
+                        //터치 후 키보드 내리기
+                        hideKeyboard()
 
                     }
                 })
@@ -229,8 +231,14 @@ class PostFragment : Fragment() {
         }
 
         rootView!!.writeBtn.setOnClickListener {
-            Log.d("test","Click wbt")
-           contentUpload()// 성공시 fragment 전환 필요.
+
+            // 사진과 글작성 둘다 null 또는 공백일 경우.
+            if( photouri.toString().isNullOrEmpty() && rootView?.textExplain.toString().isNullOrEmpty() ){
+                Toast.makeText(mContext, "사진 또는 글을 포함하여 글쓰기를 진행해주세요.", Toast.LENGTH_LONG)
+                    .show()
+            } else {
+                contentUpload()// 성공시 fragment 전환 필요.
+            }
         }
 
 
@@ -340,8 +348,16 @@ class PostFragment : Fragment() {
             Toast.makeText(mContext, "글쓰기를 완료했습니다.", Toast.LENGTH_LONG)
                 .show()
 
+            //프레그먼트 변경
+            requireActivity().supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fregments_frame,HomeFragment())
+                .commit()
+
+
+
             // 액티비티 재실행. -> home 으로
-            (activity as MainActivity).initNavigationBar()
+            //(activity as MainActivity).initNavigationBar()
 
         }
 
@@ -404,6 +420,14 @@ class PostFragment : Fragment() {
 
         }
         // else 일 경우 : 검색결과 없을 경우 알림 삭제. autoCompleteText
+    }
+
+    private fun hideKeyboard(){
+        val inputManager =
+            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputManager.hideSoftInputFromWindow(
+            requireActivity().currentFocus?.windowToken,0
+        )
     }
 
     override fun onDestroyView() {

@@ -26,11 +26,8 @@
                 android:id="@+id/search_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:queryHint="검색어를 입력하세요."
-                app:queryHint="검색어를 입력하시오"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-
+                android:queryHint="검색어를 입력하시오"
+                android:iconifiedByDefault="false"
                 />
 
             <androidx.recyclerview.widget.RecyclerView

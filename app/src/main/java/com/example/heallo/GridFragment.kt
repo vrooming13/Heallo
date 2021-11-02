@@ -116,10 +116,10 @@ class GridFragment : Fragment() {
                 val fragment = PostedPostFragment()
                 //교체할 프레그먼트
                 val bundle = Bundle()
-
+                // 이미지의 설명과 이미지URL을 PostedPostFragment로 넘김김
                 bundle.putString("explain", contentDTOs[position].explain)
                 bundle.putString("imageUrl", contentDTOs[position].imageUrl)
-                // 이미지의 설명과 이미지URL을 PostedPostFragment로 넘김김
+
 
                 fragment.arguments = bundle
                 activity!!.supportFragmentManager.beginTransaction()
