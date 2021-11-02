@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "773069407479",
+    "project_id": "heallo-android-3b071",
+    "storage_bucket": "heallo-android-3b071.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:773069407479:android:6900f452eedd4e1f61fff2",
+        "android_client_info": {
+          "package_name": "com.example.heallo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "773069407479-fli6ac6k9ofq3ci1c7tjdep55njgoj8j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAHPFXKJaq53tPD_Ba2-euZf-HrAaCV_M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "773069407479-fli6ac6k9ofq3ci1c7tjdep55njgoj8j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
