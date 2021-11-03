@@ -194,6 +194,8 @@ class HomeFragment : Fragment(){
             viewHolder.detailviewitemCommentImageview.setOnClickListener{ v ->
                 var intent = Intent(v.context, CommentActivity::class.java)
                 intent.putExtra("contentUid",contentUidList[position])
+                intent.putExtra("contentexplain",contentDTOs[position].explain)
+                intent.putExtra("useremail",contentDTOs[position].userId)
                 startActivity(intent)
             }
         }

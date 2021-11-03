@@ -222,7 +222,7 @@ class PostFragment : Fragment() {
 
 
 
-        rootView!!.gallery.setOnClickListener {
+        rootView!!.imageView.setOnClickListener {
             requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), PERM_STORAGE)
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = MediaStore.Images.Media.CONTENT_TYPE
@@ -258,9 +258,8 @@ class PostFragment : Fragment() {
                 PERM_STORAGE -> {
                     data?.data?.let { uri ->
                         rootView?.imageView?.setImageURI(uri)
-                        Log.i("URI", "$uri")
                         photouri = uri
-                        Log.i("URI2", "$photouri")
+                        rootView?.myImageViewText?.visibility = View.INVISIBLE
                     }
                 }
             }
@@ -272,10 +271,6 @@ class PostFragment : Fragment() {
 
     private fun contentUpload() {
         var content = ContentDTO()
-        Log.d("test","$photouri")
-        Log.d("test","$addresses")
-        Log.d("test","$uLatitude")
-        Log.d("test","$uLongitude")
 
         if(photouri != null ){
             val imageFileName = "JPEG_" + auth?.currentUser?.uid + "_.png"
@@ -311,9 +306,14 @@ class PostFragment : Fragment() {
                     firestore?.collection("post")?.document("${auth?.currentUser?.email}+${System.currentTimeMillis()}")?.set(content)
                     Toast.makeText(mContext, "글쓰기를 완료했습니다.", Toast.LENGTH_LONG)
                         .show()
+                    //fragment 변경.
+                    requireActivity().supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.fregments_frame,HomeFragment())
+                        .commit()
 
-                    // 액티비티 재실행. -> home 으로
-                    (activity as MainActivity).initNavigationBar()
+//                    // 액티비티 재실행. -> home 으로
+//                    (activity as MainActivity).initNavigationBar()
 
                 }?.addOnFailureListener {
                     Toast.makeText(mContext, "글등록에 실패하였습니다", Toast.LENGTH_SHORT).show()

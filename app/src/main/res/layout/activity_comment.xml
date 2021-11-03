@@ -1,38 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+
+
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CommentActivity">
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".CommentActivity"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/comment_recyclerview"
+    <ScrollView
+        android:id="@+id/sv"
+        android:layout_height="0dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="30dp" />
+        android:layout_weight="1"
+        android:fillViewport="true"
+        tools:ignore="Suspicious0dp">
 
+        <LinearLayout
+            android:id="@+id/post_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="User Name"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="작성된 글" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/comment_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp" />
+
+
+        </LinearLayout>
+    </ScrollView>
     <EditText
         android:id="@+id/comment_edit_message"
-        android:hint="댓글을 작성해주세요"
-        android:layout_below="@+id/comment_recyclerview"
-        android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
- <!--   <Button
-        android:id="@+id/comment_btn_cancel"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/comment_edit_message"
-        android:layout_alignParentRight="true"
+        android:layout_below="@+id/sv"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:text="이전으로" />-->
+        android:layout_marginBottom="10dp"
+        android:hint="댓글을 작성해주세요"
+        android:textSize="15sp"
+        tools:ignore="TouchTargetSizeCheck" />
+
 
     <Button
+        android:layout_gravity="center"
         android:id="@+id/comment_btn_send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,6 +80,4 @@
         android:layout_marginTop="10dp"
         android:text="작성" />
 
-
-
-</RelativeLayout>
+    </LinearLayout>

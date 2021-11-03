@@ -34,8 +34,7 @@ class FindIdFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
         ): View? {
-                val view =
-                    FragmentFindIdBinding.inflate(LayoutInflater.from(container?.context), container, false)
+                val view = FragmentFindIdBinding.inflate(LayoutInflater.from(container?.context), container, false)
                 setFragmentResultListener("findid") { findid, bundle ->
         //            Log.d("test","${bundle.getString("key1")}")
                     param1 = "아이디는" + bundle.getString("key1") + "입니다."

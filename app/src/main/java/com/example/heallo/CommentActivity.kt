@@ -14,12 +14,14 @@ import com.example.heallo.databinding.ActivityCommentBinding
 import com.example.heallo.databinding.CommentItemBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-
+import org.w3c.dom.Text
 
 
 class CommentActivity : AppCompatActivity() {
 
-    var contentUid : String?= null
+    private var contentUid : String? = null
+    private var contentexplain : String? = null
+    private var useremail : String? = null
     private val binding by lazy {  ActivityCommentBinding.inflate(layoutInflater)}
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,10 +30,12 @@ class CommentActivity : AppCompatActivity() {
         setContentView(binding.root)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)  // 화면켜짐 유지
         contentUid = intent.getStringExtra("contentUid")
-
+        contentexplain = intent.getStringExtra("contentexplain")
+        useremail = intent.getStringExtra("useremail")
         binding.commentRecyclerview.adapter = CommentRecyclerviewAdapter()
         binding.commentRecyclerview.layoutManager = LinearLayoutManager(this)
-
+        binding.textView7.text = contentexplain
+        binding.textView8.text = useremail
         /// 작성버튼 클릭시 파이어베이스로 데이터 전송
         binding.commentBtnSend?.setOnClickListener {
             var comment = ContentDTO.Comment()
@@ -84,6 +88,7 @@ class CommentActivity : AppCompatActivity() {
         inner class ViewHolder(binding: CommentItemBinding): RecyclerView.ViewHolder(binding.root!!){
             val id : TextView = binding.commentIdTextview
             val comment : TextView = binding.commentContainTextview
+
         }
 
         override fun getItemCount(): Int {
