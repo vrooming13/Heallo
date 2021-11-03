@@ -48,24 +48,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="250dp" />
             </RelativeLayout>
-            <EditText
-                android:id="@+id/text_explain"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/custom_input"
-                android:gravity="top"
-                android:hint="시설에 대한 설명을 해주세요"
-                android:paddingLeft="10dp"
-                android:paddingTop="10dp"
-                android:paddingRight="10dp"
-                android:paddingBottom="10dp" />
+
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_margin="10dp"
+
                 >
                 <TextView
                     android:layout_width="wrap_content"
@@ -93,14 +82,55 @@
                     android:textSize="15dp"
                     android:textStyle="bold" />
             </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-            <ImageView
-                android:id="@+id/imageView"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="178dp"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="10dp"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:padding="2dp"
+                    android:scaleType="centerCrop"
+                    android:cropToPadding="true"
+                    android:background="@drawable/custom_input2"
+                    />
+
+                <TextView
+                    android:id="@+id/myImageViewText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/imageView"
+                    android:layout_alignTop="@id/imageView"
+                    android:layout_alignRight="@id/imageView"
+                    android:layout_alignBottom="@id/imageView"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginBottom="2dp"
+                    android:gravity="center"
+                    android:text="+\n 사진 추가"
+                    android:textColor="#000000"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+            <EditText
+                android:id="@+id/text_explain"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
                 android:layout_margin="10dp"
-                android:background="@drawable/custom_input" />
+                android:textSize="15dp"
+                android:background="@drawable/custom_input"
+                android:gravity="top"
+                android:hint="시설에 대한 설명을 해주세요"
+                android:padding = "10dp" />
+
 
             <Button
                 android:id="@+id/write_btn"

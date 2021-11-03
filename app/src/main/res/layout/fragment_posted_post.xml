@@ -48,61 +48,68 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-
+                android:layout_margin="15dp"
                 >
 
+                <ImageView
+                    android:id="@+id/iv_profile"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/man" />
+
                 <TextView
+                    android:id="@+id/detailviewitem_profile_textview"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:gravity="center_vertical"
-
-                    android:text="마음에 드는 장소를 지금 저장하세요"
-                    android:textColor="#000"
-                    android:textSize="15dp"
-                    android:textStyle="bold" />
-
-                <View
-                    android:layout_width="30dp"
-                    android:layout_height="match_parent" />
-
-                <Button
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="-10dp"
-                    android:background="@drawable/ic_baseline_star_24"
-                    android:textAllCaps="false"
-                    android:textColor="#fff"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="User Name"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
                     android:textStyle="bold"
-                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                    />
+
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <ImageView
-                android:id="@+id/post_detail_image"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/custom_input"
-                android:padding="5dp"
-                />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/post_detail_text"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/custom_input"
-                android:gravity="top"
-                android:paddingLeft="10dp"
-                android:paddingTop="10dp"
-                android:paddingRight="10dp"
-                android:paddingBottom="10dp"
-                android:textColor="@color/black" />
+                <ImageView
+                    android:layout_gravity="center"
+                    android:id="@+id/post_detail_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
 
+                <TextView
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/textView6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="글 내용"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:scaleType="centerInside" />
+
+                <TextView
+                    android:id="@+id/post_detail_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="top"
+                    android:textColor="@color/black" />
+            </LinearLayout>
 
         </LinearLayout>
+
     </ScrollView>
 
 

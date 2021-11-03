@@ -77,16 +77,15 @@
         android:paddingLeft="10dp"
         tools:ignore="TouchTargetSizeCheck" />
 
-
-    <Button
+    <TextView
         android:id="@+id/id_check_btn"
-        android:layout_width="90dp"
-        android:layout_height="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="6dp"
-        android:background="@drawable/rounded_corner_blue"
-        android:text="중복확인"
-        tools:ignore="TouchTargetSizeCheck" />
+        android:gravity="center"
+        android:text="중복 확인"
+        android:textSize="15dp" />
 
     <View
         android:layout_weight="0.1"

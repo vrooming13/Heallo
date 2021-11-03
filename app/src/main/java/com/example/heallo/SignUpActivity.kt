@@ -1,8 +1,11 @@
 package com.example.heallo
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -15,11 +18,12 @@ import com.example.heallo.databinding.ActivitySignUpBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
-
+import org.jetbrains.anko.textColor
 
 
 class SignUpActivity : AppCompatActivity() {
     //뷰가 생성되었을 때
+    private var view : ActivitySignUpBinding? =null
     private var firebaseAuth: FirebaseAuth? = null
     private var input_id: EditText ?= null
     private var input_pwd: EditText? = null
@@ -31,22 +35,22 @@ class SignUpActivity : AppCompatActivity() {
 
      override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val view = ActivitySignUpBinding.inflate(layoutInflater)
-        setContentView(view.root)
+         view = ActivitySignUpBinding.inflate(layoutInflater)
+        setContentView(view?.root)
          window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)  // 화면켜짐 유지
         firebaseAuth = FirebaseAuth.getInstance()
-        input_id = view.suId
-        input_pwd = view.suPwd
-        check_pwd = view.suPwd2
-        input_name = view.suName
-        buttonJoin = view.signUpBtn2
+        input_id = view?.suId
+        input_pwd = view?.suPwd
+        check_pwd = view?.suPwd2
+        input_name = view?.suName
+        buttonJoin = view?.signUpBtn2
 
         firestore= FirebaseFirestore.getInstance() // 파이어스토어 저장 인스턴스 저장.
 
-         view.container.setOnClickListener {
+         view?.container?.setOnClickListener {
              hideKeyboard() // 공백 터치시 키보드 숨기기
          }
-        view.idCheckBtn.setOnClickListener {
+        view?.idCheckBtn?.setOnClickListener {
             if(input_id?.text.toString().isNullOrBlank() || input_name?.text.toString().isNullOrBlank()){
                 Toast.makeText(this, "값을 입력한 후 중복 검사를 진행해 주세요.", Toast.LENGTH_SHORT)
                     .show()
@@ -179,7 +183,12 @@ class SignUpActivity : AppCompatActivity() {
                                    "사용가능한 이름,이메일 입니다.",
                                    Toast.LENGTH_SHORT
                                ).show()
+
+                               // 중복체크버튼 true 변경. 중복확인 글자변경 + 키보드 숨기기.
+                               view?.idCheckBtn?.setTextColor(Color.parseColor("#996699"))
+                               view?.idCheckBtn?.setTypeface(null,Typeface.BOLD)
                                id_check_btn = true
+                               hideKeyboard()
 
                            }
                         }

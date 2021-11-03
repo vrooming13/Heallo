@@ -115,6 +115,8 @@ class HomeFragment : Fragment(){
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = ItemDetailBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+
+
             return CustomViewHolder(view)
         }
 
@@ -133,25 +135,19 @@ class HomeFragment : Fragment(){
             // 이미지의 설명과 이미지URL을 PostedPostFragment로 넘김김
             bundle.putString("explain", contentDTOs[position].explain)
             bundle.putString("imageUrl", contentDTOs[position].imageUrl)
-
+            bundle.putString("useremail",contentDTOs[position].userId)
 
 
             //UserId
             viewHolder.detailviewitemProfileTextview.text=contentDTOs!![position].userId
 
-            // 이미지가 있는 게시물일 경우.
-            if(!contentDTOs[position].imageUrl.isNullOrEmpty() ){
-                //Image
+            //Image
+
                 Glide
                     .with(holder.itemView.context)
                     .load(contentDTOs[position].imageUrl)
                     .into(viewHolder.detailviewitemImageviewContent)
 
-            } else {
-                // 이미지가 없는 게시물일 경우.  GONE vs INVISIBLE ?
-                viewHolder.detailviewitemImageviewContent.visibility = View.GONE
-                viewHolder.detailviewitemFavoriteImageview.visibility = View.INVISIBLE
-            }
 
 
             //글 내용

@@ -12,8 +12,9 @@ import com.example.heallo.databinding.FragmentPostedPostBinding
 
 class PostedPostFragment : Fragment() {
     private var contentview : FragmentPostedPostBinding? = null
-    var explain: String? = null
-    var imageUrl: String? = null
+    private var explain: String? = null
+    private var imageUrl: String? = null
+    private var userId : String? = null
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -23,16 +24,22 @@ class PostedPostFragment : Fragment() {
         contentview = FragmentPostedPostBinding.inflate(LayoutInflater.from(container?.context),container,false)
         explain = arguments?.getString("explain")
         imageUrl = arguments?.getString("imageUrl")
+        userId = arguments?.getString("useremail")
         //클릭한 이미지의 설명과 이미지 주소를 저장한 변수
 
-        println("$explain")
-        println("$imageUrl")
         //확인을 위한 출력
         Glide.with(this)
             .load(imageUrl)
             .into(contentview!!.postDetailImage)
 
-        contentview!!.postDetailText.setText("$explain")
+        if(explain.isNullOrEmpty()){
+            contentview!!.textView6.visibility = View.GONE
+            contentview!!.postDetailText.visibility = View.GONE
+        }
+
+        contentview!!.detailviewitemProfileTextview.text = userId
+        contentview!!.postDetailText.text  = explain
+
         return contentview!!.root
     }
     override fun onDestroyView() {

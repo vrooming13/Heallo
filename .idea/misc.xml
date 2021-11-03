@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/drawable/change_color.xml" value="0.38229166666666664" />
+        <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/drawable/custom_input.xml" value="0.25885416666666666" />
+        <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/drawable/custom_input2.xml" value="0.2869791666666667" />
+        <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/drawable/ic_chat.xml" value="0.38229166666666664" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/activity_comment.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/activity_find.xml" value="0.24375" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/activity_login.xml" value="0.33" />

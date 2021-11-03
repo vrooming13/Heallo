@@ -119,6 +119,7 @@ class GridFragment : Fragment() {
                 // 이미지의 설명과 이미지URL을 PostedPostFragment로 넘김김
                 bundle.putString("explain", contentDTOs[position].explain)
                 bundle.putString("imageUrl", contentDTOs[position].imageUrl)
+                bundle.putString("useremail",contentDTOs[position].userId)
 
 
                 fragment.arguments = bundle

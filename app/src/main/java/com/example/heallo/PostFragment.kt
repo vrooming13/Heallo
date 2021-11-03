@@ -321,43 +321,8 @@ class PostFragment : Fragment() {
             }
         } else {
 
-            //이미지 주소
-            content.imageUrl = null
-            //유저의 UID
-            content.uid = auth?.currentUser?.uid
-            //게시물의 설명
-            content.explain = rootView?.textExplain?.text.toString()
-            //컨텐츠 주소
-            content.address = addresses
-            //컨텐츠 위도,경도 정보
-            content.latitude =uLatitude
-            content.longtiude=uLongitude
-            //유저의 아이디
-            content.userId = auth?.currentUser?.email
-            //게시물 업로드 시간
-            content.timestamp = System.currentTimeMillis()
-
-//                var date = Date(System.currentTimeMillis())
-//                Log.d("timetest","$date") // Tue Jun 08 22:13:16 GMT+09:00 2021 형식 출력
-//                var mformat = SimpleDateFormat("yyyy-mm-dd - HH:mm:ss") //date 형식 파싱
-//                var pdatetime = mformat.format(date) // 파싱결과 변수 담기
-
-
-            //게시물을 데이터를 생성
-            firestore?.collection("post")?.document("${auth?.currentUser?.email}+${System.currentTimeMillis()}")?.set(content)
-            Toast.makeText(mContext, "글쓰기를 완료했습니다.", Toast.LENGTH_LONG)
+            Toast.makeText(mContext, "사진을 선택해주세요..", Toast.LENGTH_LONG)
                 .show()
-
-            //프레그먼트 변경
-            requireActivity().supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fregments_frame,HomeFragment())
-                .commit()
-
-
-
-            // 액티비티 재실행. -> home 으로
-            //(activity as MainActivity).initNavigationBar()
 
         }
 
