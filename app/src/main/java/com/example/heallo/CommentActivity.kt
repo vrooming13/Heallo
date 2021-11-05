@@ -11,6 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.heallo.databinding.ActivityCommentBinding
+import com.example.heallo.databinding.CommentHeaderBinding
 import com.example.heallo.databinding.CommentItemBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -34,8 +35,7 @@ class CommentActivity : AppCompatActivity() {
         useremail = intent.getStringExtra("useremail")
         binding.commentRecyclerview.adapter = CommentRecyclerviewAdapter()
         binding.commentRecyclerview.layoutManager = LinearLayoutManager(this)
-        binding.textView7.text = contentexplain
-        binding.textView8.text = useremail
+
         /// 작성버튼 클릭시 파이어베이스로 데이터 전송
         binding.commentBtnSend?.setOnClickListener {
             var comment = ContentDTO.Comment()
@@ -53,13 +53,16 @@ class CommentActivity : AppCompatActivity() {
             binding.commentEditMessage.setText("")
         }
 
-       /* comment_btn_cancel?.setOnClickListener {
-            var intent = Intent(it.context, MainActivity::class.java)
-            startActivity(intent)
-        }*/
+        /* comment_btn_cancel?.setOnClickListener {
+             var intent = Intent(it.context, MainActivity::class.java)
+             startActivity(intent)
+         }*/
     }
+    enum class contentType(val num:Int) {
+        HEADER(0),CONTENT(1)
+    }
+    inner class CommentRecyclerviewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    inner class CommentRecyclerviewAdapter : RecyclerView.Adapter<CommentRecyclerviewAdapter.ViewHolder>() {
 
         var comments : ArrayList<ContentDTO.Comment> = arrayListOf()
 
@@ -79,29 +82,52 @@ class CommentActivity : AppCompatActivity() {
                     notifyDataSetChanged()
                 }
         }
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val comment_itemview = CommentItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-            val view = comment_itemview.root
-            return ViewHolder(comment_itemview)
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+          return  when(viewType) {
+                contentType.HEADER.num -> {
+                    ViewHolder2(CommentHeaderBinding.inflate(LayoutInflater.from(parent.context),parent,false))
+                }
+                contentType.CONTENT.num -> {
+                    ViewHolder(CommentItemBinding.inflate(LayoutInflater.from(parent.context),parent,false))
+                }
+              else -> throw IllegalArgumentException()
+          }
         }
 
         inner class ViewHolder(binding: CommentItemBinding): RecyclerView.ViewHolder(binding.root!!){
             val id : TextView = binding.commentIdTextview
             val comment : TextView = binding.commentContainTextview
-
+        }
+        inner class ViewHolder2(binding: CommentHeaderBinding): RecyclerView.ViewHolder(binding.root!!){
+             var useremail = binding.textView8
+             var content = binding.textView7
         }
 
         override fun getItemCount(): Int {
             return comments.size
         }
 
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+            when(holder) {
+                is ViewHolder -> {
+                    holder.comment.text = comments[position].comment
+                    holder.id.text = comments[position].userId
+                }
 
+                is ViewHolder2 -> {
+                    holder.useremail.text = useremail
+                    holder.content.text = contentexplain
+                }
+                else -> throw IllegalArgumentException()
+            }
+        }
 
-            Log.d("test","${comments[position].comment}")
-            holder.comment.text  = comments[position].comment
-            holder.id.text  = comments[position].userId
-
+        override fun getItemViewType(position: Int): Int {
+            return when(position) {
+                0 -> contentType.HEADER.num
+                1 -> contentType.CONTENT.num
+                else -> contentType.CONTENT.num
+            }
         }
 
 
