@@ -12,7 +12,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -22,9 +21,9 @@
 
         <ImageView
             android:id="@+id/iv_profile"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="8dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="6dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -34,28 +33,24 @@
 
         <TextView
             android:id="@+id/comment_id_textview"
-            android:text="userid"
-            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="10dp"
+            android:text="userid"
             android:textColor="@color/black"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/comment_contain_textview"
             app:layout_constraintStart_toEndOf="@+id/iv_profile"
-            app:layout_constraintTop_toTopOf="@+id/iv_profile" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/comment_contain_textview"
-            android:text="comment"
-            android:layout_width="wrap_content"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:text="comment"
             android:textColor="@color/black"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_profile"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_profile"
             app:layout_constraintTop_toBottomOf="@+id/comment_id_textview" />
 
@@ -63,23 +58,24 @@
             android:id="@+id/comment_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="댓글달기"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:text="답글"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.786"
+            app:layout_constraintEnd_toStartOf="@+id/comment_del_tv"
             app:layout_constraintStart_toEndOf="@+id/comment_contain_textview"
-            app:layout_constraintTop_toBottomOf="@+id/comment_id_textview"
-            app:layout_constraintVertical_bias="0.703" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
 
         <TextView
             android:id="@+id/comment_del_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
             android:text="삭제"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

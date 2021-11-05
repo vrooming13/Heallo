@@ -13,11 +13,13 @@
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/activity_main.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/activity_mainview.xml" value="0.1" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/activity_mainview2.xml" value="0.2824074074074074" />
+        <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/activity_nested_comment.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/activity_recomment.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/activity_recyclerview.xml" value="0.1" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/activity_sign_up.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/comment_header.xml" value="0.36614583333333334" />
-        <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/comment_item.xml" value="0.33" />
+        <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/comment_item.xml" value="0.5" />
+        <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/content_nested_comment.xml" value="0.25" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/fragment_detail.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/fragment_favorite.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/fragment_find.xml" value="0.33" />
@@ -40,6 +42,7 @@
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/item_re.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/list_layout.xml" value="0.5" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/markerinfo.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/nested_comment_item.xml" value="0.5" />
       </map>
     </option>
   </component>
