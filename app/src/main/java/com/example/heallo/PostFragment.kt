@@ -385,20 +385,10 @@ class PostFragment : Fragment() {
 
 
                     //게시물을 데이터를 생성
-                    firestore?.collection("post")?.document("${content.uid}+${content.timestamp}")?.set(content)
+                    firestore?.collection("post")?.document("${content.userId}+${content.timestamp}")?.set(content)
                     Toast.makeText(mContext, "글쓰기를 완료했습니다.", Toast.LENGTH_LONG)
                         .show()
-                    // 댓글 창 만들기
-                   var comment = ContentDTO.Comment()
-                    comment.userId = FirebaseAuth.getInstance().currentUser?.email
-                    comment.uid = FirebaseAuth.getInstance().currentUser?.uid
-                    comment.comment = "테스트용"
-                    comment.timestamp = System.currentTimeMillis()
 
-                    firestore?.collection("post")
-                        ?.document("${content.uid}+${content.timestamp}")
-                        ?.collection("comments")
-                        ?.document(comment.userId+"+"+comment.timestamp)?.set(comment)
 
                     //fragment 변경.
                     requireActivity().supportFragmentManager

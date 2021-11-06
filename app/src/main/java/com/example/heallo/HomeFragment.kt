@@ -193,7 +193,8 @@ class HomeFragment : Fragment(){
 
             viewHolder.detailviewitemCommentImageview.setOnClickListener{ v ->
                 var intent = Intent(v.context, CommentActivity::class.java)
-                intent.putExtra("contentUid",contentUidList[position])
+                // LONG 형 넘길때 String 변환 후 받아서 LONG 형으로 변환
+                intent.putExtra("postTime",contentDTOs[position].timestamp.toString())
                 intent.putExtra("contentexplain",contentDTOs[position].explain)
                 intent.putExtra("useremail",contentDTOs[position].userId)
                 startActivity(intent)

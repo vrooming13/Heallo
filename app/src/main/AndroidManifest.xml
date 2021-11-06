@@ -22,11 +22,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Heallo"
         android:usesCleartextTraffic="true" >
-        <activity
-            android:name=".NestedCommentActivity"
-            android:exported="false"
-            android:label="@string/title_activity_nested_comment"
-            android:theme="@style/Theme.Heallo.NoActionBar" />
 
         <uses-library
             android:name="org.apache.http.legacy"
@@ -44,6 +39,7 @@
         <activity android:name=".SignUpActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".CommentActivity" />
+        <activity android:name=".NestedCommentActivity" />
         <activity android:name=".FindActivity" />
 
         <meta-data

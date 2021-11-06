@@ -1,10 +1,8 @@
 package com.example.heallo
 
 import android.content.Intent
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -24,7 +22,7 @@ import java.text.SimpleDateFormat
 
 class CommentActivity : AppCompatActivity() {
     private var auth : FirebaseAuth? = null
-    private var contentUid : String? = null
+    private var postTime : String? = null
     private var contentexplain : String? = null
     private var useremail : String? = null
     private val binding by lazy {  ActivityCommentBinding.inflate(layoutInflater)}
@@ -33,7 +31,7 @@ class CommentActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)  // 화면켜짐 유지
-        contentUid = intent.getStringExtra("contentUid")
+        postTime = intent.getStringExtra("postTime")
         contentexplain = intent.getStringExtra("contentexplain")
         useremail = intent.getStringExtra("useremail")
         binding.commentRecyclerview.adapter = CommentRecyclerviewAdapter()
@@ -49,7 +47,7 @@ class CommentActivity : AppCompatActivity() {
 
             //post collection 안에 document 안에 comment 컬렉션 새로 생성
             FirebaseFirestore.getInstance().collection("post")
-                .document(contentUid!!)
+                .document(useremail!!+"+"+postTime?.toLong()!!)
                 .collection("comments")
                 .document(comment.userId+"+"+comment.timestamp).set(comment)
 
@@ -66,13 +64,21 @@ class CommentActivity : AppCompatActivity() {
     }
     inner class CommentRecyclerviewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-
+        //데이터 선언
         var comments : ArrayList<ContentDTO.Comment> = arrayListOf()
 
         init{
+            // empty 댓글 만들기
+            var comment = ContentDTO.Comment()
+            comment.userId ="empty"
+            comment.uid = "empty"
+            comment.comment = "empty"
+            comment.timestamp = System.currentTimeMillis()
+
+
             FirebaseFirestore.getInstance()
                 .collection("post")
-                .document(contentUid!!)
+                .document(useremail!!+"+"+postTime?.toLong()!!)
                 .collection("comments")
                 .orderBy("timestamp")
                 .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
@@ -82,21 +88,23 @@ class CommentActivity : AppCompatActivity() {
                     for(snapshot in querySnapshot.documents!!){
                         comments.add(snapshot.toObject(ContentDTO.Comment::class.java)!!)
                     }
+                    //인덱스 0배열에 빈데이터  출력 형식: ContentDTO.Comment
+                    comments.add(0,comment)
                     notifyDataSetChanged()
                 }
         }
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-          return  when(viewType) {
+            return  when(viewType) {
                 contentType.HEADER.num -> {
                     ViewHolder2(CommentHeaderBinding.inflate(LayoutInflater.from(parent.context),parent,false))
                 }
                 contentType.CONTENT.num -> {
                     ViewHolder(CommentItemBinding.inflate(LayoutInflater.from(parent.context),parent,false))
                 }
-              else -> throw IllegalArgumentException()
-          }
+                else -> throw IllegalArgumentException()
+            }
         }
-    // 뷰홀더 지정.
+        // 뷰홀더 지정.
         inner class ViewHolder(binding: CommentItemBinding): RecyclerView.ViewHolder(binding.root!!){
             val id : TextView = binding.commentIdTextview
             val comment : TextView = binding.commentContainTextview
@@ -112,56 +120,66 @@ class CommentActivity : AppCompatActivity() {
         override fun getItemCount(): Int {
             return  comments.size
         }
-    // 뷰바인딩
+        // 뷰바인딩
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when(holder) {
-            is ViewHolder -> {
-                holder.comment.text = comments[position].comment
-                holder.id.text = comments[position].userId
-                holder.nested.setOnClickListener {
-                    Log.d("test", "댓글클릭")
-                }
-                if (FirebaseAuth.getInstance().currentUser?.email != comments[position].userId) {
-                    //로그인한 유저와 작성자가 다를경우 삭제버튼 invisible
-                    holder.del.visibility = View.GONE
-                }
-                holder.del.setOnClickListener {
-                    Log.d("test", "삭제클릭")
-                    var alertDialog = AlertDialog.Builder(this@CommentActivity)
-                    alertDialog.setTitle("댓글 삭제")
-                    alertDialog.setMessage("댓글을 삭제하시겠습니까?")
-                    alertDialog.setPositiveButton(
-                        "확인"
-                    ) { dialogInterface, i ->
-                        // 삭제함수 실행.
-                        FirebaseFirestore.getInstance().collection("post")
-                            .document(contentUid!!)
-                            .collection("comments")
-                            .document(comments[position].userId + "+" + comments[position].timestamp)
-                            .delete()
-                        //아이템삭제
-                        comments.removeAt(position)
-                        //적용
-                        notifyDataSetChanged()
+            when(holder) {
+                // ViewHolder 일경우 : arraylist에 있는 값의 position이 1이상일 경우
+                is ViewHolder -> {
+                    holder.comment.text = comments[position].comment
+                    holder.id.text = comments[position].userId
+                    holder.nested.setOnClickListener { v ->
+//                        Log.d("test", "댓글클릭")
+
+                        var intent = Intent(v.context, NestedCommentActivity::class.java)
+                        // LONG 형 넘길때 String 변환 후 받아서 LONG 형으로 변환
+                        intent.putExtra("postTime",postTime) // 포스트 문서 작성시간
+                        intent.putExtra("contentTime",comments[position].timestamp.toString()) // 댓글 작성시간.
+                        intent.putExtra("contentexplain",comments[position].comment)
+                        intent.putExtra("useremail",comments[position].userId)
+                        startActivity(intent)
+                    }
+                    if (FirebaseAuth.getInstance().currentUser?.email != comments[position].userId) {
+                        //로그인한 유저와 작성자가 다를경우 삭제버튼 invisible
+                        holder.del.visibility = View.GONE
+                    }
+                    holder.del.setOnClickListener {
+//                        Log.d("test", "삭제클릭")
+                        var alertDialog = AlertDialog.Builder(this@CommentActivity)
+                        alertDialog.setTitle("댓글 삭제")
+                        alertDialog.setMessage("댓글을 삭제하시겠습니까?")
+                        alertDialog.setPositiveButton(
+                            "확인"
+                        ) { dialogInterface, i ->
+                            // 삭제함수 실행.
+                            FirebaseFirestore.getInstance().collection("post")
+                                .document(useremail!!+"+"+postTime?.toLong()!!)
+                                .collection("comments")
+                                .document(comments[position].userId + "+" + comments[position].timestamp)
+                                .delete()
+                            //아이템삭제
+                            comments.removeAt(position)
+                            //적용
+                            notifyDataSetChanged()
+
+                        }
+                        alertDialog.setNegativeButton(
+                            "취소",
+                            { dialogInterface, i -> dialogInterface.dismiss() })
+                        alertDialog.show()
 
                     }
-                    alertDialog.setNegativeButton(
-                        "취소",
-                        { dialogInterface, i -> dialogInterface.dismiss() })
-                    alertDialog.show()
-
                 }
-            }
-
-                        is ViewHolder2 -> {
-                            holder.useremail.text = useremail
-                            holder.content.text = contentexplain
-                        }
-                        else -> throw IllegalArgumentException()
+                // ViewHolder 일경우 : arraylist에 있는 값의 position이 0일 경우
+                is ViewHolder2 -> {
+                    holder.useremail.text = useremail
+                    holder.content.text = contentexplain
+                }
+                else -> throw IllegalArgumentException()
             }
         }
 
         override fun getItemViewType(position: Int): Int {
+            // 아이템 뷰타입 분기. arraylist 인덱스(position)에 따라서 분기.
             return when(position) {
                 0 ->  contentType.HEADER.num
                 1 -> contentType.CONTENT.num
