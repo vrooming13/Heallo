@@ -12,9 +12,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginStart="7dp"
-        android:layout_marginTop="5dp"
+        android:layout_height="35dp"
+        android:layout_margin = "10dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -28,6 +27,12 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/man" />
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
         <TextView
             android:id="@+id/detailviewitem_profile_textview"
             android:layout_width="wrap_content"
@@ -35,9 +40,19 @@
             android:layout_marginStart="5dp"
             android:text="User Name"
             android:textColor="@color/black"
-            android:textSize="15sp"
-            android:textStyle="bold"
+            android:textSize="13sp"
             />
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="TextView"
+            android:textColor="#00AAFF"
+            android:textSize="12sp" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <!-- Content Image View -->
@@ -80,7 +95,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:textColor="@color/black"
-        android:textStyle="bold"
         android:text="좋아요 0개" />
 
     <TextView

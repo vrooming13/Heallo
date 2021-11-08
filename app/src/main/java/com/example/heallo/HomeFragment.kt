@@ -136,11 +136,13 @@ class HomeFragment : Fragment(){
             bundle.putString("explain", contentDTOs[position].explain)
             bundle.putString("imageUrl", contentDTOs[position].imageUrl)
             bundle.putString("useremail",contentDTOs[position].userId)
-
-
+            bundle.putString("postTime", contentDTOs[position].timestamp.toString())
+            bundle.putString("location",contentDTOs[position].address)
             //UserId
-            viewHolder.detailviewitemProfileTextview.text=contentDTOs!![position].userId
+            viewHolder.detailviewitemProfileTextview.text=contentDTOs[position].userId
 
+            //post location
+            viewHolder.location.text = contentDTOs[position].address
             //Image
 
                 Glide
@@ -156,7 +158,7 @@ class HomeFragment : Fragment(){
 
             //좋아요(즐겨찾기)
             viewHolder.detailviewitemFavoritecounterTextview.text =
-                "좋아요  " + contentDTOs!![position].favoriteCount
+                "좋아요  " + contentDTOs[position].favoriteCount
 
             //좋아요(즐겨찾기) 이벤트
             viewHolder.detailviewitemFavoriteImageview.setOnClickListener {

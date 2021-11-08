@@ -3,10 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/drawable/baseline_account_circle_24.xml" value="0.38229166666666664" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/drawable/change_color.xml" value="0.38229166666666664" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/drawable/custom_input.xml" value="0.25885416666666666" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/drawable/custom_input2.xml" value="0.2869791666666667" />
+        <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/drawable/ic_baseline_create_24.xml" value="0.38229166666666664" />
+        <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/drawable/ic_baseline_delete_24.xml" value="0.38229166666666664" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/drawable/ic_chat.xml" value="0.38229166666666664" />
+        <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/drawable/question.xml" value="0.38229166666666664" />
+        <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/drawable/title_bottom_line.xml" value="0.38229166666666664" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/activity_comment.xml" value="0.1" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/activity_find.xml" value="0.24375" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/activity_login.xml" value="0.33" />
@@ -31,7 +36,8 @@
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/fragment_home.xml" value="0.41041666666666665" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/fragment_login.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/fragment_post.xml" value="0.25" />
-        <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/fragment_posted_post.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/fragment_posted_post.xml" value="0.33" />
+        <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/fragment_question.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/fragment_user_info.xml" value="0.25" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/fregment_favorite.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/fregment_home.xml" value="0.22" />
@@ -43,6 +49,8 @@
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/list_layout.xml" value="0.5" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/markerinfo.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/nested_comment_item.xml" value="0.5" />
+        <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/question_item.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/layout/question_page.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2864583333333333" />
         <entry key="..\:/Users/nam/AndroidStudioProjects/Heallo/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2864583333333333" />
       </map>

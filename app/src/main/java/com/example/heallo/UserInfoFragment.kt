@@ -45,6 +45,13 @@ class UserInfoFragment : Fragment() {
         view.responsedRl.setOnClickListener {  //작성게시물
             Log.d("touch2","작성")
         }
+        view.question.setOnClickListener {
+            //fragment 변경.
+            requireActivity().supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fregments_frame,QuestionFragment())
+                .commit()
+        }
         view.LogoutLayout.setOnClickListener {  // 로그아웃 box
            alert_message() // 로그아웃 창
 

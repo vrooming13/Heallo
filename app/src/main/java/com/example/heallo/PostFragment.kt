@@ -1,10 +1,8 @@
 package com.example.heallo
 
 import ListAdapter
-import ResultSearchKeyword
 import android.Manifest
 import android.Manifest.*
-import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
@@ -14,7 +12,6 @@ import android.location.LocationManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.provider.MediaStore
 import android.provider.Settings
 import android.util.Log
@@ -22,17 +19,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.heallo.databinding.FragmentPostBinding
@@ -50,12 +42,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-
-import org.jetbrains.anko.noButton
-import org.jetbrains.anko.support.v4.alert
-import org.jetbrains.anko.support.v4.toast
-import org.jetbrains.anko.yesButton
-
+import java.lang.System.currentTimeMillis
 
 
 class PostFragment : Fragment() {
@@ -71,9 +58,9 @@ class PostFragment : Fragment() {
 
     companion object {
         const val BASE_URL = "https://dapi.kakao.com/"
-        const val API_KEY = "KakaoAK 02817d76f79710d1febf48672cf97f49"  // REST API 키
+        const val API_KEY = "KakaoAK 56cef19fe06bbb2be35a24970e3f555f"  // REST API 키
     }
-
+    private var localLocation : geo? =null //geo형 선언
     private val listItems = arrayListOf<ListLayout>()   // 리사이클러 뷰 아이템
     private val listAdapter = ListAdapter(listItems)    // 리사이클러 뷰 어댑터
 
@@ -109,7 +96,7 @@ class PostFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // fragment root view 생성
          rootView = FragmentPostBinding.inflate(LayoutInflater.from(container?.context),container,false)
         // mapview 생성
@@ -130,14 +117,14 @@ class PostFragment : Fragment() {
             override fun onQueryTextChange(newText: String?): Boolean {
 
                 //입력 글자 상태에 따라서 recyclerView hide & show
-                if(!newText!!.isNullOrEmpty()){
-                    rootView!!.rvList.setVisibility(View.VISIBLE);
+                if(!newText.isNullOrEmpty()){
+                    rootView!!.rvList.setVisibility(View.VISIBLE)
                 }else{
-                    rootView!!.rvList.setVisibility(View.GONE);
+                    rootView!!.rvList.setVisibility(View.GONE)
                 }
 
                 // 검색 함수 실행.
-                searchKeyword("$newText")
+                searchKeyword("$newText",uLatitude,uLongitude)
 
                 return true
             }
@@ -156,8 +143,8 @@ class PostFragment : Fragment() {
         rootView!!.writeBtn.setOnClickListener {
 
             // 사진과 글작성 둘다 null 또는 공백일 경우.
-            if( photouri.toString().isNullOrEmpty() && rootView?.textExplain.toString().isNullOrEmpty() ){
-                Toast.makeText(mContext, "사진 또는 글을 포함하여 글쓰기를 진행해주세요.", Toast.LENGTH_LONG)
+            if( photouri.toString().isNullOrEmpty()  ){
+                Toast.makeText(mContext, "사진을 포함하여 게시물을 작성해주세요.", Toast.LENGTH_LONG)
                     .show()
             } else {
                 contentUpload()// 성공시 fragment 전환 필요.
@@ -168,19 +155,19 @@ class PostFragment : Fragment() {
 
         return rootView!!.root
     }
-
+    // 현재 권한 승인 상태에 조회. 분기.
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
-    ): Unit {
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when(requestCode) {
             100 -> {
                 if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
                     Log.d("test","100 c")
-//                    승인 결과처리 맞으면 map 실행
-//                    map()
+                //    승인 결과처리 맞으면 map 실행
+                    map()
                 } else {
 
                     //재요청
@@ -257,7 +244,6 @@ class PostFragment : Fragment() {
 
 
     private fun map() {
-        Log.d("test","123")
         val permissionCheck = ContextCompat.checkSelfPermission(
             requireActivity(),
             Manifest.permission.ACCESS_FINE_LOCATION
@@ -299,20 +285,26 @@ class PostFragment : Fragment() {
 
                     }
                 })
-
+                //현재위치 저장
                 val userNowLocation: Location =
                     lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)!! // 유저 현재위치 저장.
                 uLatitude = userNowLocation.latitude  // 사용자 위도
                 uLongitude = userNowLocation.longitude // 사용자 경도
                 val uNowPosition =
                     MapPoint.mapPointWithGeoCoord(uLatitude!!, uLongitude!!) // 유저 현재 위치 저장.
+
+
                 // 중심점 변경.
                 mapView!!.setMapCenterPointAndZoomLevel(
                     uNowPosition,
                     2,
                     true
-                ) //  kakao map 위도,경도를 통한 현재 위치 지정.
-                //줌 컨트롤러
+                )
+
+                //  kakao map 위도,경도를 통한 현재 위치주소 찾기.
+                val n : String = ""
+                searchKeyword(n,uLatitude,uLongitude)
+
 
                 //내 위치마커
                 var defaultmaker = MapPOIItem()
@@ -325,7 +317,7 @@ class PostFragment : Fragment() {
 //                    isCustomImageAutoscale = false      // 커스텀 마커 이미지 크기 자동 조정
 //                    setCustomImageAnchor(0.5f, 1.0f)    // 마커 이미지 기준점
                 }
-
+                //마커추가.
                 mapView!!.addPOIItem(defaultmaker)
 
 
@@ -355,7 +347,8 @@ class PostFragment : Fragment() {
         var content = ContentDTO()
 
         if(photouri != null ){
-            val imageFileName = "JPEG_" + auth?.currentUser?.uid + "_.png"
+            //uid + 현재시간 매번 업로드마다 다른사진이름으로 업로드.
+            val imageFileName = "JPEG_" + auth?.currentUser?.uid + System.currentTimeMillis()+ "_.png"
             val storageRef = storage?.reference?.child("post")?.child(imageFileName)
             storageRef?.putFile(photouri!!)?.addOnSuccessListener {
 
@@ -415,31 +408,86 @@ class PostFragment : Fragment() {
 
 
     // 키워드 검색 함수
-    private fun searchKeyword(keyword: String) {
+    private fun searchKeyword(keyword: String, x: Double?, y: Double?) {
         val retrofit = Retrofit.Builder()   // Retrofit 구성
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+
         val api = retrofit.create(KakaoAPI::class.java)   // 통신 인터페이스를 객체로 생성
-        val call = api.getSearchKeyword(API_KEY, keyword)   // 검색 조건 입력
+        val call = api.getSearchKeyword(API_KEY, keyword)
+        val call2 = api.getSearchGeo(API_KEY,y.toString(),x.toString())
 
-        // API 서버에 요청
-        call.enqueue(object: Callback<ResultSearchKeyword> {
-            override fun onResponse(
-                call: Call<ResultSearchKeyword>,
-                response: Response<ResultSearchKeyword>
-            ) {
-                // 통신 성공 (검색 결과는 response.body()에 담겨있음)
-               addItemsAndMarkers(response.body())
-                Log.d("Test", "Raw: ${response.raw()}")
-                Log.d("Test", "Body: ${response.body()}")
-            }
+        if(!keyword.isNullOrEmpty()){
+               // 검색 조건 입력
+            call.enqueue(object: Callback<ResultSearchKeyword> {
+                override fun onResponse(
+                    call: Call<ResultSearchKeyword>,
+                    response: Response<ResultSearchKeyword>
+                ) {
+                    // 통신 성공 (검색 결과는 response.body()에 담겨있음)
+                    addItemsAndMarkers(response.body())
+//                    Log.d("Test", "Raw: ${response.raw()}")
+//                    Log.d("Test", "Body: ${response.body()}")
 
-            override fun onFailure(call: Call<ResultSearchKeyword>, t: Throwable) {
-                // 통신 실패
-                Log.w("MainActivity", "통신 실패: ${t.message}")
-            }
-        })
+                }
+
+                override fun onFailure(call: Call<ResultSearchKeyword>, t: Throwable) {
+                    // 통신 실패
+                    Log.w("MainActivity", "통신 실패: ${t.message}")
+                }
+            })
+        } else {
+
+
+            call2.enqueue(object : Callback<ResultSearchGeo>{
+                override fun onResponse(
+                    call: Call<ResultSearchGeo>,
+                    response: Response<ResultSearchGeo>
+                ) {
+
+//                        Log.d("Test", "Raw1: ${response.raw()}")
+//                    Log.d("Test", "Body1: ${response.body()}")
+
+                    firstLocation(response.body())
+                }
+
+
+                override fun onFailure(call: Call<ResultSearchGeo>, t: Throwable) {
+                    // 통신 실패
+                    Log.w("post first_location", "통신 실패: ${t.message}")
+                }
+            })
+        }
+    }
+
+    //처음자리함수
+    private fun firstLocation(geoResult:ResultSearchGeo?){
+        if (!geoResult?.documents.isNullOrEmpty()) {
+
+                val item2 = geo(
+                    geoResult!!.documents[0].road_address.address_name,
+                    geoResult!!.documents[0].road_address.region_1depth_name,
+                    geoResult!!.documents[0].road_address.region_2depth_name,
+                    geoResult!!.documents[0].road_address.region_3depth_name
+                )
+                // 첫 주소 지정.
+                addresses = item2.address_name
+                localLocation = item2
+
+//            Log.d("test1","${localLocation[0]}")
+//            Log.d("test1","${localLocation[0]?.address_name}")
+//            Log.d("test1","${localLocation[0]?.region_1depth_name}")
+//            Log.d("test1","${localLocation[0]?.region_2depth_name}")
+//            Log.d("test1","${localLocation[0]?.region_3depth_name}")
+
+//            Log.d("test1","${localLocation}")
+//            Log.d("test1","${localLocation?.address_name}")
+//            Log.d("test1","${localLocation?.region_1depth_name}")
+//            Log.d("test1","${localLocation?.region_2depth_name}")
+//            Log.d("test1","${localLocation?.region_3depth_name}")
+
+        }
     }
 
     // 검색 결과 처리 함수
@@ -450,6 +498,7 @@ class PostFragment : Fragment() {
             mapView!!.removeAllPOIItems() // 지도의 마커 모두 제거
 
             for (document in searchResult!!.documents) {
+
                 // 결과를 리사이클러 뷰에 추가
                 val item = ListLayout(document.place_name,
                     document.road_address_name,

@@ -1,5 +1,6 @@
 package com.example.heallo
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -10,7 +11,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -45,21 +48,28 @@ class NestedCommentActivity : AppCompatActivity() {
 
         /// 작성버튼 클릭시 파이어베이스로 데이터 전송
         binding.commentBtnSend?.setOnClickListener {
-            var comment = ContentDTO.Comment()
-            comment.userId = FirebaseAuth.getInstance().currentUser?.email
-            comment.uid = FirebaseAuth.getInstance().currentUser?.uid
-            comment.comment = binding.commentEditMessage.text.toString()
-            comment.timestamp = System.currentTimeMillis()
 
-            //post collection 안에 document 안에 comment 컬렉션 새로 생성
-            FirebaseFirestore.getInstance().collection("post")
-                .document(useremail!!+"+"+postTime?.toLong())
-                .collection("comments")
-                .document(useremail!!+"+"+contentTime?.toLong())
-                .collection("recomments")
-                .document(comment.userId +"+"+comment.timestamp).set(comment)
-            // 글 작성후 공백 만들기
-            binding.commentEditMessage.setText("")
+            if(binding.commentEditMessage.text.toString().isNullOrEmpty()){
+                Toast.makeText(this@NestedCommentActivity, "내용을 입력해주세요.", Toast.LENGTH_SHORT)
+                    .show()
+            }else {
+                var comment = ContentDTO.Comment()
+                comment.userId = FirebaseAuth.getInstance().currentUser?.email
+                comment.uid = FirebaseAuth.getInstance().currentUser?.uid
+                comment.comment = binding.commentEditMessage.text.toString()
+                comment.timestamp = System.currentTimeMillis()
+
+                //post collection 안에 document 안에 comment 컬렉션 새로 생성
+                FirebaseFirestore.getInstance().collection("post")
+                    .document(useremail!!+"+"+postTime?.toLong())
+                    .collection("comments")
+                    .document(useremail!!+"+"+contentTime?.toLong())
+                    .collection("recomments")
+                    .document(comment.userId +"+"+comment.timestamp).set(comment)
+                // 글 작성후 공백 만들기
+                binding.commentEditMessage.setText("")
+                hideKeyboard()
+            }
         }
 
         /* comment_btn_cancel?.setOnClickListener {
@@ -189,6 +199,12 @@ class NestedCommentActivity : AppCompatActivity() {
 
 
 
+    }
+
+    // 키보드 숨기기 함수 정의
+    private fun hideKeyboard(){
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(currentFocus?.windowToken,0)
     }
 
     fun convertTimestampToDate(timestamp: Long?): String? {

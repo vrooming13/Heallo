@@ -7,3 +7,11 @@ class ListLayout(
                  val x: Double,         // 경도(Longitude)
                  val y: Double    // 위도(Latitude)
 )
+
+
+class geo(
+    var address_name: String,
+    var region_1depth_name: String,
+    var region_2depth_name: String,
+    var region_3depth_name: String
+)

@@ -120,7 +120,7 @@ class GridFragment : Fragment() {
                 bundle.putString("explain", contentDTOs[position].explain)
                 bundle.putString("imageUrl", contentDTOs[position].imageUrl)
                 bundle.putString("useremail",contentDTOs[position].userId)
-
+                bundle.putString("postTime", contentDTOs[position].timestamp.toString())
 
                 fragment.arguments = bundle
                 activity!!.supportFragmentManager.beginTransaction()
