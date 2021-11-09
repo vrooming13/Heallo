@@ -3,6 +3,7 @@ package com.example.heallo
 import ListAdapter
 import android.Manifest
 import android.Manifest.*
+import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
@@ -42,7 +43,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.lang.System.currentTimeMillis
+
 
 
 class PostFragment : Fragment() {
@@ -53,7 +54,7 @@ class PostFragment : Fragment() {
     private var mapView : net.daum.mf.map.api.MapView? =null
     //kakao map api permission
     val PERMISSIONS_REQUEST_CODE = 100
-    var REQUIRED_PERMISSIONS = arrayOf(permission.ACCESS_FINE_LOCATION)
+    var REQUIRED_PERMISSIONS = arrayOf(permission.ACCESS_FINE_LOCATION,permission.ACCESS_COARSE_LOCATION)
     val PERM_STORAGE = 102
 
     companion object {
@@ -98,9 +99,9 @@ class PostFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // fragment root view 생성
-         rootView = FragmentPostBinding.inflate(LayoutInflater.from(container?.context),container,false)
+        rootView = FragmentPostBinding.inflate(LayoutInflater.from(container?.context),container,false)
         // mapview 생성
-         mapView = net.daum.mf.map.api.MapView(activity)
+        mapView = net.daum.mf.map.api.MapView(activity)
 
         map()
 
@@ -137,7 +138,7 @@ class PostFragment : Fragment() {
 
 
         rootView!!.imageView.setOnClickListener {
-            requestPermissions()
+            galleryrequestPermissions()
         }
 
         rootView!!.writeBtn.setOnClickListener {
@@ -166,12 +167,12 @@ class PostFragment : Fragment() {
             100 -> {
                 if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
                     Log.d("test","100 c")
-                //    승인 결과처리 맞으면 map 실행
+                    //    승인 결과처리 맞으면 map 실행
                     map()
                 } else {
 
                     //재요청
-                    if(shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)){
+                    if(shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)&&shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)){
                         Log.d("test","1")
                     } else {
                         Log.d("test","2")
@@ -244,11 +245,16 @@ class PostFragment : Fragment() {
 
 
     private fun map() {
-        val permissionCheck = ContextCompat.checkSelfPermission(
-            requireActivity(),
-            Manifest.permission.ACCESS_FINE_LOCATION
-        )
-        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+
+        if (ContextCompat.checkSelfPermission(
+                requireActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(
+                requireActivity(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+                ) {
             val lm: LocationManager =
                 requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
             try {
@@ -286,8 +292,7 @@ class PostFragment : Fragment() {
                     }
                 })
                 //현재위치 저장
-                val userNowLocation: Location =
-                    lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)!! // 유저 현재위치 저장.
+                val userNowLocation: Location =lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)!! // 유저 현재위치 저장.
                 uLatitude = userNowLocation.latitude  // 사용자 위도
                 uLongitude = userNowLocation.longitude // 사용자 경도
                 val uNowPosition =
@@ -339,7 +344,7 @@ class PostFragment : Fragment() {
             }
         } else {
             Toast.makeText(activity, "위치 권한이 없습니다.", Toast.LENGTH_SHORT).show()
-          requestPermissions(REQUIRED_PERMISSIONS,PERMISSIONS_REQUEST_CODE)
+            requestPermissions(REQUIRED_PERMISSIONS,PERMISSIONS_REQUEST_CODE)
         }
     }
 
@@ -419,7 +424,7 @@ class PostFragment : Fragment() {
         val call2 = api.getSearchGeo(API_KEY,y.toString(),x.toString())
 
         if(!keyword.isNullOrEmpty()){
-               // 검색 조건 입력
+            // 검색 조건 입력
             call.enqueue(object: Callback<ResultSearchKeyword> {
                 override fun onResponse(
                     call: Call<ResultSearchKeyword>,
@@ -463,17 +468,23 @@ class PostFragment : Fragment() {
 
     //처음자리함수
     private fun firstLocation(geoResult:ResultSearchGeo?){
+        Log.d("test","$uLatitude")
+        Log.d("test","$uLongitude")
+        Log.d("test","$geoResult")
+        Log.d("test","${geoResult?.documents?.get(0)!!}")
+        Log.d("test","${geoResult?.documents[0]?.address.region_3depth_name}")
+
         if (!geoResult?.documents.isNullOrEmpty()) {
 
-                val item2 = geo(
-                    geoResult!!.documents[0].road_address.address_name,
-                    geoResult!!.documents[0].road_address.region_1depth_name,
-                    geoResult!!.documents[0].road_address.region_2depth_name,
-                    geoResult!!.documents[0].road_address.region_3depth_name
-                )
-                // 첫 주소 지정.
-                addresses = item2.address_name
-                localLocation = item2
+            val item2 = geo(
+                geoResult!!.documents[0].address.address_name,
+                geoResult!!.documents[0].address.region_1depth_name,
+                geoResult!!.documents[0].address.region_2depth_name,
+                geoResult!!.documents[0].address.region_3depth_name
+            )
+            // 첫 주소 지정.
+            addresses = item2.address_name
+            localLocation = item2
 
 //            Log.d("test1","${localLocation[0]}")
 //            Log.d("test1","${localLocation[0]?.address_name}")
@@ -487,6 +498,8 @@ class PostFragment : Fragment() {
 //            Log.d("test1","${localLocation?.region_2depth_name}")
 //            Log.d("test1","${localLocation?.region_3depth_name}")
 
+        } else {
+            Log.d("test","location null")
         }
     }
 
@@ -523,7 +536,7 @@ class PostFragment : Fragment() {
         // else 일 경우 : 검색결과 없을 경우 알림 삭제. autoCompleteText
     }
 
-    private fun requestPermissions() {
+    private fun galleryrequestPermissions() {
         var permissionCheck = ContextCompat.checkSelfPermission(requireActivity(), permission.READ_EXTERNAL_STORAGE)
         if(permissionCheck != PackageManager.PERMISSION_GRANTED){
             requestPermissions(
@@ -557,7 +570,6 @@ class PostFragment : Fragment() {
     }
 
 }
-
 
 
 
