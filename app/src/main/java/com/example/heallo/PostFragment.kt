@@ -468,11 +468,11 @@ class PostFragment : Fragment() {
 
     //처음자리함수
     private fun firstLocation(geoResult:ResultSearchGeo?){
-        Log.d("test","$uLatitude")
-        Log.d("test","$uLongitude")
-        Log.d("test","$geoResult")
-        Log.d("test","${geoResult?.documents?.get(0)!!}")
-        Log.d("test","${geoResult?.documents[0]?.address.region_3depth_name}")
+//        Log.d("test","$uLatitude")
+//        Log.d("test","$uLongitude")
+//        Log.d("test","$geoResult")
+//        Log.d("test","${geoResult?.documents?.get(0)!!}")
+//        Log.d("test","${geoResult?.documents[0]?.address.region_3depth_name}")
 
         if (!geoResult?.documents.isNullOrEmpty()) {
 

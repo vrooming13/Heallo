@@ -43,13 +43,19 @@ class UserInfoFragment : Fragment() {
             Log.d("touch1","비번")
         }
         view.responsedRl.setOnClickListener {  //작성게시물
-            Log.d("touch2","작성")
+            //fragment 변경.
+            requireActivity().supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fregments_frame,MyPostFragment())
+                .addToBackStack(null)
+                .commit()
         }
         view.question.setOnClickListener {
             //fragment 변경.
             requireActivity().supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fregments_frame,QuestionFragment())
+                .addToBackStack(null)
                 .commit()
         }
         view.LogoutLayout.setOnClickListener {  // 로그아웃 box

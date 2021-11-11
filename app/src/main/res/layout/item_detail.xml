@@ -95,6 +95,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:textColor="@color/black"
+        android:textStyle="bold"
         android:text="좋아요 0개" />
 
     <TextView

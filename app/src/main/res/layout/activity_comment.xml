@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -12,8 +11,7 @@
         android:id="@+id/comment_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        />
+        android:layout_weight="1" />
 
     <EditText
         android:id="@+id/comment_edit_message"
@@ -28,7 +26,6 @@
         android:id="@+id/comment_btn_send"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/comment_edit_message"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:text="작성" />

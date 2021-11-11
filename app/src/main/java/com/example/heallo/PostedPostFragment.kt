@@ -70,6 +70,7 @@ class PostedPostFragment : Fragment() {
 
         return contentview!!.root
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         contentview = null

@@ -179,6 +179,7 @@ class HomeFragment : Fragment(){
                 requireActivity().supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.fregments_frame,postedPostFragment)
+                    .addToBackStack(null)
                     .commit()
             }
 
@@ -189,6 +190,7 @@ class HomeFragment : Fragment(){
                 requireActivity().supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.fregments_frame,postedPostFragment)
+                    .addToBackStack(null)
                     .commit()
 
             }

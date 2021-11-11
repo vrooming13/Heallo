@@ -1,6 +1,5 @@
 package com.example.heallo
 
-import android.location.Address
 import java.util.HashMap
 
 data class ContentDTO
