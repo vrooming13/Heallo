@@ -91,29 +91,26 @@ class MyPostFragment : Fragment() {
                     .addToBackStack(null)
                     .commit()
             }
-//            viewHolder.imageView2.setOnClickListener {
-//                var alertDialog = AlertDialog.Builder(requireActivity())
-//                alertDialog.setTitle("게시물 삭제")
-//                alertDialog.setMessage("게시물을 삭제하시겠습니까?")
-//                alertDialog.setPositiveButton(
-//                    "확인"
-//                ) { dialogInterface, i ->
-//                    // 삭제함수 실행.
-//                    FirebaseFirestore.getInstance().collection("post")
-//                        .document(userId!!+"+"+postTime?.toLong()!!)
-//                        .delete()
-//
-//                    //fragment 변경.
-//                    requireActivity().supportFragmentManager
-//                        .beginTransaction()
-//                        .replace(R.id.fregments_frame,HomeFragment())
-//                        .commit()
-//                }
-//                alertDialog.setNegativeButton(
-//                    "취소",
-//                    { dialogInterface, i -> dialogInterface.dismiss() })
-//                alertDialog.show()
-//            }
+            viewHolder.imageView2.setOnClickListener {
+                var alertDialog = AlertDialog.Builder(requireActivity())
+                alertDialog.setTitle("게시물 삭제")
+                alertDialog.setMessage("게시물을 삭제하시겠습니까?")
+                alertDialog.setPositiveButton(
+                    "확인"
+                ) { dialogInterface, i ->
+                    // 삭제함수 실행.
+                    FirebaseFirestore.getInstance().collection("post")
+                        .document( "${contentDTOs[position].userId}" + "+" +"${contentDTOs[position].timestamp}")
+                        .delete()
+
+                    //fragment 변경.
+                    requireActivity().supportFragmentManager.popBackStack()
+                }
+                alertDialog.setNegativeButton(
+                    "취소",
+                    { dialogInterface, i -> dialogInterface.dismiss() })
+                alertDialog.show()
+            }
         }
     }
 
