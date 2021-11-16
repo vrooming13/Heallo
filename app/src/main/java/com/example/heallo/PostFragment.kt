@@ -375,6 +375,7 @@ class PostFragment : Fragment() {
                     content.userId = auth?.currentUser?.email
                     //게시물 업로드 시간
                     content.timestamp = System.currentTimeMillis()
+                    content.rating = rootView?.ratingBar?.rating
 
 //                var date = Date(System.currentTimeMillis())
 //                Log.d("timetest","$date") // Tue Jun 08 22:13:16 GMT+09:00 2021 형식 출력

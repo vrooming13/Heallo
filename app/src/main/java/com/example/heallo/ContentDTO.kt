@@ -13,7 +13,8 @@ data class ContentDTO
         var favorites: MutableMap<String, Boolean> = HashMap(),
         var latitude: Double?= null,
         var longtiude: Double?= null,
-        var address: String?=null
+        var address: String?=null,
+        var rating:Float?=null
     ) {
 
         data class Comment(

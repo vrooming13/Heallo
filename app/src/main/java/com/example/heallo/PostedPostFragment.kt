@@ -18,6 +18,7 @@ class PostedPostFragment : Fragment() {
     private var postTime : String? = null
     private var userId : String? = null
     private var location : String? = null
+    private var rating : String? = null
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -29,6 +30,7 @@ class PostedPostFragment : Fragment() {
         userId = arguments?.getString("useremail")
         postTime = arguments?.getString("postTime")
         location = arguments?.getString("location")
+        rating = arguments?.getString("rating")
         //클릭한 이미지의 설명과 이미지 주소를 저장한 변수
 
         //확인을 위한 출력
@@ -67,7 +69,7 @@ class PostedPostFragment : Fragment() {
         contentview!!.detailviewitemProfileTextview.text = userId
         contentview!!.location.text = location
         contentview!!.postDetailText.text  = explain
-
+        contentview!!.rating.text = rating.toString()
         return contentview!!.root
     }
 

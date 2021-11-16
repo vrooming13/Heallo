@@ -121,7 +121,7 @@ class GridFragment : Fragment() {
                 bundle.putString("imageUrl", contentDTOs[position].imageUrl)
                 bundle.putString("useremail",contentDTOs[position].userId)
                 bundle.putString("postTime", contentDTOs[position].timestamp.toString())
-
+                bundle.putString("rating", contentDTOs[position].rating.toString())
                 fragment.arguments = bundle
                 activity!!.supportFragmentManager.beginTransaction()
                     .replace(R.id.fregments_frame, fragment)

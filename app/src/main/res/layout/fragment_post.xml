@@ -61,7 +61,6 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:layout_marginLeft="10dp"
-
                     android:text="시설에 대한 설명과 사진을 업로드 해주세요"
                     android:textColor="#000"
                     android:textSize="15dp"
@@ -110,6 +109,28 @@
                     android:textSize="15sp" />
 
             </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:text="장소에 대한 평가를 해주세요"
+                android:textColor="#000"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                />
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:isIndicator="false"
+                android:numStars="5"
+                android:stepSize="0.5"
+                android:rating="3"
+                />
+
             <EditText
                 android:id="@+id/text_explain"
                 android:layout_width="match_parent"
@@ -137,6 +158,7 @@
 
         </LinearLayout>
     </ScrollView>
+
 
 
 

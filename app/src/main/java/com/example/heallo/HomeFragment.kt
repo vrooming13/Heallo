@@ -138,11 +138,15 @@ class HomeFragment : Fragment(){
             bundle.putString("useremail",contentDTOs[position].userId)
             bundle.putString("postTime", contentDTOs[position].timestamp.toString())
             bundle.putString("location",contentDTOs[position].address)
+            bundle.putString("rating", contentDTOs[position].rating.toString())
             //UserId
             viewHolder.detailviewitemProfileTextview.text=contentDTOs[position].userId
 
             //post location
             viewHolder.location.text = contentDTOs[position].address
+
+            //post rating
+            viewHolder.rating.text = contentDTOs[position].rating.toString()
             //Image
 
                 Glide

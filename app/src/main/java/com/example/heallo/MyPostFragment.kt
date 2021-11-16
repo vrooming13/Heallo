@@ -78,6 +78,7 @@ class MyPostFragment : Fragment() {
             bundle.putString("useremail",contentDTOs[position].userId)
             bundle.putString("postTime", contentDTOs[position].timestamp.toString())
             bundle.putString("location",contentDTOs[position].address)
+            bundle.putString("rating", contentDTOs[position].rating.toString())
             //UserId
 
             viewHolder.questionSubjectTextview.text = contentDTOs[position].address
@@ -100,7 +101,7 @@ class MyPostFragment : Fragment() {
                 ) { dialogInterface, i ->
                     // 삭제함수 실행.
                     FirebaseFirestore.getInstance().collection("post")
-                        .document( "${contentDTOs[position].userId}" + "+" +"${contentDTOs[position].timestamp}")
+                        .document( "${contentDTOs[position].userId}"+"+"+"${contentDTOs[position].timestamp}")
                         .delete()
 
                     //fragment 변경.
